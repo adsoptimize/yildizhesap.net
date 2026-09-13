@@ -1,0 +1,264 @@
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 139
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz....
+Contains separator: NO
+Separator position: 
+Using line split, accounts count: 1
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6
+=== BULK STOCK DEBUG ===
+Stock Data Length: 929
+Stock Data Preview: Lütfen sipariş kodunuz ile beraber @yildizlimited Telegram adresinden veya 05376587777 numaralı whatsapp adresinden iletişime geçiniz.|||DOSYA_AYIRICI|||Lütfen sipariş kodunuz ile beraber @yild...
+Contains separator: YES
+Separator position: 139
+Using separator split, accounts count: 6

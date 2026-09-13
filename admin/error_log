@@ -1,0 +1,79 @@
+[13-Aug-2025 00:54:37 Europe/Istanbul] SECURITY: Invalid session token attempted in admin panel from IP: 78.161.22.97. Reason: Session not found or expired
+[26-Aug-2025 14:24:10 Europe/Istanbul] SECURITY: Invalid session token attempted in admin panel from IP: 88.246.28.223. Reason: Session not found or expired
+[06-Sep-2025 10:38:29 Europe/Istanbul] SECURITY: Invalid session token attempted in admin panel from IP: 88.246.28.223. Reason: Session not found or expired
+[20-Sep-2025 14:31:49 Europe/Istanbul] SECURITY: Invalid session token attempted in admin panel from IP: 88.231.25.181. Reason: Session not found or expired
+[13-Nov-2025 00:58:28 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[13-Nov-2025 00:58:59 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[22-Nov-2025 19:02:37 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[22-Nov-2025 19:02:56 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[22-Nov-2025 19:15:20 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[25-Nov-2025 23:41:19 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[25-Nov-2025 23:48:02 UTC] PopupAd Reset: 0 kayıt temizlendi - İçerik değiştiği için tüm kullanıcılar sıfırlandı
+[25-Nov-2025 23:48:02 UTC] PopupAd: 0 eski kayıt temizlendi (30 günden eski)
+[27-Nov-2025 23:22:55 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[27-Nov-2025 23:24:38 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[04-Dec-2025 18:12:46 UTC] SECURITY WARNING: IP change detected. Original: 190.241.222.193, Current: 203.215.77.110 - ALLOWING FOR DEBUG
+[04-Dec-2025 18:12:46 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[04-Dec-2025 18:12:46 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[05-Dec-2025 21:27:21 UTC] SECURITY WARNING: IP change detected. Original: 214.185.26.168, Current: 187.253.210.143 - ALLOWING FOR DEBUG
+[05-Dec-2025 21:27:21 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[06-Dec-2025 23:12:52 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1253 COLLATION 'latin1_swedish_ci' is not valid for CHARACTER SET 'utf8mb4' in /home/yildippf/public_html/admin/orders.php:359
+Stack trace:
+#0 /home/yildippf/public_html/admin/orders.php(359): PDO->prepare('\r\n    SELECT CO...')
+#1 {main}
+  thrown in /home/yildippf/public_html/admin/orders.php on line 359
+[08-Dec-2025 11:35:56 UTC] SECURITY WARNING: IP change detected. Original: 8.249.66.21, Current: 216.13.111.34 - ALLOWING FOR DEBUG
+[08-Dec-2025 11:35:56 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[08-Dec-2025 11:35:56 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[29-Dec-2025 15:51:22 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[29-Dec-2025 15:51:22 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[29-Dec-2025 15:51:25 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[29-Dec-2025 15:51:25 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[01-Jan-2026 21:19:11 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[01-Jan-2026 21:19:11 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[01-Jan-2026 21:19:14 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[01-Jan-2026 21:19:14 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[02-Jan-2026 01:05:58 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[02-Jan-2026 01:05:58 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[02-Jan-2026 01:06:01 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[02-Jan-2026 01:06:01 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[05-Jan-2026 08:06:43 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[05-Jan-2026 08:06:43 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[05-Jan-2026 08:06:46 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[05-Jan-2026 08:06:46 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[19-Jan-2026 07:36:26 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[19-Jan-2026 07:36:26 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG
+[19-Jan-2026 07:36:28 UTC] SECURITY WARNING: User Agent change detected - ALLOWING FOR DEBUG
+[19-Jan-2026 07:36:28 UTC] SECURITY WARNING: Critical device fingerprint change detected - ALLOWING FOR DEBUG

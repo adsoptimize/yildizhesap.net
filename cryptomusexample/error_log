@@ -1,0 +1,15 @@
+[03-Aug-2025 05:17:07 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:17:15 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:18:21 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:18:23 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:18:23 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:18:23 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:19:26 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:19:34 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:19:41 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 05:19:45 Europe/Istanbul] Cryptomus API Error: {"message":"Invalid Sign."}
+[03-Aug-2025 06:35:45 Europe/Istanbul] PopupAd Debug - IP: 78.188.139.18, UserID: 1, VisitorID: 1, Today: 2025-08-03, Current Views: 1, Frequency: 1
+[03-Aug-2025 06:36:24 Europe/Istanbul] PopupAd Debug - IP: 78.188.139.18, UserID: 1, VisitorID: 1, Today: 2025-08-03, Current Views: 1, Frequency: 1
+[03-Aug-2025 06:38:47 Europe/Istanbul] PopupAd Debug - IP: 78.188.139.18, UserID: 1, VisitorID: 1, Today: 2025-08-03, Current Views: 1, Frequency: 1
+[03-Aug-2025 06:40:06 Europe/Istanbul] PopupAd Debug - IP: 78.188.139.18, UserID: 1, VisitorID: 1, Today: 2025-08-03, Current Views: 1, Frequency: 1
+[03-Aug-2025 06:48:29 Europe/Istanbul] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/yildippf/public_html/TelegramNotifier.php:115) in /home/yildippf/public_html/cryptomusexample/payment-cancel.php on line 10
