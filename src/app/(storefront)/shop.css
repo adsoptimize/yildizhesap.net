@@ -1395,6 +1395,95 @@ label {
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
 }
 
+/* .shop-* form primitives (login, register, checkout, order-track, tickets)
+   were tuned for the dark theme with hsla(0,0%,100%,0.05) backgrounds.
+   Retune them for the white theme so inputs are legible. */
+.shop-form,
+.shop-card,
+.shop-panel {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+.shop-field label {
+  color: #334155 !important;
+}
+
+.shop-field input,
+.shop-field select,
+.shop-field textarea {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+.shop-field input:focus,
+.shop-field select:focus,
+.shop-field textarea:focus {
+  border-color: #EE5A24 !important;
+  box-shadow: 0 0 0 3px rgba(238, 90, 36, 0.15) !important;
+}
+
+.shop-field select option {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+.shop-field input::placeholder,
+.shop-field textarea::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: #94A3B8 !important;
+  opacity: 1;
+}
+
+.shop-hint {
+  color: #64748B !important;
+}
+
+.shop-link {
+  color: #EE5A24 !important;
+  font-weight: 600;
+}
+
+.shop-alert.error {
+  background: rgba(239, 68, 68, 0.10) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  color: #991B1B !important;
+}
+
+.shop-alert.success {
+  background: rgba(16, 185, 129, 0.10) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  color: #047857 !important;
+}
+
+.shop-submit {
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 100%) !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+}
+
+.shop-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #C4441D 0%, #EE5A24 100%) !important;
+  box-shadow: 0 6px 18px rgba(238, 90, 36, 0.35) !important;
+}
+
+.shop-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Autofill background (Chrome) — override the yellow overlay */
+.shop-field input:-webkit-autofill,
+.shop-field input:-webkit-autofill:hover,
+.shop-field input:-webkit-autofill:focus,
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* ---------- Footer ---------- */
 footer {
   background: #F8FAFC !important;
