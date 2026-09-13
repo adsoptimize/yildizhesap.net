@@ -1096,18 +1096,65 @@ header {
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
 }
 
+/* Nav items: minimal SaaS style (adsoptimize.ai reference) */
 header nav ul li a {
   color: #334155 !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  transition: color 0.15s ease, border-color 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
 }
 
-header nav ul li a:hover,
+header nav ul li a:hover {
+  color: #EE5A24 !important;
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
 header nav ul li a.active {
   color: #EE5A24 !important;
-  background: rgba(238, 90, 36, 0.08) !important;
+  background: transparent !important;
+  border-bottom-color: #EE5A24 !important;
+  font-weight: 600 !important;
 }
 
+/* Nav icons: hide on desktop for a cleaner SaaS look (adsoptimize.ai style).
+   Kept visible in the mobile drawer where extra tap affordance helps. */
 header nav ul li a i {
   color: inherit !important;
+}
+
+@media (min-width: 1101px) {
+  header nav ul li a i {
+    display: none !important;
+  }
+}
+
+/* Slightly more room between items on desktop */
+@media (min-width: 1101px) {
+  header nav ul {
+    gap: 4px !important;
+  }
+}
+
+/* Mobile drawer: back to pill-style items for tappability */
+@media (max-width: 1100px) {
+  header nav.open ul li a {
+    border-bottom: 0 !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    font-size: 14px !important;
+  }
+  header nav.open ul li a:hover,
+  header nav.open ul li a.active {
+    background: rgba(238, 90, 36, 0.10) !important;
+  }
 }
 
 header .cart-icon {
@@ -1165,6 +1212,30 @@ main section,
 
 .section-title p {
   color: #64748B !important;
+}
+
+/* Legacy uses gradient-text with clip-text for page/hero h1.
+   The gradient was tuned for a dark theme (--light → --accent).
+   Rewrite it to slate → orange so it pops on the new white theme. */
+.page-header h1,
+.hero h1,
+.hero-text h1 {
+  background: linear-gradient(135deg, #0F172A 0%, #EE5A24 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-weight: 800 !important;
+}
+
+.page-header p {
+  color: #475569 !important;
+}
+
+/* The radial glow behind page-header used to be purple; keep it orange
+   but softer on light bg */
+.page-header:before {
+  background: radial-gradient(circle, rgba(238, 90, 36, 0.10) 0, transparent 70%) !important;
 }
 
 /* ---------- Product / category / feature cards ---------- */

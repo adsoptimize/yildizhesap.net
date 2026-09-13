@@ -10,7 +10,6 @@ import { CART_PATH } from "@/lib/shop/constants";
 
 const NAV_ITEMS = [
   { name: "Anasayfa", href: "/", icon: "fas fa-home" },
-  { name: "Hizmetler", href: "/hizmetler", icon: "fas fa-cogs" },
   { name: "Hesaplar", href: "/tum-hesaplar", icon: "fas fa-shopping-cart" },
   {
     name: "Hesap Satın Al",
