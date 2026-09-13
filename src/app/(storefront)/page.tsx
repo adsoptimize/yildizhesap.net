@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import {
   getActiveFaqs,
-  getFeaturedProducts,
-  getPopularProducts,
+  getActiveProducts,
   getSiteSettings,
   getStorefrontCategories,
 } from "@/lib/db/queries";
@@ -33,16 +31,12 @@ export const metadata: Metadata = {
   other: aiMeta(HOME_AI_META),
 };
 
-const HOME_FEATURED_COUNT = 6;
-const HOME_POPULAR_COUNT = 6;
-
 export default async function HomePage() {
-  const [settings, categories, faqs, featured, popular] = await Promise.all([
+  const [settings, categories, faqs, products] = await Promise.all([
     getSiteSettings(),
     getStorefrontCategories(),
     getActiveFaqs(HOME_FAQ_COUNT),
-    getFeaturedProducts(HOME_FEATURED_COUNT),
-    getPopularProducts(HOME_POPULAR_COUNT),
+    getActiveProducts(),
   ]);
 
   const heroTitle = getSetting(
@@ -55,9 +49,6 @@ export default async function HomePage() {
     "hero_description",
     "Doğrulanmış, yüksek limitli ve güvenli hesapları keşfedin.",
   );
-  const heroButtonText = getSetting(settings, "hero_button_text", "Hemen Satın Al");
-  const heroButtonUrl = getSetting(settings, "hero_button_url", "/tum-hesaplar");
-  const heroImage = getSetting(settings, "hero_background", "/images/mockup.png");
   const heroStats = getHeroStats(settings);
 
   const homeJsonLd = serializeJsonLd(homepageStructuredData());
@@ -73,46 +64,32 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: faqJsonLd }}
       />
-      <section className="hero">
+      {/* Compact hero — satın almaya erişim için altında hemen ürün grid'i */}
+      <section className="hero hero--compact">
         <div className="container">
-          <div className="hero-content">
-            <div className="hero-text">
-              <h1>{heroTitle}</h1>
-              <p>{heroDescription}</p>
-              <div className="hero-buttons">
-                <Link href={heroButtonUrl} className="btn btn-primary">
-                  <i className="fas fa-shopping-bag" /> {heroButtonText}
-                </Link>
-                <a href="#categories" className="btn btn-secondary">
-                  <i className="fas fa-th-large" /> Kategorileri Gör
-                </a>
-              </div>
-              <div className="stats-grid">
-                {heroStats.map((stat) => (
-                  <div className="stat-card" key={stat.label}>
-                    <div className="stat-number">{stat.number}</div>
-                    <div className="stat-label">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hero-image">
-              <div className="floating-element" />
-              <div className="floating-element" />
-              <div className="floating-element" />
-              <Image
-                src={heroImage}
-                alt="Facebook Reklam Hesabı Satın Al - Sosyal Medya Hesapları"
-                width={600}
-                height={400}
-                priority
-              />
-              <div className="shimmer" />
+          <div className="hero-compact">
+            <h1>{heroTitle}</h1>
+            <p>{heroDescription}</p>
+            <div className="hero-stats-inline">
+              {heroStats.map((stat) => (
+                <div className="hero-stat" key={stat.label}>
+                  <strong>{stat.number}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Ana ürün grid'i: kullanıcı satın almak için tek scroll bile yapmıyor */}
+      {products.length === 0 ? null : (
+        <section id="products" className="accounts-section">
+          <div className="container">
+            <ProductGrid products={products} categories={categories} />
+          </div>
+        </section>
+      )}
 
       <section id="categories" className="section">
         <div className="container">
@@ -191,30 +168,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {featured.length === 0 ? null : (
-        <section className="section">
-          <div className="container">
-            <div className="section-title">
-              <h2>Öne Çıkan Hesaplar</h2>
-              <p>Editörlerimizin seçtiği doğrulanmış premium hesaplar</p>
-            </div>
-            <ProductGrid products={featured} />
-          </div>
-        </section>
-      )}
-
-      {popular.length === 0 ? null : (
-        <section className="section">
-          <div className="container">
-            <div className="section-title">
-              <h2>Popüler Hesaplar</h2>
-              <p>En çok tercih edilen hesaplar</p>
-            </div>
-            <ProductGrid products={popular} />
-          </div>
-        </section>
-      )}
 
       {faqs.length === 0 ? null : (
         <section className="section">
