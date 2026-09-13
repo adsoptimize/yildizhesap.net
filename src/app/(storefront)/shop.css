@@ -1058,3 +1058,322 @@ header .logo-image {
     height: 30px;
   }
 }
+
+/* ================================================================
+   LIGHT THEME OVERRIDE (Phase B) — AdsOptimize.ai style
+   Legacy /css/style.css was designed for dark theme; these rules
+   sit at the end of the storefront CSS so they win the cascade.
+   Colors: bg #FFFFFF, text #1E293B, accent #EE5A24
+   ================================================================ */
+
+/* Root palette override — all descendants that reference the vars
+   automatically flip to light mode. */
+:root {
+  --dark: #1E293B;          /* now used as "text on light" */
+  --darker: #F8FAFC;        /* body/section background */
+  --light: #1E293B;         /* legacy uses this as text color → dark slate */
+  --gray: #64748B;          /* secondary text */
+  --light-gray: #E2E8F0;    /* subtle borders */
+  --card-bg: #FFFFFF;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --inner-shadow: none;
+}
+
+html, body {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+body::before, body::after {
+  display: none !important;
+}
+
+/* ---------- Header ---------- */
+header {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+header nav ul li a {
+  color: #334155 !important;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+  color: #EE5A24 !important;
+  background: rgba(238, 90, 36, 0.08) !important;
+}
+
+header nav ul li a i {
+  color: inherit !important;
+}
+
+header .cart-icon {
+  color: #334155 !important;
+}
+
+header .cart-icon:hover {
+  color: #EE5A24 !important;
+}
+
+header .cart-count {
+  background: #EE5A24 !important;
+  color: #FFFFFF !important;
+}
+
+header .mobile-menu-btn {
+  color: #1E293B !important;
+}
+
+/* Mobile menu drawer switches to light too */
+@media (max-width: 1100px) {
+  header nav.open {
+    background: #FFFFFF !important;
+    border-top: 1px solid #E5E7EB !important;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  }
+}
+
+/* ---------- Sections ---------- */
+main,
+main section,
+.section,
+.accounts-section,
+.hero {
+  background: #FFFFFF !important;
+}
+
+/* Hero compact keeps its brand orange gradient */
+.hero.hero--compact {
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 50%, #FBBF24 100%) !important;
+}
+
+.hero.hero--compact h1,
+.hero.hero--compact p,
+.hero-stat strong,
+.hero-stat span {
+  color: #FFFFFF !important;
+}
+
+/* Section titles */
+.section-title h2,
+.list-header h3 {
+  color: #0F172A !important;
+}
+
+.section-title p {
+  color: #64748B !important;
+}
+
+/* ---------- Product / category / feature cards ---------- */
+.account-item,
+.category-card,
+.feature-card,
+.filters-card,
+.faq-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+  color: #1E293B !important;
+  backdrop-filter: none !important;
+}
+
+.account-item:hover,
+.category-card:hover,
+.feature-card:hover {
+  border-color: #EE5A24 !important;
+  box-shadow: 0 6px 20px rgba(238, 90, 36, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.account-info h4,
+.category-header h3,
+.feature-card h3,
+.faq-question {
+  color: #0F172A !important;
+}
+
+.account-info p,
+.category-description,
+.feature-card p,
+.faq-answer {
+  color: #475569 !important;
+}
+
+.account-item .price,
+.stat-number {
+  color: #EE5A24 !important;
+}
+
+.account-item .stock.in-stock {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #047857 !important;
+}
+
+.account-item .stock.out-stock {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #B91C1C !important;
+}
+
+.account-item .account-avatar {
+  background: #F1F5F9 !important;
+  color: #475569 !important;
+}
+
+.category-header {
+  background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+  border-bottom: 1px solid #FED7AA !important;
+}
+
+.category-icon {
+  color: #EE5A24 !important;
+}
+
+.feature-icon {
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 100%) !important;
+  color: #FFFFFF !important;
+}
+
+/* ---------- Filters / product grid ---------- */
+.product-grid__filters .filter-item label {
+  color: #475569 !important;
+}
+
+.product-grid__filters .filter-select,
+.product-grid__filters .search-box-compact {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+.product-grid__filters .filter-select:focus,
+.product-grid__filters .search-box-compact:focus-within {
+  border-color: #EE5A24 !important;
+}
+
+/* ---------- Buttons ---------- */
+.btn.btn-primary {
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 100%) !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+}
+
+.btn.btn-primary:hover {
+  background: linear-gradient(135deg, #C4441D 0%, #EE5A24 100%) !important;
+  box-shadow: 0 6px 18px rgba(238, 90, 36, 0.35) !important;
+}
+
+.btn.btn-secondary {
+  background: #FFFFFF !important;
+  color: #2C3E5C !important;
+  border: 1px solid #2C3E5C !important;
+}
+
+.btn.btn-secondary:hover {
+  background: #2C3E5C !important;
+  color: #FFFFFF !important;
+}
+
+.btn.btn-outline {
+  background: transparent !important;
+  border: 2px solid #EE5A24 !important;
+  color: #EE5A24 !important;
+}
+
+.btn.btn-outline:hover {
+  background: #EE5A24 !important;
+  color: #FFFFFF !important;
+}
+
+/* ---------- Forms / inputs (checkout, login, contact, etc) ---------- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #EE5A24 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(238, 90, 36, 0.15) !important;
+}
+
+label {
+  color: #334155 !important;
+}
+
+/* Legacy "form-card" wrappers */
+.form-card,
+.auth-card,
+.dashboard-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  color: #1E293B !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background: #F8FAFC !important;
+  color: #475569 !important;
+  border-top: 1px solid #E5E7EB !important;
+}
+
+footer a {
+  color: #475569 !important;
+}
+
+footer a:hover {
+  color: #EE5A24 !important;
+}
+
+footer h3,
+footer h4 {
+  color: #0F172A !important;
+}
+
+/* ---------- Table rows (admin lists, order details) ---------- */
+table {
+  background: #FFFFFF;
+}
+
+table th {
+  background: #F8FAFC !important;
+  color: #1E293B !important;
+  border-bottom: 1px solid #E5E7EB !important;
+}
+
+table td {
+  color: #334155 !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+/* ---------- Popup ad (light modal) ---------- */
+.popup-ad {
+  background: rgba(15, 23, 42, 0.55) !important;
+}
+
+.popup-ad__panel {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25) !important;
+}
+
+/* ---------- Misc dark→light overrides ---------- */
+hr {
+  border-color: #E5E7EB !important;
+}
+
+/* Cookie banner intentionally stays dark for legibility over any bg */
