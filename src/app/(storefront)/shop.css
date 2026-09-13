@@ -588,3 +588,32 @@
     padding: 20px;
   }
 }
+
+/* ----- Entity glossary (home page GEO section) ----- */
+.entity-glossary {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 30px;
+}
+
+.entity-glossary__item {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+  padding: 22px;
+}
+
+.entity-glossary__item h3 {
+  font-size: 18px;
+  margin: 0 0 10px;
+  color: #0f172a;
+}
+
+.entity-glossary__item p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+  font-size: 15px;
+}

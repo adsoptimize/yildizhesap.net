@@ -8,6 +8,7 @@ import {
   getStorefrontCategories,
 } from "@/lib/db/queries";
 import { HOME_META } from "@/lib/seo/meta";
+import { aiMeta, HOME_AI_META } from "@/lib/seo/ai-tags";
 import {
   faqStructuredData,
   homepageStructuredData,
@@ -26,10 +27,7 @@ export const metadata: Metadata = {
   keywords:
     "facebook reklam hesabı satın al, business manager hesap, doğrulanmış business manager, facebook reklam hesabı, kimlik onaylı facebook hesabı, instagram hesap satın al, tiktok hesap, twitter hesap, discord hesap, telegram hesap, gmail hesap, outlook hesap, hesap satış platformu",
   alternates: { canonical: "/" },
-  other: {
-    "ai-intent":
-      "Facebook reklam hesabı satın al ile sosyal medya hesaplarını güvenli ve hızlı şekilde edinmek isteyen kullanıcıları bilgilendirme",
-  },
+  other: aiMeta(HOME_AI_META),
 };
 
 export default async function HomePage() {
@@ -202,6 +200,75 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      <EntityGlossary />
     </main>
+  );
+}
+
+/**
+ * Named-entity definitions surfaced for AI answer engines (Perplexity,
+ * ChatGPT search, Google AI Mode) and long-tail SEO. Each block follows the
+ * question → concise answer pattern that generative engines cite.
+ */
+function EntityGlossary() {
+  const entries: ReadonlyArray<{ term: string; definition: string }> = [
+    {
+      term: "Business Manager Hesabı Nedir?",
+      definition:
+        "Facebook Business Manager, işletmelerin reklam hesaplarını, sayfalarını ve ekip üyelerini tek bir yerden yönetmesini sağlayan kurumsal panel hesabıdır. Doğrulanmış Business Manager hesabı, reklam limitleri açılmış, ödeme yöntemi tanımlanabilen ve anında kampanya başlatılabilen hazır bir yapı sunar.",
+    },
+    {
+      term: "Kimlik Onaylı Facebook Hesabı Ne Anlama Gelir?",
+      definition:
+        "Kimlik onaylı Facebook hesabı, resmi kimlik belgesi ile doğrulanmış, isim doğrulaması tamamlanmış ve genellikle 2FA (iki adımlı doğrulama) aktif Facebook profilidir. Bu hesaplar reklam verme, Business Manager açma ve sayfa yönetiminde çok daha stabil çalışır.",
+    },
+    {
+      term: "Facebook Marketplace Hesabı Nedir?",
+      definition:
+        "Facebook Marketplace hesabı, ürün ve hizmet satışı için Marketplace bölümüne erişim izni bulunan doğrulanmış Facebook profilidir. Satışa açık ve aktif Marketplace hesapları hızlı satış imkânı sunar.",
+    },
+    {
+      term: "250$ Günlük Limitli Reklam Hesabı Nedir?",
+      definition:
+        "Facebook tarafından günlük 250 ABD Doları harcama limiti tanınmış kişisel reklam hesabıdır. Yeni açılan hesaplara göre daha yüksek limit kapasitesi sunar ve küçük-orta ölçekli kampanyalar için idealdir.",
+    },
+    {
+      term: "Yeniden Açılmış (Reinstated) Eski Facebook Hesabı Nedir?",
+      definition:
+        "Daha önce Facebook tarafından kısıtlanmış ya da devre dışı bırakılmış, ancak itiraz süreci sonunda yeniden aktif hâle getirilmiş eski Facebook hesabıdır. Uzun geçmişleri sayesinde reklam ve Business Manager kullanımında dayanıklılık gösterir.",
+    },
+    {
+      term: "Tanıtım Onaylı Instagram Hesabı Nedir?",
+      definition:
+        "Meta tarafından reklam ve tanıtım kısıtlamaları kaldırılmış, sponsorlu içerik yayınlayabilen Instagram hesabıdır. Kampanya yürütmek isteyen markalar ve içerik üreticileri için kullanıma hazır bir yapı sunar.",
+    },
+    {
+      term: "YildizHesap.net Nedir?",
+      definition:
+        "YildizHesap, Türkiye merkezli, doğrulanmış Facebook, Instagram, Business Manager, TikTok, Telegram ve mail hesaplarının anında dijital teslimatını yapan bir e-ticaret platformudur. Tüm siparişler 7/24 otomatik olarak teslim edilir ve 30 gün garanti kapsamındadır.",
+    },
+  ];
+
+  return (
+    <section className="section" aria-labelledby="entity-glossary-heading">
+      <div className="container">
+        <div className="section-title">
+          <h2 id="entity-glossary-heading">Sözlük ve Terimler</h2>
+          <p>
+            Hesap satın alırken sık geçen kavramların kısa ve doğru
+            tanımları.
+          </p>
+        </div>
+        <div className="entity-glossary">
+          {entries.map((entry) => (
+            <article key={entry.term} className="entity-glossary__item">
+              <h3>{entry.term}</h3>
+              <p>{entry.definition}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

@@ -43,6 +43,7 @@ export type ProductDetail = ProductCard & {
   accountType: string;
   limitInfo: string | null;
   warrantyDays: number;
+  rating: number | null;
   instantDelivery: boolean;
   support247: boolean;
   guarantee30Days: boolean;
@@ -162,6 +163,7 @@ export async function getProductBySeoSlug(
       accountType: true,
       limitInfo: true,
       warrantyDays: true,
+      rating: true,
       instantDelivery: true,
       support247: true,
       guarantee30Days: true,
@@ -186,6 +188,7 @@ export async function getProductBySeoSlug(
     accountType: row.accountType,
     limitInfo: row.limitInfo,
     warrantyDays: row.warrantyDays,
+    rating: row.rating === null ? null : Number(row.rating),
     instantDelivery: row.instantDelivery,
     support247: row.support247,
     guarantee30Days: row.guarantee30Days,

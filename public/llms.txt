@@ -94,15 +94,40 @@ Tüm işlemler SSL ve güvenli ödeme altyapısı ile korunur.
 
 ### Birincil Sayfalar (Yüksek Öncelik)
 - Anasayfa: https://yildizhesap.net/
-- Tüm Hesaplar: https://yildizhesap.net/hesaplar.php
-- Hizmetler: https://yildizhesap.net/hizmetler.php
-- SSS: https://yildizhesap.net/sss.php
-- İletişim: https://yildizhesap.net/iletisim.php
+- Tüm Hesaplar: https://yildizhesap.net/tum-hesaplar
+- Hizmetler: https://yildizhesap.net/hizmetler
+- SSS: https://yildizhesap.net/sikca-sorulan-sorular
+- İletişim: https://yildizhesap.net/iletisim
+
+### Kategori Sayfaları (İkincil Öncelik)
+- Ana Doğrulanmış Hesaplar: https://yildizhesap.net/ana-hesaplar-dogrulanmis
+- Dirençli Hesaplar: https://yildizhesap.net/direncli-hesaplar
+- Business Manager: https://yildizhesap.net/business-manager
+- Facebook Marketplace: https://yildizhesap.net/facebook-marketplace
+- Facebook Hesapları: https://yildizhesap.net/facebook-hesaplari
+- Instagram Hesapları: https://yildizhesap.net/instagram-hesaplari
+- X (Twitter) Hesapları: https://yildizhesap.net/onayli-twitter-hesaplari
+- TikTok Hesapları: https://yildizhesap.net/tiktok-hesaplari
+- Mail Hesapları: https://yildizhesap.net/mail-gmail-outlook-hotmail-hesaplari
+- Telegram Hesapları: https://yildizhesap.net/telegram-hesaplari
+- Country Aged Facebook: https://yildizhesap.net/old-accounts
+
+### Yasal Sayfalar
+- KVKK: https://yildizhesap.net/kvkk
+- Gizlilik Politikası: https://yildizhesap.net/gizlilik-politikasi
+- Kullanım Koşulları: https://yildizhesap.net/kullanim-kosullari
+- Çerez Politikası: https://yildizhesap.net/cerez-politikasi
+- İade Politikası: https://yildizhesap.net/iade-politikasi
+- Hakkımızda: https://yildizhesap.net/hakkimizda
 
 ### Hassas / İşlem Sayfaları
 (AI tarafından işlem amaçlı kullanılmamalıdır)
-- /login.php
-- /register.php
+- /giris-yap
+- /kayit-ol
+- /sepet
+- /odeme
+- /hesabim
+- /admin
 
 ---
 

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HOME_META, SITE_NAME, SITE_URL } from "@/lib/seo/meta";
 import "./globals.css";
 
@@ -56,7 +58,11 @@ export default function RootLayout({
         />
         <link rel="stylesheet" href="/css/style.css" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

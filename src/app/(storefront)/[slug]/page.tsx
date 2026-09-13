@@ -26,12 +26,19 @@ import {
   PRODUCT_META_TITLES,
   STATIC_PAGE_META,
 } from "@/lib/seo/meta";
-import { SITE_URL, STATIC_SEO_ROUTES } from "@/lib/seo/slugs";
+import { STATIC_SEO_ROUTES } from "@/lib/seo/slugs";
+import {
+  ALL_ACCOUNTS_AI_META,
+  aiMeta,
+  categoryAiMeta,
+  productAiMeta,
+} from "@/lib/seo/ai-tags";
 import {
   categoryStructuredData,
   contactStructuredData,
   faqStructuredData,
   legalPageStructuredData,
+  productStructuredData,
   serializeJsonLd,
   servicesStructuredData,
 } from "@/lib/seo/structured-data";
@@ -92,6 +99,7 @@ export async function generateMetadata({
       title: { absolute: ALL_ACCOUNTS_META.title },
       description: ALL_ACCOUNTS_META.description,
       alternates: { canonical: `/${slug}` },
+      other: aiMeta(ALL_ACCOUNTS_AI_META),
     };
   }
 
@@ -105,6 +113,7 @@ export async function generateMetadata({
       title: { absolute: meta.title },
       description: meta.description,
       alternates: { canonical: `/${slug}` },
+      other: aiMeta(categoryAiMeta({ categoryName: category.name })),
     };
   }
 
@@ -115,12 +124,16 @@ export async function generateMetadata({
       product.description ??
       `${product.title} - güvenli ve hızlı teslimat.`;
     const keywords = PRODUCT_META_KEYWORDS[product.id];
+    const title = PRODUCT_META_TITLES[product.id] ?? product.title;
 
     return {
-      title: { absolute: PRODUCT_META_TITLES[product.id] ?? product.title },
+      title: { absolute: title },
       description,
       keywords: keywords === undefined ? undefined : keywords,
       alternates: { canonical: `/${slug}` },
+      other: aiMeta(
+        productAiMeta({ title, categoryName: product.categoryName }),
+      ),
     };
   }
 
@@ -259,29 +272,32 @@ function CatalogPage({
 
 function ProductPage({ product }: { product: ProductDetail }) {
   const title = PRODUCT_META_TITLES[product.id] ?? product.title;
-  const inStock = product.stockQuantity > 0;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: title,
-    description: product.description ?? title,
-    category: product.categoryName,
-    url: `${SITE_URL}/${product.seoSlug ?? ""}`,
-    offers: {
-      "@type": "Offer",
-      price: product.price,
-      priceCurrency: "TRY",
-      availability: inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-    },
-  };
+  const description =
+    PRODUCT_META_DESCRIPTIONS[product.id] ??
+    product.description ??
+    `${product.title} - güvenli ve hızlı teslimat.`;
+
+  const jsonLd = serializeJsonLd(
+    productStructuredData({
+      id: product.id,
+      slug: product.seoSlug ?? "",
+      title,
+      description,
+      categoryName: product.categoryName,
+      categorySlug: product.categorySeoSlug,
+      priceTry: Number(product.price),
+      stockQuantity: product.stockQuantity,
+      rating: product.rating,
+      warrantyDays: product.warrantyDays,
+      imagePath: "/images/mockup.png",
+    }),
+  );
 
   return (
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
       <section className="accounts-section">
         <div className="container">
