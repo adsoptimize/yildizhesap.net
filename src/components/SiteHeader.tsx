@@ -109,17 +109,6 @@ export function SiteHeader({ siteTitle, logoSubtext }: SiteHeaderProps) {
           </Link>
         </div>
 
-        <div className="order-track-icon-container">
-          <Link
-            href="/siparis-takip"
-            className="order-track-icon"
-            title="Sipariş Takip"
-            aria-label="Sipariş takip"
-          >
-            <i className="fas fa-eye" />
-          </Link>
-        </div>
-
         <div className="header-actions">
           {summary.firstName === null ? (
             <>

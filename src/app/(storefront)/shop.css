@@ -929,3 +929,106 @@
     gap: 20px;
   }
 }
+
+/* ============================================================
+   Header overrides — compact nav & buttons
+   Legacy style.css sets bulky padding for the header. These
+   overrides keep it tidy on medium screens (900-1200px) and
+   collapse to the hamburger sooner.
+   ============================================================ */
+
+/* Prevent nav items and buttons from wrapping mid-word */
+header nav ul li a,
+header .header-actions .btn,
+header .header-actions button {
+  white-space: nowrap;
+}
+
+/* Compact nav item spacing */
+@media (min-width: 992px) and (max-width: 1400px) {
+  header .container.header-container {
+    gap: 12px;
+  }
+  header nav ul {
+    gap: 4px;
+  }
+  header nav ul li a {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  header nav ul li a i {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+}
+
+/* Compact header buttons (Giriş Yap / Kayıt Ol) — smaller pill */
+header .header-actions {
+  gap: 8px;
+}
+
+header .header-actions .btn,
+header .header-actions button.btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  min-height: auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  gap: 6px;
+}
+
+header .header-actions .btn i {
+  font-size: 12px;
+}
+
+/* Logo subtext: hide on narrow-ish screens so brand doesn't push nav */
+@media (max-width: 1200px) {
+  .logo-text span:not(.logo-title) {
+    display: none;
+  }
+}
+
+/* Switch to hamburger earlier — 900-1100px was too cramped for 7 nav items */
+@media (max-width: 1100px) {
+  header nav {
+    display: none;
+  }
+  header nav.open {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #0f172a;
+    padding: 12px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 40;
+  }
+  header nav.open ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  header nav.open ul li a {
+    display: flex;
+    padding: 12px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+  header nav.open ul li a:hover,
+  header nav.open ul li a.active {
+    background: rgba(99, 102, 241, 0.15);
+  }
+  header .mobile-menu-btn {
+    display: inline-flex;
+  }
+}
+
+/* Very small screens: hide the login/register button text (icon only) */
+@media (max-width: 480px) {
+  header .header-actions .btn .btn-text {
+    display: none;
+  }
+  header .header-actions .btn {
+    padding: 8px 10px;
+  }
+}
