@@ -42,3 +42,7 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# legacy PHP runtime logs (may contain request data)
+legacy/**/error_log
+legacy/**/debug_log.txt
