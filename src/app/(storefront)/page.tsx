@@ -4,9 +4,12 @@ import Link from "next/link";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import {
   getActiveFaqs,
+  getFeaturedProducts,
+  getPopularProducts,
   getSiteSettings,
   getStorefrontCategories,
 } from "@/lib/db/queries";
+import { ProductGrid } from "@/components/ProductGrid";
 import { HOME_META } from "@/lib/seo/meta";
 import { aiMeta, HOME_AI_META } from "@/lib/seo/ai-tags";
 import {
@@ -30,11 +33,16 @@ export const metadata: Metadata = {
   other: aiMeta(HOME_AI_META),
 };
 
+const HOME_FEATURED_COUNT = 6;
+const HOME_POPULAR_COUNT = 6;
+
 export default async function HomePage() {
-  const [settings, categories, faqs] = await Promise.all([
+  const [settings, categories, faqs, featured, popular] = await Promise.all([
     getSiteSettings(),
     getStorefrontCategories(),
     getActiveFaqs(HOME_FAQ_COUNT),
+    getFeaturedProducts(HOME_FEATURED_COUNT),
+    getPopularProducts(HOME_POPULAR_COUNT),
   ]);
 
   const heroTitle = getSetting(
@@ -183,6 +191,30 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {featured.length === 0 ? null : (
+        <section className="section">
+          <div className="container">
+            <div className="section-title">
+              <h2>Öne Çıkan Hesaplar</h2>
+              <p>Editörlerimizin seçtiği doğrulanmış premium hesaplar</p>
+            </div>
+            <ProductGrid products={featured} />
+          </div>
+        </section>
+      )}
+
+      {popular.length === 0 ? null : (
+        <section className="section">
+          <div className="container">
+            <div className="section-title">
+              <h2>Popüler Hesaplar</h2>
+              <p>En çok tercih edilen hesaplar</p>
+            </div>
+            <ProductGrid products={popular} />
+          </div>
+        </section>
+      )}
 
       {faqs.length === 0 ? null : (
         <section className="section">

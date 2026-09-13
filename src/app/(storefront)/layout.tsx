@@ -1,3 +1,4 @@
+import { CookieBanner } from "@/components/CookieBanner";
 import { PopupAd } from "@/components/PopupAd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -19,6 +20,7 @@ export default async function StorefrontLayout({
       {children}
       <SiteFooter settings={settings} />
       <PopupAd />
+      <CookieBanner />
     </>
   );
 }

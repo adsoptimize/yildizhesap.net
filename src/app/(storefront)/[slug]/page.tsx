@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartForm } from "@/components/AddToCartForm";
+import { ContactForm } from "@/components/ContactForm";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { ProductGrid } from "@/components/ProductGrid";
 import {
   getActiveFaqs,
   getActiveProducts,
@@ -190,12 +192,14 @@ function CatalogPage({
   description,
   products,
   categories,
+  currentCategoryId,
   jsonLd,
 }: {
   title: string;
   description: string;
   products: ProductCard[];
   categories: CategoryCard[];
+  currentCategoryId?: number;
   jsonLd?: string;
 }) {
   return (
@@ -214,55 +218,15 @@ function CatalogPage({
       </section>
       <section className="accounts-section">
         <div className="container">
-          <div className="accounts-list">
-            <div className="list-header">
-              <h3>
-                Hesaplar <span className="account-count">({products.length})</span>
-              </h3>
-            </div>
-            {products.length === 0 ? (
-              <p style={{ padding: "20px 0" }}>
-                Bu kategoride şu anda listelenen hesap bulunmuyor. Stok girişleri
-                yapıldığında burada görünecek.
-              </p>
-            ) : (
-              products.map((product) => (
-                <Link
-                  key={product.id}
-                  href={`/${product.seoSlug ?? ""}`}
-                  className="account-item"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <div className="account-avatar">
-                    <i className="fas fa-user" />
-                  </div>
-                  <div className="account-info">
-                    <h4>{product.title}</h4>
-                    <p>
-                      {product.platform} · Stok: {product.stockQuantity}
-                    </p>
-                    <div className="account-meta">
-                      <span className="price">{formatPrice(product.price)}</span>
-                      <span
-                        className={
-                          product.stockQuantity > 0
-                            ? "stock in-stock"
-                            : "stock out-stock"
-                        }
-                      >
-                        {product.stockQuantity > 0 ? "Stokta" : "Tükendi"}
-                      </span>
-                    </div>
-                  </div>
-                  {product.isVerified ? (
-                    <div className="account-badge verified" title="Doğrulanmış">
-                      <i className="fas fa-check" />
-                    </div>
-                  ) : null}
-                </Link>
-              ))
-            )}
-          </div>
+          <ProductGrid
+            products={products}
+            categories={categories}
+            currentCategoryId={currentCategoryId}
+          />
+        </div>
+      </section>
+      <section className="accounts-section" style={{ paddingTop: 0 }}>
+        <div className="container">
           <CategoryStrip categories={categories} />
         </div>
       </section>
@@ -501,6 +465,13 @@ function ContactPage({ contact }: { contact: SettingsMap }) {
           </div>
         )}
       </div>
+      <div className="contact-form-wrap">
+        <div className="section-title" style={{ marginBottom: 20 }}>
+          <h2>Bize Mesaj Gönderin</h2>
+          <p>Mesajınız Telegram üzerinden ekibimize anında iletilir.</p>
+        </div>
+        <ContactForm />
+      </div>
     </StaticContentPage>
   );
 }
@@ -550,6 +521,7 @@ export default async function SeoSlugPage({ params }: PageProps) {
         description={categoryDescription}
         products={products}
         categories={categories}
+        currentCategoryId={category.id}
         jsonLd={serializeJsonLd(
           categoryStructuredData({
             slug,

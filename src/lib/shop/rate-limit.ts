@@ -32,6 +32,14 @@ export const ORDER_TRACK_RULE: RateLimitRule = {
   blockSeconds: 15 * SECONDS_PER_MINUTE,
 };
 
+// Contact form submissions get one per minute + a soft hourly cap.
+export const CONTACT_FORM_RULE: RateLimitRule = {
+  action: "contact_form",
+  maxAttempts: 5,
+  windowSeconds: SECONDS_PER_HOUR,
+  blockSeconds: 30 * SECONDS_PER_MINUTE,
+};
+
 export type RateLimitResult = {
   allowed: boolean;
   message: string | null;

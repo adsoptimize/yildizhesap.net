@@ -33,6 +33,9 @@ export type ProductCard = {
   platform: string;
   isVerified: boolean;
   isPremium: boolean;
+  isFeatured: boolean;
+  rating: number | null;
+  salesCount: number;
 };
 
 export type ProductDetail = ProductCard & {
@@ -43,7 +46,6 @@ export type ProductDetail = ProductCard & {
   accountType: string;
   limitInfo: string | null;
   warrantyDays: number;
-  rating: number | null;
   instantDelivery: boolean;
   support247: boolean;
   guarantee30Days: boolean;
@@ -101,6 +103,9 @@ const PRODUCT_LIST_SELECT = {
   platform: true,
   isVerified: true,
   isPremium: true,
+  isFeatured: true,
+  rating: true,
+  salesCount: true,
 } as const;
 
 function toProductCard(row: {
@@ -114,6 +119,9 @@ function toProductCard(row: {
   platform: string;
   isVerified: boolean;
   isPremium: boolean;
+  isFeatured: boolean;
+  rating: { toString(): string } | null;
+  salesCount: number;
 }): ProductCard {
   return {
     id: row.id,
@@ -126,6 +134,9 @@ function toProductCard(row: {
     platform: row.platform,
     isVerified: row.isVerified,
     isPremium: row.isPremium,
+    isFeatured: row.isFeatured,
+    rating: row.rating === null ? null : Number(row.rating),
+    salesCount: row.salesCount,
   };
 }
 
@@ -146,6 +157,28 @@ export async function getProductsByCategoryId(
     where: { status: "active", categoryId },
     select: PRODUCT_LIST_SELECT,
     orderBy: [{ isFeatured: "desc" }, { id: "asc" }],
+  });
+
+  return rows.map(toProductCard);
+}
+
+export async function getFeaturedProducts(limit = 8): Promise<ProductCard[]> {
+  const rows = await prisma.account.findMany({
+    where: { status: "active", isFeatured: true },
+    select: PRODUCT_LIST_SELECT,
+    orderBy: [{ salesCount: "desc" }, { rating: "desc" }, { id: "asc" }],
+    take: limit,
+  });
+
+  return rows.map(toProductCard);
+}
+
+export async function getPopularProducts(limit = 8): Promise<ProductCard[]> {
+  const rows = await prisma.account.findMany({
+    where: { status: "active" },
+    select: PRODUCT_LIST_SELECT,
+    orderBy: [{ salesCount: "desc" }, { views: "desc" }, { id: "asc" }],
+    take: limit,
   });
 
   return rows.map(toProductCard);
@@ -188,7 +221,6 @@ export async function getProductBySeoSlug(
     accountType: row.accountType,
     limitInfo: row.limitInfo,
     warrantyDays: row.warrantyDays,
-    rating: row.rating === null ? null : Number(row.rating),
     instantDelivery: row.instantDelivery,
     support247: row.support247,
     guarantee30Days: row.guarantee30Days,
