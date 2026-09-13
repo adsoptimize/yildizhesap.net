@@ -234,6 +234,18 @@ export default async function EditAccountPage({
               <input id="email" name="email" type="text" />
             </div>
             <div className="form-field">
+              <label htmlFor="emailPassword">E-posta şifresi</label>
+              <input id="emailPassword" name="emailPassword" type="text" />
+            </div>
+            <div className="form-field">
+              <label htmlFor="totpSecret">2FA anahtarı</label>
+              <input id="totpSecret" name="totpSecret" type="text" />
+            </div>
+            <div className="form-field">
+              <label htmlFor="accountCreatedDate">Hesap açılış tarihi</label>
+              <input id="accountCreatedDate" name="accountCreatedDate" type="date" />
+            </div>
+            <div className="form-field">
               <label htmlFor="additionalInfo">Ek bilgi</label>
               <input id="additionalInfo" name="additionalInfo" type="text" />
             </div>

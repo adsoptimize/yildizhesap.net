@@ -10,6 +10,10 @@ import { prisma } from "@/lib/prisma";
 const PUBLIC_ROUTE_BY_PAGE_TYPE: Readonly<Record<string, string>> = {
   kvvk: "kvkk",
   privacy: "gizlilik-politikasi",
+  terms: "kullanim-kosullari",
+  cookies: "cerez-politikasi",
+  refund: "iade-politikasi",
+  about: "hakkimizda",
 };
 
 export async function saveLegalPageAction(

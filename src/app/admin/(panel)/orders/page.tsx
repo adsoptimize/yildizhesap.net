@@ -79,6 +79,9 @@ export default async function AdminOrdersPage({
         status: true,
         deliveryStatus: true,
         orderDate: true,
+        isGuestOrder: true,
+        customerName: true,
+        email: true,
         user: { select: { username: true, email: true } },
       },
     }),
@@ -166,9 +169,10 @@ export default async function AdminOrdersPage({
                       </div>
                     </td>
                     <td>
-                      {order.user.username}
+                      {order.user?.username ??
+                        `${order.customerName ?? "Misafir"} (misafir)`}
                       <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                        {order.user.email}
+                        {order.user?.email ?? order.email ?? "-"}
                       </div>
                     </td>
                     <td>{formatNumber(order.quantity)}</td>

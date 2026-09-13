@@ -194,19 +194,23 @@ model AccountImage {
 }
 
 model AccountStock {
-  id             Int       @id @default(autoincrement())
-  accountId      Int       @map("account_id")
-  username       String    @db.VarChar(255)
-  password       String    @db.VarChar(255)
-  email          String?   @db.VarChar(255)
-  additionalInfo String?   @map("additional_info")
-  isSold         Boolean   @default(false) @map("is_sold")
-  soldToUserId   Int?      @map("sold_to_user_id")
-  orderId        Int?      @map("order_id")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  soldAt         DateTime? @map("sold_at")
+  id                 Int       @id @default(autoincrement())
+  accountId          Int       @map("account_id")
+  username           String    @db.VarChar(255)
+  password           String    @db.VarChar(255)
+  email              String?   @db.VarChar(255)
+  emailPassword      String?   @map("email_password") @db.VarChar(255)
+  totpSecret         String?   @map("totp_secret") @db.VarChar(255)
+  accountCreatedDate DateTime? @map("account_created_date") @db.Date
+  additionalInfo     String?   @map("additional_info")
+  isSold             Boolean   @default(false) @map("is_sold")
+  soldToUserId       Int?      @map("sold_to_user_id")
+  orderId            Int?      @map("order_id")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  soldAt             DateTime? @map("sold_at")
 
-  account        Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  account            Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  order              Order?    @relation(fields: [orderId], references: [id])
 
   @@index([accountId, isSold])
   @@map("account_stock")
@@ -247,8 +251,14 @@ model ContactSetting {
 
 model CryptoPayment {
   id              Int                 @id @default(autoincrement())
-  userId          Int                 @map("user_id")
-  orderId         String              @map("order_id") @db.VarChar(100)
+  userId          Int?                @map("user_id")
+  orderCode       String              @unique @map("order_id") @db.VarChar(20)
+  paymentMethod   String              @default("cryptomus") @map("payment_method") @db.VarChar(30)
+  isGuestOrder    Boolean             @default(false) @map("is_guest_order")
+  email           String?             @db.VarChar(255)
+  customerName    String?             @map("customer_name") @db.VarChar(255)
+  phone           String?             @db.VarChar(30)
+  shopierPaymentId String?            @map("shopier_payment_id") @db.VarChar(100)
   cryptomusUuid   String?             @map("cryptomus_uuid") @db.VarChar(36)
   amount          Decimal             @db.Decimal(10, 2)
   currency        String              @default("USD") @db.VarChar(10)
@@ -265,10 +275,12 @@ model CryptoPayment {
   createdAt       DateTime            @default(now()) @map("created_at")
   updatedAt       DateTime            @updatedAt @map("updated_at")
 
-  user            User                @relation(fields: [userId], references: [id])
+  user            User?               @relation(fields: [userId], references: [id])
+  order           Order               @relation(fields: [orderCode], references: [orderCode], onDelete: Cascade)
+  items           PaymentItem[]
 
   @@index([userId])
-  @@index([orderId])
+  @@index([email])
   @@map("crypto_payments")
 }
 
@@ -346,7 +358,7 @@ model LegalPage {
 model Order {
   id             Int            @id @default(autoincrement())
   orderCode      String         @unique @map("order_id") @db.VarChar(20)
-  userId         Int            @map("user_id")
+  userId         Int?           @map("user_id")
   productName    String         @map("product_name") @db.VarChar(255)
   category       String         @db.VarChar(100)
   quantity       Int
@@ -355,30 +367,39 @@ model Order {
   orderDate      DateTime       @default(now()) @map("order_date")
   status         OrderStatus    @default(pending)
   deliveryStatus DeliveryStatus @default(pending) @map("delivery_status")
+  paymentMethod  String?        @map("payment_method") @db.VarChar(30)
+  isGuestOrder   Boolean        @default(false) @map("is_guest_order")
+  email          String?        @db.VarChar(255)
+  customerName   String?        @map("customer_name") @db.VarChar(255)
+  phone          String?        @db.VarChar(30)
   createdAt      DateTime       @default(now()) @map("created_at")
   updatedAt      DateTime       @updatedAt @map("updated_at")
 
-  user           User           @relation(fields: [userId], references: [id])
+  user           User?          @relation(fields: [userId], references: [id])
+  payment        CryptoPayment?
   deliveredAccounts OrderAccount[]
+  reservedStock  AccountStock[]
 
   @@index([userId])
   @@index([status])
+  @@index([email])
   @@map("orders")
 }
 
 model OrderAccount {
-  id                 Int      @id @default(autoincrement())
-  orderCode          String   @map("order_id") @db.VarChar(20)
-  username           String   @db.VarChar(255)
-  password           String   @db.VarChar(255)
-  email              String   @db.VarChar(255)
-  emailPassword      String   @map("email_password") @db.VarChar(255)
-  totpSecret         String?  @map("totp_secret") @db.VarChar(255)
-  accountCreatedDate DateTime @map("account_created_date") @db.Date
-  isActive           Boolean  @default(true) @map("is_active")
-  createdAt          DateTime @default(now()) @map("created_at")
+  id                 Int       @id @default(autoincrement())
+  orderCode          String    @map("order_id") @db.VarChar(20)
+  accountId          Int?      @map("account_id")
+  username           String    @db.VarChar(255)
+  password           String    @db.VarChar(255)
+  email              String?   @db.VarChar(255)
+  emailPassword      String?   @map("email_password") @db.VarChar(255)
+  totpSecret         String?   @map("totp_secret") @db.VarChar(255)
+  accountCreatedDate DateTime? @map("account_created_date") @db.Date
+  isActive           Boolean   @default(true) @map("is_active")
+  createdAt          DateTime  @default(now()) @map("created_at")
 
-  order              Order    @relation(fields: [orderCode], references: [orderCode])
+  order              Order     @relation(fields: [orderCode], references: [orderCode])
 
   @@index([orderCode])
   @@map("order_accounts")
@@ -393,10 +414,26 @@ model PaymentItem {
   totalPrice Decimal  @map("total_price") @db.Decimal(10, 2)
   createdAt  DateTime @default(now()) @map("created_at")
 
-  account    Account  @relation(fields: [accountId], references: [id])
+  account    Account       @relation(fields: [accountId], references: [id])
+  payment    CryptoPayment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
 
   @@index([paymentId])
   @@map("payment_items")
+}
+
+/// IP and e-mail based throttling for guest checkout and order tracking.
+model GuestRateLimit {
+  id           Int       @id @default(autoincrement())
+  identifier   String    @db.VarChar(255)
+  action       String    @db.VarChar(50)
+  attemptCount Int       @default(1) @map("attempt_count")
+  windowStart  DateTime  @default(now()) @map("window_start")
+  blockedUntil DateTime? @map("blocked_until")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@unique([identifier, action])
+  @@map("guest_rate_limits")
 }
 
 model PopupAdView {
@@ -447,6 +484,7 @@ model SupportTicket {
   user        User           @relation(fields: [userId], references: [id])
   replies     TicketReply[]
 
+  @@unique([orderCode])
   @@index([userId])
   @@index([status])
   @@map("support_tickets")

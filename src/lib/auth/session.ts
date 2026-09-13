@@ -47,6 +47,11 @@ async function readRequestContext(): Promise<RequestContext> {
   };
 }
 
+export async function getClientIp(): Promise<string> {
+  const context = await readRequestContext();
+  return context.ipAddress;
+}
+
 export async function createSession(userId: number): Promise<void> {
   const token = randomBytes(SESSION_TOKEN_BYTES).toString("hex");
   const context = await readRequestContext();

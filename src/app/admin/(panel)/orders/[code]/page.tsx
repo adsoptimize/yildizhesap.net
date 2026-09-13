@@ -75,11 +75,32 @@ export default async function AdminOrderDetailPage({
               <tr>
                 <th>Kullanıcı</th>
                 <td>
-                  <Link href={`/admin/users?q=${order.user.username}`}>
-                    {order.user.username}
-                  </Link>{" "}
-                  · {order.user.email}
-                  {order.user.phone === null ? "" : ` · ${order.user.phone}`}
+                  {order.user === null ? (
+                    <>
+                      {order.customerName ?? "Misafir"}{" "}
+                      <span className="admin-badge info">misafir sipariş</span>
+                      {order.email === null ? "" : ` · ${order.email}`}
+                      {order.phone === null ? "" : ` · ${order.phone}`}
+                    </>
+                  ) : (
+                    <>
+                      <Link href={`/admin/users?q=${order.user.username}`}>
+                        {order.user.username}
+                      </Link>{" "}
+                      · {order.user.email}
+                      {order.user.phone === null ? "" : ` · ${order.user.phone}`}
+                    </>
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <th>Ödeme yöntemi</th>
+                <td>
+                  {order.paymentMethod === "shopier"
+                    ? "Kredi kartı (Shopier)"
+                    : order.paymentMethod === "cryptomus"
+                      ? "Kripto para (Cryptomus)"
+                      : "-"}
                 </td>
               </tr>
               <tr>
@@ -167,8 +188,8 @@ export default async function AdminOrderDetailPage({
                     <tr key={row.id}>
                       <td>{row.username}</td>
                       <td>{row.password}</td>
-                      <td>{row.email}</td>
-                      <td>{row.emailPassword}</td>
+                      <td>{row.email ?? "-"}</td>
+                      <td>{row.emailPassword ?? "-"}</td>
                       <td>{row.totpSecret ?? "-"}</td>
                       <td>{formatDate(row.accountCreatedDate)}</td>
                       <td>

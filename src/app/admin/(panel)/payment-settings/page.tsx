@@ -33,7 +33,20 @@ const PAYMENT_GROUPS: readonly { title: string; fields: readonly PaymentField[] 
       { key: "shopier_key", label: "API key", kind: "secret" },
     ],
   },
+  {
+    title: "Telegram bildirimleri",
+    fields: [
+      { key: "telegram_enabled", label: "Bildirimler aktif", kind: "boolean" },
+      { key: "telegram_bot_token", label: "Bot token", kind: "secret" },
+      { key: "telegram_chat_id", label: "Chat ID", kind: "text" },
+    ],
+  },
 ];
+
+const WEBHOOK_PATHS = [
+  { label: "Cryptomus callback", path: "/api/webhooks/cryptomus" },
+  { label: "Shopier callback", path: "/api/webhooks/shopier" },
+] as const;
 
 const RECENT_PAYMENT_LIMIT = 10;
 
@@ -49,10 +62,12 @@ export default async function AdminPaymentSettingsPage() {
       take: RECENT_PAYMENT_LIMIT,
       select: {
         id: true,
-        orderId: true,
+        orderCode: true,
         amount: true,
         currency: true,
         status: true,
+        paymentMethod: true,
+        customerName: true,
         createdAt: true,
         user: { select: { username: true } },
       },
@@ -138,7 +153,29 @@ export default async function AdminPaymentSettingsPage() {
 
       <div className="content-card">
         <div className="card-header">
-          <h2 className="card-title">Son Kripto Ödemeleri</h2>
+          <h2 className="card-title">Webhook Adresleri</h2>
+        </div>
+        <div className="card-body">
+          <p className="page-subtitle">
+            Ödeme sağlayıcı panellerine aşağıdaki adresleri bildirin. Alan adınız
+            değişirse adresleri güncellemeniz gerekir.
+          </p>
+          <table className="data-table">
+            <tbody>
+              {WEBHOOK_PATHS.map((webhook) => (
+                <tr key={webhook.path}>
+                  <th>{webhook.label}</th>
+                  <td>https://yildizhesap.net{webhook.path}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="content-card">
+        <div className="card-header">
+          <h2 className="card-title">Son Ödemeler</h2>
         </div>
         <div className="card-body table-scroll">
           {payments.length === 0 ? (
@@ -148,7 +185,8 @@ export default async function AdminPaymentSettingsPage() {
               <thead>
                 <tr>
                   <th>Sipariş</th>
-                  <th>Kullanıcı</th>
+                  <th>Müşteri</th>
+                  <th>Yöntem</th>
                   <th>Tutar</th>
                   <th>Durum</th>
                   <th>Tarih</th>
@@ -157,8 +195,12 @@ export default async function AdminPaymentSettingsPage() {
               <tbody>
                 {payments.map((payment) => (
                   <tr key={payment.id}>
-                    <td>{payment.orderId}</td>
-                    <td>{payment.user.username}</td>
+                    <td>{payment.orderCode}</td>
+                    <td>
+                      {payment.user?.username ??
+                        `${payment.customerName ?? "Misafir"} (misafir)`}
+                    </td>
+                    <td>{payment.paymentMethod}</td>
                     <td>
                       {payment.currency === "TRY"
                         ? formatCurrency(payment.amount.toString())

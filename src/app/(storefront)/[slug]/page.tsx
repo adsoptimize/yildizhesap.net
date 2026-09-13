@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AddToCartForm } from "@/components/AddToCartForm";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import {
   getActiveFaqs,
@@ -20,10 +21,20 @@ import {
 import {
   ALL_ACCOUNTS_META,
   CATEGORY_META,
+  PRODUCT_META_DESCRIPTIONS,
+  PRODUCT_META_KEYWORDS,
   PRODUCT_META_TITLES,
   STATIC_PAGE_META,
 } from "@/lib/seo/meta";
 import { SITE_URL, STATIC_SEO_ROUTES } from "@/lib/seo/slugs";
+import {
+  categoryStructuredData,
+  contactStructuredData,
+  faqStructuredData,
+  legalPageStructuredData,
+  serializeJsonLd,
+  servicesStructuredData,
+} from "@/lib/seo/structured-data";
 import { getSetting } from "@/lib/settings";
 
 type PageProps = {
@@ -37,10 +48,20 @@ export const revalidate = 300;
 const LEGAL_ROUTES: Readonly<Record<string, string>> = {
   kvkk: "kvvk",
   "gizlilik-politikasi": "privacy",
+  "kullanim-kosullari": "terms",
+  "cerez-politikasi": "cookies",
+  "iade-politikasi": "refund",
+  hakkimizda: "about",
 };
 
 const ALL_ACCOUNTS_SLUG = "tum-hesaplar";
-const GUEST_PURCHASE_SLUG = "guest-purchase";
+
+/** Slugs that now have their own route segment with forms and server actions. */
+const DEDICATED_ROUTE_SLUGS: readonly string[] = [
+  "giris-yap",
+  "kayit-ol",
+  "siparis-takip",
+];
 
 function formatPrice(value: string): string {
   return new Intl.NumberFormat("tr-TR", {
@@ -54,8 +75,9 @@ export async function generateStaticParams() {
   const dynamicSlugs = await getPrerenderableSlugs();
 
   return [
-    ...STATIC_SEO_ROUTES.map((slug) => ({ slug })),
-    { slug: GUEST_PURCHASE_SLUG },
+    ...STATIC_SEO_ROUTES.filter(
+      (slug) => !DEDICATED_ROUTE_SLUGS.includes(slug),
+    ).map((slug) => ({ slug })),
     ...dynamicSlugs.map((slug) => ({ slug })),
   ];
 }
@@ -88,10 +110,16 @@ export async function generateMetadata({
 
   const product = await getProductBySeoSlug(slug);
   if (product !== null) {
+    const description =
+      PRODUCT_META_DESCRIPTIONS[product.id] ??
+      product.description ??
+      `${product.title} - güvenli ve hızlı teslimat.`;
+    const keywords = PRODUCT_META_KEYWORDS[product.id];
+
     return {
       title: { absolute: PRODUCT_META_TITLES[product.id] ?? product.title },
-      description:
-        product.description ?? `${product.title} - güvenli ve hızlı teslimat.`,
+      description,
+      keywords: keywords === undefined ? undefined : keywords,
       alternates: { canonical: `/${slug}` },
     };
   }
@@ -115,14 +143,6 @@ export async function generateMetadata({
         alternates: { canonical: `/${slug}` },
       };
     }
-  }
-
-  if (slug === GUEST_PURCHASE_SLUG) {
-    return {
-      title: { absolute: "Hesap Satın Al | Misafir Alışveriş" },
-      description: "Üye olmadan hızlı hesap satın alın.",
-      robots: { index: false, follow: true },
-    };
   }
 
   return { title: "Sayfa Bulunamadı" };
@@ -157,14 +177,22 @@ function CatalogPage({
   description,
   products,
   categories,
+  jsonLd,
 }: {
   title: string;
   description: string;
   products: ProductCard[];
   categories: CategoryCard[];
+  jsonLd?: string;
 }) {
   return (
     <main>
+      {jsonLd === undefined ? null : (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
       <section className="page-header compact">
         <div className="container">
           <h1>{title}</h1>
@@ -328,14 +356,11 @@ function ProductPage({ product }: { product: ProductDetail }) {
                 )}
 
                 <div className="purchase-section">
-                  <div className="purchase-buttons">
-                    <Link href={`/${GUEST_PURCHASE_SLUG}`} className="btn-buy-now">
-                      <i className="fas fa-shopping-bag" /> Hemen Satın Al
-                    </Link>
-                    <Link href="/giris-yap" className="btn-add-cart">
-                      <i className="fas fa-cart-plus" /> Sepete Ekle
-                    </Link>
-                  </div>
+                  <AddToCartForm
+                    accountId={product.id}
+                    availableStock={product.availableStock}
+                    variant="detail"
+                  />
                   <div className="security-info">
                     <div className="security-item">
                       <i className="fas fa-shield-alt" />
@@ -364,13 +389,21 @@ function StaticContentPage({
   title,
   description,
   children,
+  jsonLd,
 }: {
   title: string;
   description: string;
   children: React.ReactNode;
+  jsonLd?: string;
 }) {
   return (
     <main>
+      {jsonLd === undefined ? null : (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
       <section className="page-header compact">
         <div className="container">
           <h1>{title}</h1>
@@ -391,10 +424,15 @@ function ContactPage({ contact }: { contact: SettingsMap }) {
   const telegram = getSetting(contact, "telegram_username", "");
   const officeHours = getSetting(contact, "office_hours_content", "");
 
+  const jsonLd = serializeJsonLd(
+    contactStructuredData({ email, phone: whatsapp }),
+  );
+
   return (
     <StaticContentPage
       title={getSetting(contact, "page_title", meta.title)}
       description={getSetting(contact, "page_description", meta.description)}
+      jsonLd={jsonLd}
     >
       <div className="features-grid">
         {whatsapp === "" ? null : (
@@ -465,6 +503,14 @@ export default async function SeoSlugPage({ params }: PageProps) {
         description={ALL_ACCOUNTS_META.description}
         products={products}
         categories={categories}
+        jsonLd={serializeJsonLd(
+          categoryStructuredData({
+            slug: ALL_ACCOUNTS_SLUG,
+            name: ALL_ACCOUNTS_META.title,
+            description: ALL_ACCOUNTS_META.description,
+            products,
+          }),
+        )}
       />
     );
   }
@@ -476,14 +522,26 @@ export default async function SeoSlugPage({ params }: PageProps) {
       getStorefrontCategories(),
     ]);
     const meta = CATEGORY_META[category.id];
+    const categoryTitle = meta?.title ?? category.name;
+    const categoryDescription =
+      meta?.description ??
+      category.description ??
+      ALL_ACCOUNTS_META.description;
+
     return (
       <CatalogPage
-        title={meta?.title ?? category.name}
-        description={
-          meta?.description ?? category.description ?? ALL_ACCOUNTS_META.description
-        }
+        title={categoryTitle}
+        description={categoryDescription}
         products={products}
         categories={categories}
+        jsonLd={serializeJsonLd(
+          categoryStructuredData({
+            slug,
+            name: categoryTitle,
+            description: categoryDescription,
+            products,
+          }),
+        )}
       />
     );
   }
@@ -496,7 +554,11 @@ export default async function SeoSlugPage({ params }: PageProps) {
   if (slug === "sikca-sorulan-sorular") {
     const [meta, faqs] = [STATIC_PAGE_META[slug], await getActiveFaqs()];
     return (
-      <StaticContentPage title={meta.title} description={meta.description}>
+      <StaticContentPage
+        title={meta.title}
+        description={meta.description}
+        jsonLd={serializeJsonLd(faqStructuredData(faqs))}
+      >
         <FaqAccordion faqs={faqs} />
       </StaticContentPage>
     );
@@ -506,7 +568,11 @@ export default async function SeoSlugPage({ params }: PageProps) {
     const meta = STATIC_PAGE_META[slug];
     const categories = await getStorefrontCategories();
     return (
-      <StaticContentPage title={meta.title} description={meta.description}>
+      <StaticContentPage
+        title={meta.title}
+        description={meta.description}
+        jsonLd={serializeJsonLd(servicesStructuredData(categories))}
+      >
         <div className="services-grid">
           {categories.map((item) => (
             <div className="service-card facebook" key={item.id}>
@@ -546,6 +612,13 @@ export default async function SeoSlugPage({ params }: PageProps) {
         <StaticContentPage
           title={page.title}
           description={page.metaDescription ?? ""}
+          jsonLd={serializeJsonLd(
+            legalPageStructuredData({
+              slug,
+              title: page.title,
+              description: page.metaDescription,
+            }),
+          )}
         >
           <div
             className="legal-content"
@@ -554,52 +627,6 @@ export default async function SeoSlugPage({ params }: PageProps) {
         </StaticContentPage>
       );
     }
-  }
-
-  if (slug === "giris-yap" || slug === "kayit-ol") {
-    const meta = STATIC_PAGE_META[slug];
-    return (
-      <StaticContentPage title={meta.title} description={meta.description}>
-        <div className="feature-card" style={{ maxWidth: 520, margin: "0 auto" }}>
-          <h3>{slug === "giris-yap" ? "Giriş" : "Kayıt"} formu hazırlanıyor</h3>
-          <p>
-            Üyelik akışı sepet ve ödeme adımıyla birlikte devreye alınacak. Katalog
-            ve SEO sayfaları şu anda aktif.
-          </p>
-          <Link
-            href={`/${ALL_ACCOUNTS_SLUG}`}
-            className="btn btn-primary"
-            style={{ marginTop: 20 }}
-          >
-            Hesaplara Dön
-          </Link>
-        </div>
-      </StaticContentPage>
-    );
-  }
-
-  if (slug === "siparis-takip" || slug === GUEST_PURCHASE_SLUG) {
-    const isTracking = slug === "siparis-takip";
-    return (
-      <StaticContentPage
-        title={
-          isTracking ? STATIC_PAGE_META["siparis-takip"].title : "Hesap Satın Al"
-        }
-        description={
-          isTracking
-            ? STATIC_PAGE_META["siparis-takip"].description
-            : "Misafir olarak hızlı satın alma."
-        }
-      >
-        <div className="feature-card" style={{ maxWidth: 640, margin: "0 auto" }}>
-          <h3>Ödeme akışı bağlanıyor</h3>
-          <p>
-            Shopier ve Cryptomus entegrasyonu admin panelinden sonra devreye
-            alınacak. SEO URL&apos;leri ve vitrin yapısı birebir korunuyor.
-          </p>
-        </div>
-      </StaticContentPage>
-    );
   }
 
   notFound();

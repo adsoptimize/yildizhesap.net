@@ -60,6 +60,17 @@ const FOOTER_LINKS = JSON.stringify([
       { name: "Hizmetlerimiz", url: "/hizmetler" },
       { name: "SSS", url: "/sikca-sorulan-sorular" },
       { name: "İletişim", url: "/iletisim" },
+      { name: "Hakkımızda", url: "/hakkimizda" },
+    ],
+  },
+  {
+    title: "Yasal",
+    links: [
+      { name: "KVKK", url: "/kvkk" },
+      { name: "Gizlilik Politikası", url: "/gizlilik-politikasi" },
+      { name: "Kullanım Şartları", url: "/kullanim-kosullari" },
+      { name: "Çerez Politikası", url: "/cerez-politikasi" },
+      { name: "İade Politikası", url: "/iade-politikasi" },
     ],
   },
 ]);

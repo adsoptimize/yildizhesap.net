@@ -54,6 +54,7 @@ export default async function AdminDashboardPage() {
         totalPrice: true,
         status: true,
         createdAt: true,
+        customerName: true,
         user: { select: { username: true } },
       },
     }),
@@ -179,7 +180,10 @@ export default async function AdminDashboardPage() {
                     <tr key={order.id}>
                       <td>{order.orderCode}</td>
                       <td>{order.productName}</td>
-                      <td>{order.user.username}</td>
+                      <td>
+                        {order.user?.username ??
+                          `${order.customerName ?? "Misafir"} (misafir)`}
+                      </td>
                       <td>{formatCurrency(order.totalPrice.toString())}</td>
                       <td>
                         <span className="admin-badge info">{order.status}</span>

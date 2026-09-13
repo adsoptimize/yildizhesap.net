@@ -8,6 +8,11 @@ import {
   getStorefrontCategories,
 } from "@/lib/db/queries";
 import { HOME_META } from "@/lib/seo/meta";
+import {
+  faqStructuredData,
+  homepageStructuredData,
+  serializeJsonLd,
+} from "@/lib/seo/structured-data";
 import { getHeroStats, getSetting } from "@/lib/settings";
 
 // Segment config must be a literal; keep in sync with the other storefront routes.
@@ -18,6 +23,9 @@ const HOME_FAQ_COUNT = 6;
 export const metadata: Metadata = {
   title: { absolute: HOME_META.title },
   description: HOME_META.description,
+  keywords:
+    "facebook reklam hesabı satın al, business manager hesap, doğrulanmış business manager, facebook reklam hesabı, kimlik onaylı facebook hesabı, instagram hesap satın al, tiktok hesap, twitter hesap, discord hesap, telegram hesap, gmail hesap, outlook hesap, hesap satış platformu",
+  alternates: { canonical: "/" },
   other: {
     "ai-intent":
       "Facebook reklam hesabı satın al ile sosyal medya hesaplarını güvenli ve hızlı şekilde edinmek isteyen kullanıcıları bilgilendirme",
@@ -46,8 +54,19 @@ export default async function HomePage() {
   const heroImage = getSetting(settings, "hero_background", "/images/mockup.png");
   const heroStats = getHeroStats(settings);
 
+  const homeJsonLd = serializeJsonLd(homepageStructuredData());
+  const faqJsonLd = serializeJsonLd(faqStructuredData(faqs));
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: homeJsonLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: faqJsonLd }}
+      />
       <section className="hero">
         <div className="container">
           <div className="hero-content">

@@ -36,6 +36,8 @@ export type ProductCard = {
 };
 
 export type ProductDetail = ProductCard & {
+  /** Unsold `account_stock` rows — the number that can be delivered instantly. */
+  availableStock: number;
   description: string | null;
   technicalInfo: string | null;
   accountType: string;
@@ -168,6 +170,7 @@ export async function getProductBySeoSlug(
         select: { featureName: true, featureValue: true },
         orderBy: { id: "asc" },
       },
+      _count: { select: { stock: { where: { isSold: false } } } },
     },
   });
 
@@ -177,6 +180,7 @@ export async function getProductBySeoSlug(
 
   return {
     ...toProductCard(row),
+    availableStock: row._count.stock,
     description: row.description,
     technicalInfo: row.technicalInfo,
     accountType: row.accountType,

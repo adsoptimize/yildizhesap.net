@@ -241,12 +241,17 @@ export async function addStockAction(formData: FormData): Promise<void> {
     return;
   }
 
+  const createdDate = readOptionalText(formData, "accountCreatedDate");
+
   await prisma.accountStock.create({
     data: {
       accountId,
       username,
       password,
       email: readOptionalText(formData, "email"),
+      emailPassword: readOptionalText(formData, "emailPassword"),
+      totpSecret: readOptionalText(formData, "totpSecret"),
+      accountCreatedDate: createdDate === null ? null : new Date(createdDate),
       additionalInfo: readOptionalText(formData, "additionalInfo"),
     },
   });

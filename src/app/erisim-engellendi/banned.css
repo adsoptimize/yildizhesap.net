@@ -1,0 +1,111 @@
+/* Ported from the inline styles in legacy/banned.php. */
+
+.ban-container {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  color: #333;
+  margin: 4rem auto;
+  max-width: 500px;
+  padding: 3rem;
+  text-align: center;
+  width: 90%;
+}
+
+.ban-icon {
+  align-items: center;
+  animation: banPulse 2s infinite;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  font-size: 2rem;
+  height: 80px;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  width: 80px;
+}
+
+@keyframes banPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ban-title {
+  color: #1e293b;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.ban-message {
+  color: #64748b;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.ban-details {
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.ban-details h2 {
+  color: #ef4444;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.ban-detail-item {
+  border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.ban-detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.ban-detail-label {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.ban-detail-value {
+  color: #64748b;
+}
+
+.ban-contact {
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .ban-container {
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+
+  .ban-title {
+    font-size: 1.5rem;
+  }
+
+  .ban-message {
+    font-size: 1rem;
+  }
+}

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { BanType } from "@prisma/client";
 import { requireAdmin } from "@/lib/auth/admin";
 import type { AdminFormState } from "@/lib/admin/form-state";
+import { invalidateBanCache } from "@/lib/security/ip-ban";
 import { prisma } from "@/lib/prisma";
 
 const ADMIN_IP_PATH = "/admin/ip-limits";
@@ -70,6 +71,7 @@ export async function banIpAction(formData: FormData): Promise<void> {
     },
   });
 
+  invalidateBanCache();
   revalidatePath(ADMIN_IP_PATH);
 }
 
@@ -83,6 +85,7 @@ export async function liftIpBanAction(formData: FormData): Promise<void> {
     data: { isActive: false },
   });
 
+  invalidateBanCache();
   revalidatePath(ADMIN_IP_PATH);
 }
 

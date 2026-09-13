@@ -37,6 +37,33 @@ export function getNextConfigRedirects(): NextRedirect[] {
       destination: "/sitemap.xml",
       permanent: true,
     },
+    {
+      source: "/terms.php",
+      destination: "/kullanim-kosullari",
+      permanent: true,
+    },
+    { source: "/cookies.php", destination: "/cerez-politikasi", permanent: true },
+    { source: "/refund.php", destination: "/iade-politikasi", permanent: true },
+    { source: "/about.php", destination: "/hakkimizda", permanent: true },
+    // Shop and member area pages: no SEO value, but old bookmarks should work.
+    { source: "/2fa.php", destination: "/2fa", permanent: true },
+    { source: "/banned.php", destination: "/erisim-engellendi", permanent: true },
+    { source: "/cart.php", destination: "/sepet", permanent: true },
+    { source: "/checkout.php", destination: "/odeme", permanent: true },
+    { source: "/guest_purchase.php", destination: "/guest-purchase", permanent: true },
+    { source: "/urunlerim.php", destination: "/hesabim", permanent: true },
+    { source: "/hesaplarim.php", destination: "/hesabim", permanent: true },
+    { source: "/ayarlar.php", destination: "/hesabim/ayarlar", permanent: true },
+    {
+      source: "/payment-success.php",
+      destination: "/odeme/basarili",
+      permanent: true,
+    },
+    {
+      source: "/payment-cancel.php",
+      destination: "/odeme/iptal",
+      permanent: true,
+    },
   ];
 
   for (const [id, slug] of Object.entries(CATEGORY_SEO_SLUGS)) {
