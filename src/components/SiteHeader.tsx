@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -70,14 +71,15 @@ export function SiteHeader({ siteTitle, logoSubtext }: SiteHeaderProps) {
   return (
     <header>
       <div className="container header-container">
-        <Link href="/" className="logo">
-          <div className="logo-icon simple">
-            <i className="fas fa-crown logo-main-icon" />
-          </div>
-          <div className="logo-text">
-            <span className="logo-title">{siteTitle}</span>
-            <span>{logoSubtext}</span>
-          </div>
+        <Link href="/" className="logo" aria-label={`${siteTitle} - ${logoSubtext}`}>
+          <Image
+            src="/images/logo-adsoptimize.png"
+            alt={`${siteTitle} - AdsOptimize`}
+            width={642}
+            height={120}
+            priority
+            className="logo-image"
+          />
         </Link>
 
         <nav className={mobileOpen ? "open" : undefined}>

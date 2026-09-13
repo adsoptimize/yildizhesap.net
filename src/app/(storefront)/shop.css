@@ -1032,3 +1032,29 @@ header .header-actions .btn i {
     padding: 8px 10px;
   }
 }
+
+/* ----- Header logo (AdsOptimize) ----- */
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo-image {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Slightly smaller logo on medium/small screens */
+@media (max-width: 1100px) {
+  header .logo-image {
+    height: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  header .logo-image {
+    height: 30px;
+  }
+}
