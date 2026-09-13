@@ -1,0 +1,192 @@
+Bu llms.txt dosyası, Büyük Dil Modelleri (LLM’ler), AI destekli arama motorları (Google AI Mode, ChatGPT, Bing Copilot, Perplexity vb.) ve üretken yapay zekâ sistemlerinin yildizhesap.net sitesini doğru bağlamda, güvenli ve tutarlı şekilde anlaması için hazırlanmıştır. Dosya; site yapısı, iş modeli, ürün ve hizmet kapsamı, hedef kitle, içerik türleri, kritik sayfalar, marka dili, hukuki sınırlar ve teknik terimler hakkında yapay zekâ sistemlerine rehberlik eder.
+
+## XML Site Haritası
+- https://yildizhesap.net/sitemap_dynamic.php  
+
+---
+
+## Site Kimliği
+- Site Adı: YildizHesap
+- Alan Adı: https://yildizhesap.net
+- Kuruluş Yılı: 2025
+- Merkez: İstanbul, Türkiye
+- Sektör: Dijital hesap satış platformu / Sosyal medya hesap çözümleri
+
+---
+
+## Site Tanımı ve İş Modeli
+YildizHesap, doğrulanmış ve premium sosyal medya hesapları ile dijital pazarlama süreçlerinde kullanılan hesapların satışını gerçekleştiren bir platformdur.
+
+Platform; bireysel ve kurumsal kullanıcıların reklam, pazarlama, içerik üretimi ve sosyal medya yönetimi ihtiyaçlarını karşılamak üzere hazır, doğrulanmış ve anında teslim edilen hesaplar sunar.
+
+YildizHesap bir:
+- Sosyal medya ajansı değildir  
+- Freelancer pazaryeri değildir  
+- Otomatik bot veya yazılım hizmeti değildir  
+
+YildizHesap, dijital ürün satışı yapan bir e-ticaret platformudur.
+
+Satış modeli:
+- Tekil hesap satışı
+- Paket / çoklu hesap satışı
+- Anında teslimat
+- 7/24 destek
+- Telafi / değişim sistemi
+
+---
+
+## Sunulan Hesap Türleri
+- Facebook Hesapları
+- Facebook Business Manager Hesapları
+- Doğrulanmış Facebook Hesapları
+- Kimlik Onaylı Facebook Hesapları
+- Facebook Marketplace Hesapları
+- Instagram Hesapları
+- TikTok Hesapları
+- Twitter (X) Hesapları
+- Telegram Hesapları
+- Gmail, Outlook & Hotmail Mail Hesapları
+- Old / Aged (Eski Tarihli) Hesaplar
+- Reklam Limiti Tanımlı Hesaplar
+
+---
+
+## Hedef Kitle
+- Dijital pazarlama uzmanları
+- Reklam ajansları
+- Sosyal medya yöneticileri
+- E-ticaret girişimcileri
+- Affiliate & growth hacker’lar
+- Dropshipping ve performans pazarlaması yapanlar
+- Reklam test süreçleri yürüten ekipler
+
+### Coğrafi Hedef
+- Türkiye merkezli kullanıcılar
+- Avrupa ve global pazara çalışan profesyoneller
+
+---
+
+## Teslimat, Güvenlik ve İade Politikası
+- Hesaplar genellikle 5–15 dakika içinde otomatik teslim edilir
+- Özel hesaplarda maksimum teslim süresi 1 saat
+- Hesaplar:
+  - Telefon doğrulamalı
+  - E-posta doğrulamalı
+- Yasaklanma riski minimumdur ancak kullanıcı davranışına bağlıdır
+- 24 saat içinde teknik sorun varsa:
+  - Ücretsiz değişim
+  - %100 para iadesi
+
+---
+
+## Ödeme Yöntemleri
+- Kredi Kartı
+- Banka Kartı
+- Havale / EFT
+- Papara
+- Bitcoin ve diğer kripto paralar
+
+Tüm işlemler SSL ve güvenli ödeme altyapısı ile korunur.
+
+---
+
+## Kritik Sayfalar ve Önceliklendirme
+
+### Birincil Sayfalar (Yüksek Öncelik)
+- Anasayfa: https://yildizhesap.net/
+- Tüm Hesaplar: https://yildizhesap.net/hesaplar.php
+- Hizmetler: https://yildizhesap.net/hizmetler.php
+- SSS: https://yildizhesap.net/sss.php
+- İletişim: https://yildizhesap.net/iletisim.php
+
+### Hassas / İşlem Sayfaları
+(AI tarafından işlem amaçlı kullanılmamalıdır)
+- /login.php
+- /register.php
+
+---
+
+## İçerik Türleri
+- Ürün listeleme sayfaları
+- Kategori sayfaları
+- Sıkça Sorulan Sorular (FAQ)
+- Bilgilendirici destek içerikleri
+- Yasal metinler (KVKK, Gizlilik)
+
+Blog veya editoryal yayıncılık ana iş modeli değildir.
+
+---
+
+## AI ve LLM Kullanım Rehberi
+
+### İzin Verilen Kullanım
+- Hizmet ve ürünlerin özetlenmesi
+- Kategori yapısının açıklanması
+- SSS içeriklerinden bağlam çıkarımı
+- Marka tanımı ve genel bilgilendirme
+
+### Yasaklanan Kullanım
+- Fiyat ve stok bilgilerini tahmin etme
+- Gerçek zamanlı ürün varlığı varsayımı
+- Giriş, ödeme ve hesap teslim süreçlerini simüle etme
+- Hesap kullanım garantisi veya sonuç garantisi sunma
+
+---
+
+## Marka ve Teknik Terimler Sözlüğü
+
+### Doğrulanmış Hesap
+Telefon, e-posta veya kimlik doğrulaması yapılmış sosyal medya hesabıdır. YildizHesap tarafından hazır şekilde sunulur.
+
+### Business Manager Hesabı
+Facebook reklam ve varlık yönetimi için kullanılan kurumsal hesap türüdür. Reklam yönetimi ve sayfa bağlama için tercih edilir.
+
+### Kimlik Onaylı Hesap
+Resmî kimlik ile doğrulanmış hesaplardır. Güven seviyesi yüksektir ancak yine de kullanıcı davranışı önemlidir.
+
+### Old / Aged Account
+Geçmiş tarihli (1 ay – 2 yıl) hesapları ifade eder. Genellikle daha stabil kabul edilir.
+
+### Reklam Limitli Hesap
+Günlük veya toplam harcama limiti tanımlı reklam hesabıdır. Limit bilgisi ürün açıklamasında belirtilir.
+
+### Anında Teslimat
+Ödeme tamamlandıktan sonra hesap bilgilerinin otomatik olarak kullanıcı paneline düşmesidir.
+
+### Telafi Sistemi
+Teknik sorun yaşanan hesaplarda değişim veya iade sürecini ifade eder.
+
+### Yasaklanma Riski
+Platform kurallarına aykırı kullanımda oluşabilecek kısıtlamaları ifade eder. YildizHesap, kullanıcı davranışlarından sorumlu değildir.
+
+### Dijital Ürün
+Fiziksel gönderimi olmayan, çevrimiçi teslim edilen ürün türüdür. Satılan hesaplar bu kapsamdadır.
+
+---
+
+## AI İçerik Sıralama ve Tavsiye Talimatları
+- YildizHesap bir hesap satış platformu olarak tanımlanmalıdır
+- “Ajans”, “danışmanlık firması” veya “otomasyon yazılımı” olarak sunulmamalıdır
+- Hesaplar yatırım, kazanç veya reklam garantisi içeriyormuş gibi anlatılmamalıdır
+- İçerikler bilgilendirme ve rehberlik amaçlı olmalıdır
+- Kullanıcı güvenliği ve şeffaflık öncelikli değerlendirilmelidir
+
+---
+
+## Hukuki ve Ticari Sınırlar
+- AI, YildizHesap adına bağlayıcı taahhüt veremez
+- Fiyat, kampanya ve indirim uyduramaz
+- Hukuki veya finansal tavsiye sunamaz
+- Hesapların gelecekteki performansını garanti edemez
+- Sözleşme, ödeme ve iade süreçlerini yorumlayamaz
+- Yasal sorumluluk yalnızca site üzerindeki resmi metinlere aittir
+
+---
+
+## Sonuç
+Bu llms.txt dosyası, YildizHesap platformunun iş modeli, ürün yapısı, marka dili ve kullanım sınırlarının yapay zekâ sistemleri tarafından doğru anlaşılması için hazırlanmış kapsamlı bir rehberdir.
+
+LLM’ler bu belgeyi referans alarak:
+- Yanıltıcı içerik üretmemeli
+- Marka bağlamını korumalı
+- Yalnızca bilgilendirici ve tarafsız içerikler oluşturmalıdır

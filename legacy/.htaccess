@@ -1,0 +1,200 @@
+# SEO-Friendly URL Configuration
+RewriteEngine On
+RewriteBase /
+
+# HTTPS değilse yönlendir
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# ========================================
+# 301 REDIRECTS - OLD URLs to SEO-Friendly URLs
+# ========================================
+
+# Static Page Redirects
+RewriteRule ^guest_order_track\.php$ /siparis-takip [R=301,L]
+RewriteRule ^sss\.php$ /sikca-sorulan-sorular [R=301,L]
+RewriteRule ^hizmetler\.php$ /hizmetler [R=301,L]
+RewriteRule ^iletisim\.php$ /iletisim [R=301,L]
+RewriteRule ^index\.php$ / [R=301,L]
+RewriteRule ^kvvk\.php$ /kvkk [R=301,L]
+RewriteRule ^login\.php$ /giris-yap [R=301,L]
+RewriteRule ^register\.php$ /kayit-ol [R=301,L]
+RewriteRule ^privacy\.php$ /gizlilik-politikasi [R=301,L]
+RewriteRule ^sitemap\.xml$ /sitemap_dynamic.php [R=301,L]
+
+# Category Redirects - hesaplar.php?category=X
+RewriteCond %{QUERY_STRING} ^category=7$
+RewriteRule ^hesaplar\.php$ /ana-hesaplar-dogrulanmis? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=8$
+RewriteRule ^hesaplar\.php$ /direncli-hesaplar? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=12$
+RewriteRule ^hesaplar\.php$ /old-accounts? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=13$
+RewriteRule ^hesaplar\.php$ /business-manager? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=14$
+RewriteRule ^hesaplar\.php$ /facebook-marketplace? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=15$
+RewriteRule ^hesaplar\.php$ /facebook-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=16$
+RewriteRule ^hesaplar\.php$ /instagram-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=20$
+RewriteRule ^hesaplar\.php$ /onayli-twitter-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=21$
+RewriteRule ^hesaplar\.php$ /tiktok-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=22$
+RewriteRule ^hesaplar\.php$ /mail-gmail-outlook-hotmail-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^category=27$
+RewriteRule ^hesaplar\.php$ /telegram-hesaplari? [R=301,L]
+
+# Default hesaplar.php redirect (no category)
+RewriteRule ^hesaplar\.php$ /tum-hesaplar [R=301,L]
+
+# Product Detail Redirects - view.php?id=X
+RewriteCond %{QUERY_STRING} ^id=12$
+RewriteRule ^view\.php$ /rastgele-kimlik-dogrulanmis-super-eski-facebook-hesabi-2015? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=13$
+RewriteRule ^view\.php$ /rastgele-kimlik-dogrulanmis-eski-facebook-hesabi-2010? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=14$
+RewriteRule ^view\.php$ /rastgele-kimlik-dogrulanmis-super-eski-facebook-hesabi-2010-2020? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=15$
+RewriteRule ^view\.php$ /rastgele-kimlik-dogrulanmis-eski-facebook-hesabi-2010-2023? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=16$
+RewriteRule ^view\.php$ /vietnam-kimligi-dogrulanmis-eski-facebook-hesabi-2024? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=17$
+RewriteRule ^view\.php$ /vietnam-kimligi-dogrulanmis-eski-facebook-hesabi-2023-2024? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=18$
+RewriteRule ^view\.php$ /vietnamda-yeniden-acilan-eski-facebook-hesabi-2024? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=19$
+RewriteRule ^view\.php$ /vietnamese-reinstated-aged-fb-account-2024? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=20$
+RewriteRule ^view\.php$ /random-reinstated-aged-fb-account-2010-2023? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=21$
+RewriteRule ^view\.php$ /random-reinstated-super-aged-fb-account-2007-2015? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=26$
+RewriteRule ^view\.php$ /poland-old-fb-account-2008-2021? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=27$
+RewriteRule ^view\.php$ /taiwan-old-fb-account? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=28$
+RewriteRule ^view\.php$ /uk-old-fb-account? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=29$
+RewriteRule ^view\.php$ /usa-old-fb-account-2024? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=30$
+RewriteRule ^view\.php$ /random-country-fb-account-can-create-sub-profile? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=31$
+RewriteRule ^view\.php$ /india-aged-fb-account? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=35$
+RewriteRule ^view\.php$ /250-dolar-limitli-tekli-business-manager-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=36$
+RewriteRule ^view\.php$ /kisittan-donmus-business-manager-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=37$
+RewriteRule ^view\.php$ /dogrulanmis-business-manager-hesaplari-3lu? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=38$
+RewriteRule ^view\.php$ /eski-business-manager-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=39$
+RewriteRule ^view\.php$ /business-manager-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=40$
+RewriteRule ^view\.php$ /gunluk-harcama-250-dolar-limitli-tekli-kisisel-reklam-hesabi? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=41$
+RewriteRule ^view\.php$ /facebook-marketplace-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=42$
+RewriteRule ^view\.php$ /kimlik-onayli-facebook-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=43$
+RewriteRule ^view\.php$ /kimlik-onayli-facebook-hesaplari-guclendirilmis? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=44$
+RewriteRule ^view\.php$ /facebook-hesaplari-turk? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=45$
+RewriteRule ^view\.php$ /facebook-hesaplari-yabanci? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=46$
+RewriteRule ^view\.php$ /instagram-hesaplari-10000-takipcili? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=47$
+RewriteRule ^view\.php$ /instagram-hesaplari-5000-takipcili? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=49$
+RewriteRule ^view\.php$ /20-adet-gonderili-instagram-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=50$
+RewriteRule ^view\.php$ /tanitim-onayli-instagram-hesaplari? [R=301,L]
+
+RewriteCond %{QUERY_STRING} ^id=60$
+RewriteRule ^view\.php$ /dogrulanmis-telegram-hesap? [R=301,L]
+
+# ========================================
+# NEW SEO-FRIENDLY URL ROUTING
+# ========================================
+
+# Exclude existing files and static assets
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ [NC]
+
+# Exclude admin panel, assets, images, js, css, uploads
+RewriteCond %{REQUEST_URI} !^/(admin|assets|images|js|css|uploads|includes|logs|cryptomusexample)/
+
+# Route all SEO-friendly URLs to router.php
+RewriteRule ^(.+)$ router.php?url=$1 [QSA,L]
+
+# Güvenlik kuralları
+<Files ".htaccess">
+Order allow,deny
+Deny from all
+</Files>
+
+# PHP hata raporlamayı kapat (production için)
+php_flag display_errors Off
+php_flag log_errors On
+
+# Dosya yükleme limitleri
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+
+# Güvenlik başlıkları
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# “ea-php81” paketini varsayılan “PHP” programlama dili olarak ayarlayın.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

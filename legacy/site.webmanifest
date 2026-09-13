@@ -1,0 +1,164 @@
+<?php
+// Disable output buffering and error display for clean JSON output
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Set JSON header first before any output
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: public, max-age=86400'); // Cache for 1 day
+
+try {
+    require_once __DIR__ . '/config.php';
+
+    // Site ayarlarını çek
+    $siteName = $siteSettings->get('site_title', 'BusinessHesap');
+    $siteDescription = $siteSettings->get('hero_description', 'Premium Sosyal Medya Hesapları - BusinessHesap güvencesiyle doğrulanmış, yüksek limitli ve güvenli hesapları keşfedin.');
+    $themeColor = $siteSettings->get('site_theme_color', '#6c63ff');
+    $backgroundColor = $siteSettings->get('theme_primary_color', '#6c63ff');
+
+// Manifest verilerini hazırla
+$manifest = [
+    "name" => $siteName,
+    "short_name" => $siteName,
+    "description" => $siteDescription,
+    "start_url" => "/",
+    "display" => "standalone",
+    "theme_color" => $themeColor,
+    "background_color" => $backgroundColor,
+    "orientation" => "portrait-primary",
+    "scope" => "/",
+    "lang" => "tr",
+    "categories" => ["business", "social", "shopping"],
+    "icons" => [
+        [
+            "src" => $siteSettings->get('favicon_png_16', '/assets/icons/favicon-16x16.png'),
+            "sizes" => "16x16",
+            "type" => "image/png"
+        ],
+        [
+            "src" => $siteSettings->get('favicon_png_32', '/assets/icons/favicon-32x32.png'),
+            "sizes" => "32x32",
+            "type" => "image/png"
+        ],
+        [
+            "src" => "/assets/icons/favicon-72x72.png",
+            "sizes" => "72x72",
+            "type" => "image/png"
+        ],
+        [
+            "src" => "/assets/icons/favicon-96x96.png",
+            "sizes" => "96x96",
+            "type" => "image/png"
+        ],
+        [
+            "src" => "/assets/icons/favicon-128x128.png",
+            "sizes" => "128x128",
+            "type" => "image/png"
+        ],
+        [
+            "src" => "/assets/icons/favicon-144x144.png",
+            "sizes" => "144x144",
+            "type" => "image/png"
+        ],
+        [
+            "src" => "/assets/icons/favicon-152x152.png",
+            "sizes" => "152x152",
+            "type" => "image/png"
+        ],
+        [
+            "src" => $siteSettings->get('apple_touch_icon', '/assets/icons/apple-touch-icon.png'),
+            "sizes" => "180x180",
+            "type" => "image/png"
+        ],
+        [
+            "src" => $siteSettings->get('android_chrome_192', '/assets/icons/android-chrome-192x192.png'),
+            "sizes" => "192x192",
+            "type" => "image/png",
+            "purpose" => "any maskable"
+        ],
+        [
+            "src" => "/assets/icons/favicon-384x384.png",
+            "sizes" => "384x384",
+            "type" => "image/png"
+        ],
+        [
+            "src" => $siteSettings->get('android_chrome_512', '/assets/icons/android-chrome-512x512.png'),
+            "sizes" => "512x512",
+            "type" => "image/png",
+            "purpose" => "any maskable"
+        ]
+    ],
+    "shortcuts" => [
+        [
+            "name" => "Hesapları Görüntüle",
+            "short_name" => "Hesaplar",
+            "description" => "Mevcut sosyal medya hesaplarını görüntüle",
+            "url" => "/hesaplar.php",
+            "icons" => [
+                [
+                    "src" => $siteSettings->get('android_chrome_192', '/assets/icons/android-chrome-192x192.png'),
+                    "sizes" => "192x192"
+                ]
+            ]
+        ],
+        [
+            "name" => "İletişim",
+            "short_name" => "İletişim",
+            "description" => "Bizimle iletişime geçin",
+            "url" => "/iletisim.php",
+            "icons" => [
+                [
+                    "src" => $siteSettings->get('android_chrome_192', '/assets/icons/android-chrome-192x192.png'),
+                    "sizes" => "192x192"
+                ]
+            ]
+        ],
+        [
+            "name" => "Giriş Yap",
+            "short_name" => "Giriş",
+            "description" => "Hesabınıza giriş yapın",
+            "url" => "/login.php",
+            "icons" => [
+                [
+                    "src" => $siteSettings->get('android_chrome_192', '/assets/icons/android-chrome-192x192.png'),
+                    "sizes" => "192x192"
+                ]
+            ]
+        ]
+    ],
+    "related_applications" => [],
+    "prefer_related_applications" => false
+];
+
+// JSON olarak çıktıla
+ob_clean(); // Clear any previous output
+echo json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+} catch (Exception $e) {
+    // Fallback to basic manifest on error
+    ob_clean();
+    $fallbackManifest = [
+        "name" => "BusinessHesap",
+        "short_name" => "BusinessHesap",
+        "start_url" => "/",
+        "display" => "standalone",
+        "theme_color" => "#6c63ff",
+        "background_color" => "#6c63ff",
+        "icons" => [
+            [
+                "src" => "/assets/icons/android-chrome-192x192.png",
+                "sizes" => "192x192",
+                "type" => "image/png"
+            ],
+            [
+                "src" => "/assets/icons/android-chrome-512x512.png",
+                "sizes" => "512x512",
+                "type" => "image/png"
+            ]
+        ]
+    ];
+    echo json_encode($fallbackManifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+}
+ob_end_flush();
+?>
