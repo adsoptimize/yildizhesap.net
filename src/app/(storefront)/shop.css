@@ -650,7 +650,7 @@
 
 .product-grid__filters .filter-select:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: #EE5A24;
 }
 
 .product-grid__filters .search-box-compact {
@@ -737,7 +737,7 @@
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: #EE5A24;
 }
 
 .contact-form__field-error {
@@ -809,7 +809,7 @@
 }
 
 .cookie-banner__body a {
-  color: #a5b4fc;
+  color: #FBBF24;
   text-decoration: underline;
 }
 
@@ -840,12 +840,12 @@
 }
 
 .cookie-banner__btn--primary {
-  background: #6366f1;
+  background: #EE5A24;
   color: #fff;
 }
 
 .cookie-banner__btn--primary:hover {
-  background: #4f46e5;
+  background: #C4441D;
 }
 
 @media (max-width: 480px) {
@@ -862,7 +862,7 @@
 .hero.hero--compact {
   padding: 30px 0 20px !important;
   min-height: auto !important;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 50%, #FBBF24 100%);
 }
 
 .hero.hero--compact .hero-compact {
