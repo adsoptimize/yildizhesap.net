@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { SITE_DEFAULTS } from "@/data/seed";
 
 const NAV_ITEMS = [
   { name: "Anasayfa", href: "/", icon: "fas fa-home" },
@@ -19,7 +18,12 @@ const NAV_ITEMS = [
   { name: "İletişim", href: "/iletisim", icon: "fas fa-phone-alt" },
 ] as const;
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  siteTitle: string;
+  logoSubtext: string;
+};
+
+export function SiteHeader({ siteTitle, logoSubtext }: SiteHeaderProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -31,8 +35,8 @@ export function SiteHeader() {
             <i className="fas fa-crown logo-main-icon" />
           </div>
           <div className="logo-text">
-            <span className="logo-title">{SITE_DEFAULTS.title}</span>
-            <span>{SITE_DEFAULTS.logoSubtext}</span>
+            <span className="logo-title">{siteTitle}</span>
+            <span>{logoSubtext}</span>
           </div>
         </Link>
 

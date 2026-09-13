@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { HOME_META, SITE_NAME, SITE_URL } from "@/lib/seo/meta";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -58,11 +56,7 @@ export default function RootLayout({
         />
         <link rel="stylesheet" href="/css/style.css" />
       </head>
-      <body>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

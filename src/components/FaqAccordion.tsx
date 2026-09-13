@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { SeedFaq } from "@/data/seed";
+import type { FaqItem } from "@/lib/db/queries";
 
 type FaqAccordionProps = {
-  faqs: SeedFaq[];
+  faqs: FaqItem[];
 };
 
 export function FaqAccordion({ faqs }: FaqAccordionProps) {

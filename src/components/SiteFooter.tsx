@@ -1,85 +1,111 @@
 import Link from "next/link";
-import { SITE_DEFAULTS } from "@/data/seed";
+import type { SettingsMap } from "@/lib/db/queries";
+import {
+  digitsOnly,
+  getFooterLinkGroups,
+  getSetting,
+  getSocialLinks,
+} from "@/lib/settings";
 
-export function SiteFooter() {
-  const phone = SITE_DEFAULTS.contactPhone.replace(/[^0-9+]/g, "");
-  const whatsapp = SITE_DEFAULTS.contactWhatsapp.replace(/[^0-9]/g, "");
+type SiteFooterProps = {
+  settings: SettingsMap;
+};
+
+export function SiteFooter({ settings }: SiteFooterProps) {
+  const siteTitle = getSetting(settings, "site_title", "YildizHesap");
+  const footerDescription = getSetting(
+    settings,
+    "footer_description",
+    "Kaliteli sosyal medya hesapları ile işinizi büyütmeniz için buradayız.",
+  );
+  const copyright = getSetting(
+    settings,
+    "footer_copyright",
+    "© 2025 YildizHesap.net - Tüm Hakları Saklıdır.",
+  );
+  const phone = getSetting(settings, "contact_phone", "");
+  const email = getSetting(settings, "contact_email", "info@yildizhesap.net");
+  const whatsapp = digitsOnly(getSetting(settings, "contact_whatsapp", ""));
+  const address = getSetting(settings, "contact_address", "İstanbul, Türkiye");
+  const linkGroups = getFooterLinkGroups(settings);
+  const socialLinks = getSocialLinks(settings);
 
   return (
     <footer>
       <div className="container">
         <div className="footer-grid">
           <div className="footer-column">
-            <h3>{SITE_DEFAULTS.title}</h3>
-            <p>
-              Kaliteli sosyal medya hesapları ile işinizi büyütmeniz için
-              buradayız. Güvenli alışverişin premium adresi.
-            </p>
+            <h3>{siteTitle}</h3>
+            <p>{footerDescription}</p>
             <div className="social-icons">
-              <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noreferrer">
-                <i className="fab fa-instagram" />
-              </a>
-              <a href="https://t.me" aria-label="Telegram" target="_blank" rel="noreferrer">
-                <i className="fab fa-telegram" />
-              </a>
-              <a href={`https://wa.me/${whatsapp}`} aria-label="WhatsApp" target="_blank" rel="noreferrer">
-                <i className="fab fa-whatsapp" />
-              </a>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.platform}
+                  href={social.url}
+                  aria-label={social.platform}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className={social.icon} />
+                </a>
+              ))}
+              {whatsapp === "" ? null : (
+                <a
+                  href={`https://wa.me/${whatsapp}`}
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fab fa-whatsapp" />
+                </a>
+              )}
             </div>
           </div>
 
-          <div className="footer-column">
-            <h3>Hızlı Erişim</h3>
-            <ul>
-              <li>
-                <Link href="/">
-                  <i className="fas fa-chevron-right" /> Anasayfa
-                </Link>
-              </li>
-              <li>
-                <Link href="/tum-hesaplar">
-                  <i className="fas fa-chevron-right" /> Tüm Hesaplar
-                </Link>
-              </li>
-              <li>
-                <Link href="/hizmetler">
-                  <i className="fas fa-chevron-right" /> Hizmetlerimiz
-                </Link>
-              </li>
-              <li>
-                <Link href="/sikca-sorulan-sorular">
-                  <i className="fas fa-chevron-right" /> SSS
-                </Link>
-              </li>
-              <li>
-                <Link href="/iletisim">
-                  <i className="fas fa-chevron-right" /> İletişim
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {linkGroups.map((group) => (
+            <div className="footer-column" key={group.title}>
+              <h3>{group.title}</h3>
+              <ul>
+                {group.links.map((link) => (
+                  <li key={link.url}>
+                    <Link href={link.url}>
+                      <i className="fas fa-chevron-right" /> {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           <div className="footer-column">
             <h3>İletişim</h3>
             <ul>
+              {phone === "" ? null : (
+                <li>
+                  <a href={`tel:${digitsOnly(phone)}`}>
+                    <i className="fas fa-phone" /> {phone}
+                  </a>
+                </li>
+              )}
               <li>
-                <a href={`tel:${phone}`}>
-                  <i className="fas fa-phone" /> {SITE_DEFAULTS.contactPhone}
+                <a href={`mailto:${email}`}>
+                  <i className="fas fa-envelope" /> {email}
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${SITE_DEFAULTS.contactEmail}`}>
-                  <i className="fas fa-envelope" /> {SITE_DEFAULTS.contactEmail}
-                </a>
-              </li>
-              <li>
-                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer">
-                  <i className="fab fa-whatsapp" /> WhatsApp
-                </a>
-              </li>
+              {whatsapp === "" ? null : (
+                <li>
+                  <a
+                    href={`https://wa.me/${whatsapp}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="fab fa-whatsapp" /> WhatsApp
+                  </a>
+                </li>
+              )}
               <li>
                 <span>
-                  <i className="fas fa-map-marker-alt" /> {SITE_DEFAULTS.contactAddress}
+                  <i className="fas fa-map-marker-alt" /> {address}
                 </span>
               </li>
             </ul>
@@ -104,8 +130,7 @@ export function SiteFooter() {
 
         <div className="footer-bottom">
           <p>
-            © 2025 YildizHesap.net - Tüm Hakları Saklıdır. |{" "}
-            <Link href="/kvkk">KVKK</Link> ve{" "}
+            {copyright} | <Link href="/kvkk">KVKK</Link> ve{" "}
             <Link href="/gizlilik-politikasi">Gizlilik Politikası</Link>
           </p>
         </div>

@@ -2,8 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { FaqAccordion } from "@/components/FaqAccordion";
-import { SEED_CATEGORIES, SEED_FAQS, SITE_DEFAULTS } from "@/data/seed";
+import {
+  getActiveFaqs,
+  getSiteSettings,
+  getStorefrontCategories,
+} from "@/lib/db/queries";
 import { HOME_META } from "@/lib/seo/meta";
+import { getHeroStats, getSetting } from "@/lib/settings";
+
+// Segment config must be a literal; keep in sync with the other storefront routes.
+export const revalidate = 300;
+
+const HOME_FAQ_COUNT = 6;
 
 export const metadata: Metadata = {
   title: { absolute: HOME_META.title },
@@ -14,25 +24,46 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [settings, categories, faqs] = await Promise.all([
+    getSiteSettings(),
+    getStorefrontCategories(),
+    getActiveFaqs(HOME_FAQ_COUNT),
+  ]);
+
+  const heroTitle = getSetting(
+    settings,
+    "hero_title",
+    "Premium Sosyal Medya Hesapları",
+  );
+  const heroDescription = getSetting(
+    settings,
+    "hero_description",
+    "Doğrulanmış, yüksek limitli ve güvenli hesapları keşfedin.",
+  );
+  const heroButtonText = getSetting(settings, "hero_button_text", "Hemen Satın Al");
+  const heroButtonUrl = getSetting(settings, "hero_button_url", "/tum-hesaplar");
+  const heroImage = getSetting(settings, "hero_background", "/images/mockup.png");
+  const heroStats = getHeroStats(settings);
+
   return (
     <main>
       <section className="hero">
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>{SITE_DEFAULTS.heroTitle}</h1>
-              <p>{SITE_DEFAULTS.heroDescription}</p>
+              <h1>{heroTitle}</h1>
+              <p>{heroDescription}</p>
               <div className="hero-buttons">
-                <Link href={SITE_DEFAULTS.heroButtonUrl} className="btn btn-primary">
-                  <i className="fas fa-shopping-bag" /> {SITE_DEFAULTS.heroButtonText}
+                <Link href={heroButtonUrl} className="btn btn-primary">
+                  <i className="fas fa-shopping-bag" /> {heroButtonText}
                 </Link>
                 <a href="#categories" className="btn btn-secondary">
                   <i className="fas fa-th-large" /> Kategorileri Gör
                 </a>
               </div>
               <div className="stats-grid">
-                {SITE_DEFAULTS.heroStats.map((stat) => (
+                {heroStats.map((stat) => (
                   <div className="stat-card" key={stat.label}>
                     <div className="stat-number">{stat.number}</div>
                     <div className="stat-label">{stat.label}</div>
@@ -46,7 +77,7 @@ export default function HomePage() {
               <div className="floating-element" />
               <div className="floating-element" />
               <Image
-                src={SITE_DEFAULTS.heroImage}
+                src={heroImage}
                 alt="Facebook Reklam Hesabı Satın Al - Sosyal Medya Hesapları"
                 width={600}
                 height={400}
@@ -65,7 +96,7 @@ export default function HomePage() {
             <p>İhtiyacınıza uygun kategoriyi seçin ve hesapları keşfedin</p>
           </div>
           <div className="categories-grid">
-            {SEED_CATEGORIES.map((category) => (
+            {categories.map((category) => (
               <Link
                 key={category.id}
                 href={`/${category.seoSlug}`}
@@ -136,20 +167,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Sıkça Sorulan Sorular</h2>
-            <p>Aklınıza takılan soruların cevaplarını burada bulabilirsiniz</p>
+      {faqs.length === 0 ? null : (
+        <section className="section">
+          <div className="container">
+            <div className="section-title">
+              <h2>Sıkça Sorulan Sorular</h2>
+              <p>Aklınıza takılan soruların cevaplarını burada bulabilirsiniz</p>
+            </div>
+            <FaqAccordion faqs={faqs} />
+            <div className="faq-more">
+              <Link href="/sikca-sorulan-sorular" className="btn btn-outline">
+                <i className="fas fa-question-circle" /> Tüm SSS&apos;leri Gör
+              </Link>
+            </div>
           </div>
-          <FaqAccordion faqs={SEED_FAQS.slice(0, 6)} />
-          <div className="faq-more">
-            <Link href="/sikca-sorulan-sorular" className="btn btn-outline">
-              <i className="fas fa-question-circle" /> Tüm SSS&apos;leri Gör
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 }
