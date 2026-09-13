@@ -37,32 +37,40 @@ async function main(): Promise<void> {
 
   const passwordHash = await hashPassword(password);
 
-  const user = await prisma.user.upsert({
-    where: { email },
-    update: {
-      username,
-      passwordHash,
-      firstName,
-      lastName,
-      isAdmin: true,
-      isActive: true,
-      emailVerified: true,
-      loginAttempts: 0,
-    },
-    create: {
-      username,
-      email,
-      passwordHash,
-      firstName,
-      lastName,
-      isAdmin: true,
-      isActive: true,
-      emailVerified: true,
-    },
-    select: { id: true, username: true, email: true },
+  // Both username and email are unique, so an existing row may match either one.
+  const existing = await prisma.user.findFirst({
+    where: { OR: [{ email }, { username }] },
+    select: { id: true },
   });
 
-  console.log(`admin hazır → id: ${user.id}, kullanıcı: ${user.username}`);
+  const data = {
+    username,
+    email,
+    passwordHash,
+    firstName,
+    lastName,
+    isAdmin: true,
+    isActive: true,
+    emailVerified: true,
+    loginAttempts: 0,
+  };
+
+  const user =
+    existing === null
+      ? await prisma.user.create({
+          data,
+          select: { id: true, username: true, email: true },
+        })
+      : await prisma.user.update({
+          where: { id: existing.id },
+          data,
+          select: { id: true, username: true, email: true },
+        });
+
+  const action = existing === null ? "oluşturuldu" : "güncellendi";
+  console.log(
+    `admin ${action} → id: ${user.id}, kullanıcı: ${user.username}, e-posta: ${user.email}`,
+  );
 }
 
 main()
