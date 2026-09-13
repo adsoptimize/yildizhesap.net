@@ -1,26 +1,92 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Minimal resets — visual system lives in /public/css/style.css (legacy parity) */
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@media (max-width: 992px) {
+  header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.98);
+    border-bottom: 1px solid var(--card-border);
+    padding: 16px 20px 24px;
+    z-index: 1001;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  header nav.open {
+    display: block !important;
+  }
+
+  header nav ul {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .order-track-icon-container {
+    margin-left: auto;
+  }
+
+  .order-track-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: var(--accent);
+    background: hsla(0, 0%, 100%, 0.05);
+  }
+
+  .faq-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.order-track-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.order-track-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--accent);
+  background: hsla(0, 0%, 100%, 0.05);
+  text-decoration: none;
+}
+
+.payment-methodssa {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.payment-methodsa {
+  width: 48px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: hsla(0, 0%, 100%, 0.05);
+  color: var(--light);
+  font-size: 1.4rem;
+}
+
+.faq-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
