@@ -315,7 +315,11 @@ function ProductPage({ product }: { product: ProductDetail }) {
                     <h2>
                       <i className="fas fa-info-circle" /> Açıklama
                     </h2>
-                    <p>{product.description}</p>
+                    {product.description
+                      .split(/\n{2,}/)
+                      .map((paragraph, index) => (
+                        <p key={`${product.id}-p${index}`}>{paragraph}</p>
+                      ))}
                   </div>
                 )}
 
