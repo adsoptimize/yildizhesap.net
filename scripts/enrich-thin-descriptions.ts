@@ -1,17 +1,27 @@
 /**
- * Enriches thin (<200 char) product descriptions with SEO-friendly copy.
+ * Enriches product descriptions with SEO-friendly, deterministic copy.
  *
- * Only touches active products whose description is shorter than
- * `MIN_DESCRIPTION_LENGTH`. Longer descriptions (scraped from businesshesap)
- * are preserved. Each product gets a bespoke description derived from its
- * title / platform / accountType / location metadata so Google does not see
- * duplicate content. Uses deterministic variation (based on product id) to
- * keep neighboring products textually distinct.
+ * Two modes:
+ *   (default)          — rewrite active products whose description is shorter
+ *                        than `MIN_DESCRIPTION_LENGTH` (legacy placeholders).
+ *   --rewrite-scraped  — ALSO rewrite products with `id >= 1000` regardless
+ *                        of current length. These were seeded from
+ *                        businesshesap.com and are duplicate content on
+ *                        Google (the source site is still live). Rewriting
+ *                        them with our own unique long-form copy removes the
+ *                        duplicate-content penalty.
+ *
+ * Each product gets a bespoke description derived from its
+ * title / platform / accountType / seoSlug metadata so Google does not see
+ * duplicate content. Deterministic variation (based on product id) keeps
+ * neighboring products textually distinct.
  *
  * Run:
  *   set -a && . ./.env.local && set +a
- *   npx tsx scripts/enrich-thin-descriptions.ts --dry-run   # preview
- *   npx tsx scripts/enrich-thin-descriptions.ts             # apply changes
+ *   npx tsx scripts/enrich-thin-descriptions.ts --dry-run                     # preview thin
+ *   npx tsx scripts/enrich-thin-descriptions.ts --rewrite-scraped --dry-run   # preview scraped
+ *   npx tsx scripts/enrich-thin-descriptions.ts                               # apply thin
+ *   npx tsx scripts/enrich-thin-descriptions.ts --rewrite-scraped             # apply scraped + thin
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -20,6 +30,13 @@ const prisma = new PrismaClient();
 
 const MIN_DESCRIPTION_LENGTH = 200;
 const DRY_RUN = process.argv.includes("--dry-run");
+const REWRITE_SCRAPED = process.argv.includes("--rewrite-scraped");
+/**
+ * businesshesap.com products were seeded with `sourceId + BUSINESSHESAP_ID_OFFSET`
+ * where the offset is 1000 (see `prisma/legacy-products.ts`). Any account
+ * whose id is >= this threshold is a scraped-catalog duplicate.
+ */
+const SCRAPED_ID_THRESHOLD = 1000;
 const PREVIEW_COUNT = 5;
 
 type ProductRow = {
@@ -407,18 +424,34 @@ async function main(): Promise<void> {
   const thin = rows.filter(
     (r) => (r.description ?? "").length < MIN_DESCRIPTION_LENGTH,
   );
+  const scraped = rows.filter((r) => r.id >= SCRAPED_ID_THRESHOLD);
+  // Union without duplicates while preserving order.
+  const targetIds = new Set<number>(thin.map((r) => r.id));
+  const targets: ProductRow[] = [...thin];
+  if (REWRITE_SCRAPED) {
+    for (const row of scraped) {
+      if (!targetIds.has(row.id)) {
+        targets.push(row);
+        targetIds.add(row.id);
+      }
+    }
+  }
 
   console.log(`Total active: ${rows.length}`);
   console.log(`Thin (<${MIN_DESCRIPTION_LENGTH} char): ${thin.length}`);
-  console.log(`Mode: ${DRY_RUN ? "DRY RUN (no writes)" : "LIVE APPLY"}\n`);
+  console.log(`Scraped (id >= ${SCRAPED_ID_THRESHOLD}): ${scraped.length}`);
+  console.log(`Will process: ${targets.length}`);
+  console.log(
+    `Mode: ${DRY_RUN ? "DRY RUN (no writes)" : "LIVE APPLY"}${REWRITE_SCRAPED ? " + REWRITE SCRAPED" : ""}\n`,
+  );
 
-  if (thin.length === 0) {
+  if (targets.length === 0) {
     console.log("Nothing to enrich. Exiting.");
     return;
   }
 
   if (DRY_RUN) {
-    for (const product of thin.slice(0, PREVIEW_COUNT)) {
+    for (const product of targets.slice(0, PREVIEW_COUNT)) {
       const description = buildDescription(product);
       console.log(`\n══════════════════════════════════════════════════════`);
       console.log(`ID ${product.id}: ${product.title}`);
@@ -429,13 +462,13 @@ async function main(): Promise<void> {
       console.log(description);
     }
     console.log(
-      `\n${thin.length - PREVIEW_COUNT} more products would be enriched. Re-run without --dry-run to apply.`,
+      `\n${targets.length - PREVIEW_COUNT} more products would be enriched. Re-run without --dry-run to apply.`,
     );
     return;
   }
 
   let updated = 0;
-  for (const product of thin) {
+  for (const product of targets) {
     const description = buildDescription(product);
     await prisma.account.update({
       where: { id: product.id },
