@@ -6,8 +6,10 @@ import { formatDateTime } from "@/lib/admin/format";
 import { prisma } from "@/lib/prisma";
 import { AccountForm } from "../AccountForm";
 import {
+  addBulkStockAction,
   addFeatureAction,
   addStockAction,
+  cleanEmptyStockAction,
   deleteAccountAction,
   deleteFeatureAction,
   deleteStockAction,
@@ -214,6 +216,53 @@ export default async function EditAccountPage({
               </table>
             </div>
           )}
+
+          <form
+            action={addBulkStockAction}
+            style={{ marginTop: "1.25rem" }}
+          >
+            <input type="hidden" name="accountId" value={account.id} />
+            <div className="form-field">
+              <label htmlFor="bulkData">
+                Toplu Stok Ekle (her satır bir hesap)
+              </label>
+              <textarea
+                id="bulkData"
+                name="bulkData"
+                rows={6}
+                placeholder={
+                  "kullanici1:sifre1\nkullanici2:sifre2:mail@ornek.com\nkullanici3:sifre3:mail@ornek.com:mailpass:2FASECRET"
+                }
+                style={{
+                  width: "100%",
+                  padding: "0.6rem",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: 8,
+                  fontFamily: "monospace",
+                }}
+              />
+              <p style={{ fontSize: "0.75rem", color: "#64748b", marginTop: "0.3rem" }}>
+                Ayırıcı: <code>:</code> · <code>|</code> · <code>;</code> · TAB. Sıra:
+                kullanıcı, şifre, e-posta, e-posta şifresi, 2FA. Aynı kullanıcı/şifre
+                daha önce eklendiyse atlanır.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+              <button type="submit" className="admin-btn">
+                <i className="fas fa-upload" /> Toplu Ekle
+              </button>
+            </div>
+          </form>
+
+          <form
+            action={cleanEmptyStockAction}
+            style={{ marginTop: "0.75rem" }}
+          >
+            <input type="hidden" name="accountId" value={account.id} />
+            <button type="submit" className="admin-btn secondary small">
+              <i className="fas fa-broom" /> Boş Stok Satırlarını Temizle
+            </button>
+          </form>
 
           <form
             action={addStockAction}

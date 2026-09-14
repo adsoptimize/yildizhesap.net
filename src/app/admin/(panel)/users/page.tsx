@@ -5,6 +5,8 @@ import { requireAdmin } from "@/lib/auth/admin";
 import { formatCurrency, formatDateTime, formatNumber } from "@/lib/admin/format";
 import { prisma } from "@/lib/prisma";
 import { toggleUserStatusAction, updateUserBalanceAction } from "./actions";
+import { UserCreateForm } from "./UserCreateForm";
+import { UserRowActions } from "./UserRowActions";
 
 const PAGE_SIZE = 25;
 
@@ -81,6 +83,15 @@ export default async function AdminUsersPage({
         subtitle={`${formatNumber(total)} kayıt · ${formatNumber(activeCount)} aktif`}
         userName={`${admin.firstName} ${admin.lastName}`}
       />
+
+      <div className="content-card">
+        <div className="card-header">
+          <h2 className="card-title">Yeni Kullanıcı Ekle</h2>
+        </div>
+        <div className="card-body">
+          <UserCreateForm />
+        </div>
+      </div>
 
       <div className="content-card">
         <div className="card-header">
@@ -190,32 +201,45 @@ export default async function AdminUsersPage({
                       )}
                     </td>
                     <td>
-                      {user.isAdmin ? (
-                        <span className="admin-badge">korumalı</span>
-                      ) : (
-                        <form action={toggleUserStatusAction}>
-                          <input type="hidden" name="id" value={user.id} />
-                          <input
-                            name="reason"
-                            type="text"
-                            placeholder="sebep"
-                            style={{
-                              width: 110,
-                              padding: "0.3rem 0.5rem",
-                              border: "1px solid #e2e8f0",
-                              borderRadius: 8,
-                              marginBottom: "0.3rem",
-                            }}
-                            aria-label="Durum değişikliği sebebi"
-                          />
-                          <button
-                            type="submit"
-                            className={`admin-btn small${user.isActive ? " danger" : ""}`}
-                          >
-                            {user.isActive ? "Pasifleştir" : "Aktifleştir"}
-                          </button>
-                        </form>
-                      )}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.4rem",
+                        }}
+                      >
+                        {user.isAdmin && user.id !== admin.id ? null : (
+                          <form action={toggleUserStatusAction}>
+                            <input type="hidden" name="id" value={user.id} />
+                            <input
+                              name="reason"
+                              type="text"
+                              placeholder="sebep"
+                              style={{
+                                width: 110,
+                                padding: "0.3rem 0.5rem",
+                                border: "1px solid #e2e8f0",
+                                borderRadius: 8,
+                                marginBottom: "0.3rem",
+                              }}
+                              aria-label="Durum değişikliği sebebi"
+                            />
+                            <button
+                              type="submit"
+                              className={`admin-btn small${user.isActive ? " danger" : ""}`}
+                              disabled={user.id === admin.id}
+                            >
+                              {user.isActive ? "Pasifleştir" : "Aktifleştir"}
+                            </button>
+                          </form>
+                        )}
+                        <UserRowActions
+                          userId={user.id}
+                          username={user.username}
+                          isTargetAdmin={user.isAdmin}
+                          isSelf={user.id === admin.id}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -14,6 +14,7 @@ import {
   deleteOrderAccountAction,
   updateOrderStatusAction,
 } from "../actions";
+import { OrderDeleteButton } from "../OrderDeleteButton";
 
 const ORDER_STATUSES = [
   { value: "pending", label: "Bekliyor" },
@@ -206,6 +207,41 @@ export default async function AdminOrderDetailPage({
               </table>
             </div>
           )}
+
+          {(() => {
+            const isDeletable =
+              order.status !== "completed" &&
+              order.deliveryStatus !== "delivered" &&
+              order.deliveryStatus !== "partial" &&
+              order.deliveredAccounts.length === 0;
+            return isDeletable ? (
+              <div
+                style={{
+                  marginTop: "1.25rem",
+                  padding: "0.75rem 1rem",
+                  border: "1px solid #fee2e2",
+                  borderRadius: 8,
+                  background: "#fef2f2",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div>
+                  <strong>Bu sipariş henüz teslim edilmedi.</strong>
+                  <div style={{ fontSize: "0.8rem", color: "#64748b" }}>
+                    Test / hatalı / iptal siparişleri kalıcı silebilirsiniz.
+                  </div>
+                </div>
+                <OrderDeleteButton
+                  orderId={order.id}
+                  orderCode={order.orderCode}
+                />
+              </div>
+            ) : null;
+          })()}
 
           <form
             action={addOrderAccountAction}

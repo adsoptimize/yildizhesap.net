@@ -260,6 +260,110 @@ export async function addStockAction(formData: FormData): Promise<void> {
   revalidatePath(`${ADMIN_ACCOUNTS_PATH}/${accountId}`);
 }
 
+/**
+ * Bulk import stock rows from a textarea. Each non-empty line represents one
+ * credential set. Supported line formats:
+ *   username:password
+ *   username:password:email
+ *   username:password:email:emailPassword
+ *   username:password:email:emailPassword:totpSecret
+ * Delimiters accepted: `:`, `|`, `;`, `\t`.
+ * Duplicate credentials (same username + password) already in this account's
+ * stock table are silently skipped to prevent double-insertion.
+ */
+export async function addBulkStockAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const accountId = Number(formData.get("accountId"));
+  if (Number.isNaN(accountId)) return;
+
+  const raw = String(formData.get("bulkData") ?? "");
+  if (raw.trim() === "") return;
+
+  const lines = raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+  // Fetch existing username+password pairs once to avoid N queries.
+  const existing = await prisma.accountStock.findMany({
+    where: { accountId },
+    select: { username: true, password: true },
+  });
+  const existingKeys = new Set(
+    existing.map((row) => `${row.username}::${row.password}`),
+  );
+
+  const rowsToInsert: Array<{
+    accountId: number;
+    username: string;
+    password: string;
+    email: string | null;
+    emailPassword: string | null;
+    totpSecret: string | null;
+  }> = [];
+
+  for (const line of lines) {
+    // Accept any of `:`, `|`, `;`, tab.
+    const parts = line.split(/[:|;\t]/).map((part) => part.trim());
+    const [username, password, email, emailPassword, totpSecret] = parts;
+
+    if (
+      username === undefined ||
+      password === undefined ||
+      username === "" ||
+      password === ""
+    ) {
+      continue;
+    }
+
+    const key = `${username}::${password}`;
+    if (existingKeys.has(key)) continue;
+    existingKeys.add(key);
+
+    rowsToInsert.push({
+      accountId,
+      username,
+      password,
+      email: email === undefined || email === "" ? null : email,
+      emailPassword:
+        emailPassword === undefined || emailPassword === "" ? null : emailPassword,
+      totpSecret:
+        totpSecret === undefined || totpSecret === "" ? null : totpSecret,
+    });
+  }
+
+  if (rowsToInsert.length === 0) {
+    return;
+  }
+
+  await prisma.accountStock.createMany({ data: rowsToInsert });
+  await syncStockQuantity(accountId);
+  revalidatePath(`${ADMIN_ACCOUNTS_PATH}/${accountId}`);
+}
+
+/**
+ * Removes stock rows that are marked sold=false but have empty username or
+ * password (data hygiene action mirroring legacy `clean_empty_stock`).
+ */
+export async function cleanEmptyStockAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+
+  const accountId = Number(formData.get("accountId"));
+  if (Number.isNaN(accountId)) return;
+
+  await prisma.accountStock.deleteMany({
+    where: {
+      accountId,
+      isSold: false,
+      OR: [{ username: "" }, { password: "" }],
+    },
+  });
+
+  await syncStockQuantity(accountId);
+  revalidatePath(`${ADMIN_ACCOUNTS_PATH}/${accountId}`);
+}
+
 export async function deleteStockAction(formData: FormData): Promise<void> {
   await requireAdmin();
 
