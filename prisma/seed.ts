@@ -134,9 +134,13 @@ async function seedLegalPages(dump: string): Promise<number> {
       isActive: toBoolean(row.is_active, true),
     };
 
+    // Create only. The dump ships unfilled templates ("[Firma Adı]",
+    // "[destek@siteadresi.com]"), and the live pages have since been rewritten
+    // with real company details by scripts/update-legal-pages.ts. Updating
+    // here would silently restore the placeholders on the next seed run.
     await prisma.legalPage.upsert({
       where: { pageType: row.page_type },
-      update: data,
+      update: {},
       create: { pageType: row.page_type, ...data },
     });
   }
