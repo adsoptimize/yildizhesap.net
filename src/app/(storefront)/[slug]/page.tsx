@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartForm } from "@/components/AddToCartForm";
+import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { ProductGrid } from "@/components/ProductGrid";
+import { PurchaseSteps } from "@/components/PurchaseSteps";
+import { RelatedProducts } from "@/components/RelatedProducts";
 import {
   getActiveFaqs,
   getActiveProducts,
@@ -14,6 +17,7 @@ import {
   getPrerenderableSlugs,
   getProductBySeoSlug,
   getProductsByCategoryId,
+  getRelatedProducts,
   getStorefrontCategories,
   type CategoryCard,
   type ProductCard,
@@ -33,12 +37,16 @@ import {
   ALL_ACCOUNTS_AI_META,
   aiMeta,
   categoryAiMeta,
+  legalAiMeta,
   productAiMeta,
+  STATIC_PAGE_AI_META,
 } from "@/lib/seo/ai-tags";
+import { pageOpenGraph, productFactMeta } from "@/lib/seo/open-graph";
 import {
   categoryStructuredData,
   contactStructuredData,
   faqStructuredData,
+  howToPurchaseStructuredData,
   legalPageStructuredData,
   productStructuredData,
   serializeJsonLd,
@@ -101,6 +109,11 @@ export async function generateMetadata({
       title: { absolute: ALL_ACCOUNTS_META.title },
       description: ALL_ACCOUNTS_META.description,
       alternates: { canonical: `/${slug}` },
+      ...pageOpenGraph({
+        title: ALL_ACCOUNTS_META.title,
+        description: ALL_ACCOUNTS_META.description,
+        slug,
+      }),
       other: aiMeta(ALL_ACCOUNTS_AI_META),
     };
   }
@@ -115,6 +128,11 @@ export async function generateMetadata({
       title: { absolute: meta.title },
       description: meta.description,
       alternates: { canonical: `/${slug}` },
+      ...pageOpenGraph({
+        title: meta.title,
+        description: meta.description,
+        slug,
+      }),
       other: aiMeta(categoryAiMeta({ categoryName: category.name })),
     };
   }
@@ -133,18 +151,37 @@ export async function generateMetadata({
       description,
       keywords: keywords === undefined ? undefined : keywords,
       alternates: { canonical: `/${slug}` },
-      other: aiMeta(
-        productAiMeta({ title, categoryName: product.categoryName }),
-      ),
+      ...pageOpenGraph({
+        title,
+        description,
+        slug,
+        // Product image is the generic mockup until per-product art exists;
+        // `article` picks that asset instead of the site logo.
+        type: "article",
+      }),
+      other: {
+        ...aiMeta(productAiMeta({ title, categoryName: product.categoryName })),
+        ...productFactMeta({
+          priceTry: Number(product.price),
+          stockQuantity: product.stockQuantity,
+        }),
+      },
     };
   }
 
   const staticMeta = STATIC_PAGE_META[slug];
   if (staticMeta !== undefined) {
+    const staticAi = STATIC_PAGE_AI_META[slug];
     return {
       title: { absolute: staticMeta.title },
       description: staticMeta.description,
       alternates: { canonical: `/${slug}` },
+      ...pageOpenGraph({
+        title: staticMeta.title,
+        description: staticMeta.description,
+        slug,
+      }),
+      ...(staticAi === undefined ? {} : { other: aiMeta(staticAi) }),
     };
   }
 
@@ -152,10 +189,19 @@ export async function generateMetadata({
   if (legalPageType !== undefined) {
     const page = await getLegalPage(legalPageType);
     if (page !== null) {
+      const description =
+        page.metaDescription ?? "Yasal bilgilendirme sayfası";
       return {
         title: { absolute: page.title },
-        description: page.metaDescription ?? "Yasal bilgilendirme sayfası",
+        description,
         alternates: { canonical: `/${slug}` },
+        ...pageOpenGraph({
+          title: page.title,
+          description,
+          slug,
+          type: "article",
+        }),
+        other: aiMeta(legalAiMeta({ title: page.title })),
       };
     }
   }
@@ -194,6 +240,7 @@ function CatalogPage({
   categories,
   currentCategoryId,
   jsonLd,
+  breadcrumbs,
 }: {
   title: string;
   description: string;
@@ -201,6 +248,7 @@ function CatalogPage({
   categories: CategoryCard[];
   currentCategoryId?: number;
   jsonLd?: string;
+  breadcrumbs?: readonly Crumb[];
 }) {
   return (
     <main>
@@ -212,6 +260,9 @@ function CatalogPage({
       )}
       <section className="page-header compact">
         <div className="container">
+          {breadcrumbs === undefined ? null : (
+            <Breadcrumbs items={breadcrumbs} />
+          )}
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
@@ -234,12 +285,31 @@ function CatalogPage({
   );
 }
 
-function ProductPage({ product }: { product: ProductDetail }) {
+function ProductPage({
+  product,
+  related,
+}: {
+  product: ProductDetail;
+  related: readonly ProductCard[];
+}) {
   const title = PRODUCT_META_TITLES[product.id] ?? product.title;
   const description =
     PRODUCT_META_DESCRIPTIONS[product.id] ??
     product.description ??
     `${product.title} - güvenli ve hızlı teslimat.`;
+
+  const breadcrumbs: Crumb[] = [
+    { label: "Tüm Hesaplar", href: `/${ALL_ACCOUNTS_SLUG}` },
+    ...(product.categorySeoSlug === null
+      ? []
+      : [
+          {
+            label: product.categoryName,
+            href: `/${product.categorySeoSlug}`,
+          },
+        ]),
+    { label: title },
+  ];
 
   const jsonLd = serializeJsonLd(
     productStructuredData({
@@ -265,6 +335,7 @@ function ProductPage({ product }: { product: ProductDetail }) {
       />
       <section className="accounts-section">
         <div className="container">
+          <Breadcrumbs items={breadcrumbs} />
           <div className="account-details">
             <div className="account-detail-card">
               <div className="detail-header">
@@ -363,6 +434,12 @@ function ProductPage({ product }: { product: ProductDetail }) {
               </div>
             </div>
           </div>
+
+          <RelatedProducts
+            products={related}
+            categoryName={product.categoryName}
+            categorySlug={product.categorySeoSlug}
+          />
         </div>
       </section>
     </main>
@@ -374,11 +451,14 @@ function StaticContentPage({
   description,
   children,
   jsonLd,
+  breadcrumbLabel,
 }: {
   title: string;
   description: string;
   children: React.ReactNode;
   jsonLd?: string;
+  /** Short label for the trail; page titles are usually too long for it. */
+  breadcrumbLabel?: string;
 }) {
   return (
     <main>
@@ -390,6 +470,9 @@ function StaticContentPage({
       )}
       <section className="page-header compact">
         <div className="container">
+          {breadcrumbLabel === undefined ? null : (
+            <Breadcrumbs items={[{ label: breadcrumbLabel }]} />
+          )}
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
@@ -416,6 +499,7 @@ function ContactPage({ contact }: { contact: SettingsMap }) {
     <StaticContentPage
       title={getSetting(contact, "page_title", meta.title)}
       description={getSetting(contact, "page_description", meta.description)}
+      breadcrumbLabel="İletişim"
       jsonLd={jsonLd}
     >
       <div className="features-grid">
@@ -494,6 +578,7 @@ export default async function SeoSlugPage({ params }: PageProps) {
         description={ALL_ACCOUNTS_META.description}
         products={products}
         categories={categories}
+        breadcrumbs={[{ label: "Tüm Hesaplar" }]}
         jsonLd={serializeJsonLd(
           categoryStructuredData({
             slug: ALL_ACCOUNTS_SLUG,
@@ -526,6 +611,10 @@ export default async function SeoSlugPage({ params }: PageProps) {
         products={products}
         categories={categories}
         currentCategoryId={category.id}
+        breadcrumbs={[
+          { label: "Tüm Hesaplar", href: `/${ALL_ACCOUNTS_SLUG}` },
+          { label: category.name },
+        ]}
         jsonLd={serializeJsonLd(
           categoryStructuredData({
             slug,
@@ -540,7 +629,11 @@ export default async function SeoSlugPage({ params }: PageProps) {
 
   const product = await getProductBySeoSlug(slug);
   if (product !== null) {
-    return <ProductPage product={product} />;
+    const related = await getRelatedProducts({
+      categoryId: product.categoryId,
+      excludeId: product.id,
+    });
+    return <ProductPage product={product} related={related} />;
   }
 
   if (slug === "sikca-sorulan-sorular") {
@@ -549,9 +642,16 @@ export default async function SeoSlugPage({ params }: PageProps) {
       <StaticContentPage
         title={meta.title}
         description={meta.description}
-        jsonLd={serializeJsonLd(faqStructuredData(faqs))}
+        breadcrumbLabel="Sıkça Sorulan Sorular"
+        // Top-level array is valid JSON-LD; keeps FAQPage and HowTo as two
+        // independent graphs rather than nesting one inside the other.
+        jsonLd={serializeJsonLd([
+          faqStructuredData(faqs),
+          howToPurchaseStructuredData(),
+        ])}
       >
         <FaqAccordion faqs={faqs} />
+        <PurchaseSteps />
       </StaticContentPage>
     );
   }
@@ -563,6 +663,7 @@ export default async function SeoSlugPage({ params }: PageProps) {
       <StaticContentPage
         title={meta.title}
         description={meta.description}
+        breadcrumbLabel="Hizmetler"
         jsonLd={serializeJsonLd(servicesStructuredData(categories))}
       >
         <div className="services-grid">
@@ -604,6 +705,7 @@ export default async function SeoSlugPage({ params }: PageProps) {
         <StaticContentPage
           title={page.title}
           description={page.metaDescription ?? ""}
+          breadcrumbLabel={page.title}
           jsonLd={serializeJsonLd(
             legalPageStructuredData({
               slug,

@@ -67,6 +67,77 @@ export const ALL_ACCOUNTS_AI_META: AiMeta = {
     "premium hesap, doğrulanmış hesap, hızlı teslimat, 30 gün garanti, kategori",
 };
 
+/**
+ * Static informational pages. Keyed by SEO slug so `generateMetadata()` can
+ * look one up directly. Legal pages share a single preset because their
+ * intent is identical from an answer-engine perspective.
+ */
+export const STATIC_PAGE_AI_META: Readonly<Record<string, AiMeta>> = {
+  "sikca-sorulan-sorular": {
+    intent:
+      "hesap satın alma, teslimat süresi, garanti kapsamı, ödeme yöntemleri ve iade koşulları hakkındaki soruları yanıtlama",
+    audience:
+      "hesap satın almayı düşünen kullanıcılar, ilk kez alışveriş yapanlar, reklam verenler",
+    summary:
+      "YildizHesap üzerinden hesap satın alma süreci, anında dijital teslimat, 30 gün garanti, ödeme yöntemleri ve destek kanalları hakkında resmi soru-cevap listesi.",
+    category: "destek, sıkça sorulan sorular, satın alma rehberi",
+    contentTone: "bilgilendirici, net, güven veren",
+    topicTags:
+      "hesap satın alma, teslimat süresi, garanti, ödeme yöntemleri, iade, destek",
+    readerInterest:
+      "satın alma adımları, teslimat hızı, garanti şartları, ödeme güvenliği",
+  },
+  hizmetler: {
+    intent:
+      "YildizHesap'ın sunduğu hesap kategorilerini ve hizmet kapsamını tanıtma",
+    audience:
+      "dijital pazarlama ajansları, reklam verenler, e-ticaret girişimcileri",
+    summary:
+      "Facebook, Instagram, Business Manager, TikTok, Telegram ve mail hesapları dahil tüm hizmet kategorilerinin kapsamı ve kullanım alanları.",
+    category: "hizmet kataloğu, hesap kategorileri",
+    contentTone: "profesyonel, kurumsal",
+    topicTags:
+      "hesap kategorileri, business manager, reklam hesabı, sosyal medya hesabı, hizmetler",
+    readerInterest: "hangi hesap türleri sunuluyor, kullanım alanları",
+  },
+  iletisim: {
+    intent:
+      "YildizHesap destek ekibine WhatsApp, Telegram, e-posta veya iletişim formu üzerinden ulaşma yollarını gösterme",
+    audience: "mevcut müşteriler, satın alma öncesi soru soran kullanıcılar",
+    summary:
+      "YildizHesap 7/24 destek kanalları: WhatsApp, Telegram, e-posta ve web iletişim formu. Çalışma saatleri ve yanıt süreleri dahil.",
+    category: "iletişim, müşteri desteği",
+    contentTone: "yardımcı, erişilebilir",
+    topicTags: "iletişim, canlı destek, whatsapp, telegram, e-posta, 7/24",
+    readerInterest: "destek kanalları, yanıt süresi, çalışma saatleri",
+  },
+  "siparis-takip": {
+    intent:
+      "sipariş kodu ve e-posta ile misafir siparişinin durumunu ve teslim edilen hesap bilgilerini sorgulama",
+    audience: "satın alma yapmış müşteriler, misafir alıcılar",
+    summary:
+      "Üyelik olmadan yapılan siparişlerin durumu sipariş kodu ve e-posta adresi ile sorgulanabilir; teslim edilen hesap bilgileri bu sayfadan indirilir.",
+    category: "sipariş takibi, satış sonrası",
+    contentTone: "işlevsel, açık",
+    topicTags: "sipariş takip, misafir sipariş, sipariş kodu, teslimat durumu",
+    readerInterest: "siparişim nerede, hesap bilgilerime nasıl ulaşırım",
+  },
+};
+
+/** Utility: build an AI intent for a legal / policy page. */
+export function legalAiMeta(input: { title: string }): AiMeta {
+  const { title } = input;
+  return {
+    intent: `YildizHesap ${title.toLowerCase()} metnini yasal referans olarak sunma`,
+    audience: "müşteriler, denetleyiciler, yasal inceleme yapanlar",
+    summary: `${title} — YildizHesap'ın yürürlükteki resmi politika metni.`,
+    category: "yasal bilgilendirme, politika",
+    contentTone: "resmi, hukuki",
+    topicTags: `${title.toLowerCase()}, yasal metin, politika, kvkk, gizlilik`,
+    readerInterest: "hak ve yükümlülükler, veri işleme, iade koşulları",
+  };
+}
+
 /** Utility: build an AI intent for a product detail page. */
 export function productAiMeta(input: {
   title: string;

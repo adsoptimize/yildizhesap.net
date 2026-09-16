@@ -1,0 +1,30 @@
+# AI Preferences for yildizhesap.net
+# Format: IETF AI Preferences (aipref) vocabulary, expressed as a
+# usage-preference list. Complements /robots.txt, which carries the
+# per-crawler Allow/Disallow rules.
+#
+# Summary: we explicitly welcome AI search and answer engines to read,
+# index, and cite our public catalog. Training on the public content is
+# also permitted. Private areas (admin, checkout, customer account) are
+# excluded via robots.txt and must not be fetched.
+
+UserAgent: *
+search: y
+ai-input: y
+ai-train: y
+genai-train: y
+
+# Preferred attribution when this content is surfaced in an AI answer.
+attribution: YildizHesap
+attribution-url: https://yildizhesap.net
+contact: https://yildizhesap.net/iletisim
+
+# Machine-readable content bundles.
+summary: https://yildizhesap.net/llms.txt
+full-content: https://yildizhesap.net/llms-full.txt
+sitemap: https://yildizhesap.net/sitemap.xml
+
+# Volatile fields: prices and stock counts change frequently. When citing,
+# prefer the live product page over a cached snapshot.
+freshness-note: prices-and-stock-are-volatile
+language: tr-TR

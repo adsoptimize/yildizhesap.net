@@ -136,8 +136,85 @@ export function homepageStructuredData(): JsonValue {
   };
 }
 
+/**
+ * Step-by-step purchase instructions as `HowTo`.
+ *
+ * Google retired the HowTo rich result for search in 2023, so this buys no
+ * SERP decoration. It is here for answer engines: ChatGPT, Perplexity, and
+ * Google AI Mode read HowTo graphs when asked procedural questions like
+ * "how do I buy a verified Facebook account", and a structured answer is far
+ * more likely to be cited verbatim than prose scraped off the page.
+ */
+export function howToPurchaseStructuredData(): JsonValue {
+  const pageUrl = `${SITE_URL}/sikca-sorulan-sorular`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "@id": `${pageUrl}#howto-purchase`,
+    name: "YildizHesap'tan hesap nasıl satın alınır?",
+    description:
+      "YildizHesap üzerinden doğrulanmış sosyal medya hesabı satın almanın adımları: hesap seçimi, sepet, ödeme ve anında teslimat.",
+    inLanguage: "tr-TR",
+    totalTime: "PT5M",
+    estimatedCost: {
+      "@type": "MonetaryAmount",
+      currency: "TRY",
+      // Entry price point; the catalog spans a wide range above this.
+      minValue: 50,
+    },
+    supply: [
+      {
+        "@type": "HowToSupply",
+        name: "Geçerli bir e-posta adresi",
+      },
+      {
+        "@type": "HowToSupply",
+        name: "Kredi/banka kartı veya kripto cüzdan",
+      },
+    ],
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Hesap kategorisini seçin",
+        text: "Facebook, Instagram, Business Manager, TikTok, Telegram veya mail kategorilerinden ihtiyacınıza uygun olanı açın. Kategori sayfasında fiyat, stok ve sıralama filtrelerini kullanabilirsiniz.",
+        url: `${SITE_URL}/tum-hesaplar`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Ürünü sepete ekleyin",
+        text: "Hesap detay sayfasında adet seçip sepete ekleyin. Stok bilgisi gerçek zamanlıdır; stokta görünen adet anında teslim edilebilir demektir.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Ödeme bilgilerini girin",
+        text: "Üyelik zorunlu değildir; misafir olarak da satın alabilirsiniz. Sipariş bilgilerinizin gönderileceği e-posta adresini girmeniz yeterlidir.",
+        url: `${SITE_URL}/odeme`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        name: "Ödemeyi tamamlayın",
+        text: "Kredi/banka kartı (Shopier veya Iyzico) ya da kripto para (Cryptomus) ile ödeme yapın. Ödeme sayfaları sağlayıcının güvenli altyapısında açılır.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 5,
+        name: "Hesap bilgilerini anında alın",
+        text: "Ödeme onaylandığı anda hesap bilgileri siparişinize işlenir. Sipariş takip sayfasından sipariş kodu ve e-posta ile giriş yapıp bilgileri görüntüleyebilir veya metin dosyası olarak indirebilirsiniz.",
+        url: `${SITE_URL}/siparis-takip`,
+      },
+    ],
+  };
+}
+
 export type CategoryProductSummary = {
   title: string;
+  /** Needed so each ListItem can carry a crawlable product URL. */
+  seoSlug: string | null;
 };
 
 const CATEGORY_DESCRIPTIONS: Readonly<Record<string, string>> = {
@@ -170,7 +247,11 @@ export function categoryStructuredData(input: {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebPage",
+        // `CollectionPage` rather than the generic `WebPage`: it tells crawlers
+        // and answer engines that this URL is a listing whose value is the set
+        // of products below, not a single document. Google uses it to keep
+        // category pages out of "duplicate of a product page" clustering.
+        "@type": "CollectionPage",
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
         name: input.name,
@@ -190,6 +271,11 @@ export function categoryStructuredData(input: {
           "@type": "ListItem",
           position: index + 1,
           name: product.title,
+          // Products without a slug aren't reachable, so the URL is omitted
+          // rather than pointing at a route that would 404.
+          ...(product.seoSlug === null
+            ? {}
+            : { url: absoluteUrl(`/${product.seoSlug}`) }),
         })),
       },
       buildBreadcrumb(pageUrl, input.name),
@@ -362,6 +448,8 @@ export function productStructuredData(input: ProductInput): JsonValue {
           returnMethod: "https://schema.org/ReturnByMail",
           returnFees: "https://schema.org/FreeReturn",
         },
+        // Delivery is digital and immediate, but Google still validates this
+        // block against the physical-shipping spec, so it has to conform.
         shippingDetails: {
           "@type": "OfferShippingDetails",
           shippingRate: {
@@ -371,22 +459,29 @@ export function productStructuredData(input: ProductInput): JsonValue {
           },
           shippingDestination: {
             "@type": "DefinedRegion",
-            geoMidpoint: { "@type": "GeoCoordinates", latitude: 39, longitude: 35 },
+            // `addressCountry` is the only property Google reads here.
+            // A `geoMidpoint` was previously sent too, which is not part of
+            // DefinedRegion and made the whole offer fail validation.
             addressCountry: "TR",
           },
           deliveryTime: {
             "@type": "ShippingDeliveryTime",
+            // Google requires `unitCode` to be DAY (or `d`) and the values to
+            // be non-negative whole numbers of *days*. Sending "MIN" here is
+            // what triggered the merchant listing errors in Search Console.
+            // Zero days on both legs is the accurate reading for instant
+            // credential delivery.
             handlingTime: {
               "@type": "QuantitativeValue",
               minValue: 0,
               maxValue: 0,
-              unitCode: "MIN",
+              unitCode: "DAY",
             },
             transitTime: {
               "@type": "QuantitativeValue",
               minValue: 0,
-              maxValue: 5,
-              unitCode: "MIN",
+              maxValue: 0,
+              unitCode: "DAY",
             },
           },
         },
@@ -399,17 +494,15 @@ export function productStructuredData(input: ProductInput): JsonValue {
     }),
   ];
 
-  if (input.rating !== null && input.rating > 0) {
-    (graph[0] as { aggregateRating?: JsonValue }).aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: input.rating.toFixed(1),
-      bestRating: "5",
-      worstRating: "1",
-      // Legacy accounts don't have a public review corpus yet; use a
-      // conservative default that will grow with real orders.
-      reviewCount: Math.max(1, input.stockQuantity),
-    };
-  }
+  // No `aggregateRating` is emitted on purpose.
+  //
+  // `account.rating` is a value an admin types in; there is no review table
+  // behind it and no public review corpus on the site. Publishing it as
+  // AggregateRating (previously paired with `reviewCount: stockQuantity`)
+  // is review markup for reviews that don't exist, which Google treats as
+  // spammy structured markup and penalises with a manual action covering the
+  // whole domain. Restore this block only once real, user-submitted reviews
+  // are stored and rendered on the page.
 
   return { "@context": "https://schema.org", "@graph": graph };
 }

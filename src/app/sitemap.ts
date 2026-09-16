@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getPrerenderableSlugs } from "@/lib/db/queries";
+import { getSitemapEntries } from "@/lib/db/queries";
 import { SITE_URL, STATIC_SEO_ROUTES } from "@/lib/seo/slugs";
 
 // Segment config must be a literal; keep in sync with the other storefront routes.
@@ -13,9 +13,15 @@ const DEFAULT_IMAGE = `${SITE_URL}/images/mockup.png`;
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Freshness signal that flips daily so Google/AI answer engines re-crawl
+  // the storefront homepage even if we don't push a code change. Dynamic rows
+  // carry their own `updatedAt` timestamps below.
+  const buildTime = new Date();
+
   const staticEntries: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/`,
+      lastModified: buildTime,
       changeFrequency: "daily",
       priority: 1,
       images: [OG_IMAGE],
@@ -23,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...STATIC_SEO_ROUTES.filter((route) => !AUTH_ROUTES.has(route)).map(
       (route) => ({
         url: `${SITE_URL}/${route}`,
+        lastModified: buildTime,
         changeFrequency: "weekly" as const,
         priority: 0.8,
         images: [DEFAULT_IMAGE],
@@ -32,11 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Only live rows are listed; missing products would otherwise report as 404s.
   const dynamicEntries: MetadataRoute.Sitemap = (
-    await getPrerenderableSlugs()
-  ).map((slug) => ({
-    url: `${SITE_URL}/${slug}`,
+    await getSitemapEntries()
+  ).map((entry) => ({
+    url: `${SITE_URL}/${entry.seoSlug}`,
+    lastModified: entry.updatedAt,
     changeFrequency: "daily" as const,
-    priority: 0.9,
+    priority: entry.kind === "product" ? 0.9 : 0.85,
     images: [DEFAULT_IMAGE],
   }));
 

@@ -1,0 +1,19 @@
+# ai.txt for yildizhesap.net
+# Spawning AI convention. See also /.well-known/ai-preferences and /robots.txt.
+#
+# We permit AI systems to read, index, cite, and train on the public
+# storefront content. Nothing on this site is licensed media requiring
+# opt-out handling.
+
+User-Agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /hesabim
+Disallow: /odeme
+Disallow: /sepet
+
+# Machine-readable bundles
+Sitemap: https://yildizhesap.net/sitemap.xml
+Summary: https://yildizhesap.net/llms.txt
+Full-Content: https://yildizhesap.net/llms-full.txt

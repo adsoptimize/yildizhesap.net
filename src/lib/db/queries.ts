@@ -247,6 +247,194 @@ export async function getPrerenderableSlugs(): Promise<string[]> {
     .filter((slug): slug is string => slug !== null);
 }
 
+export type SitemapEntry = {
+  seoSlug: string;
+  updatedAt: Date;
+  /** "category" or "product" so sitemap can pick appropriate priority. */
+  kind: "category" | "product";
+};
+
+/**
+ * Sitemap-oriented projection of live categories and products with their last
+ * mutation timestamp so search engines and AI answer engines can pick up
+ * content freshness. Rows are already filtered to what is live and has a slug.
+ *
+ * `Category` has no `updatedAt` column, and adding one would need a migration.
+ * A category page's visible content is its product list, so the newest product
+ * `updatedAt` in that category is the honest freshness signal — falling back to
+ * the category's own `createdAt` when it holds no live products.
+ */
+export async function getSitemapEntries(): Promise<SitemapEntry[]> {
+  const [categories, products] = await Promise.all([
+    prisma.category.findMany({
+      where: { isActive: true, seoSlug: { not: null } },
+      select: {
+        seoSlug: true,
+        createdAt: true,
+        accounts: {
+          where: { status: "active" },
+          select: { updatedAt: true },
+          orderBy: { updatedAt: "desc" },
+          take: 1,
+        },
+      },
+    }),
+    prisma.account.findMany({
+      where: { status: "active", seoSlug: { not: null } },
+      select: { seoSlug: true, updatedAt: true },
+    }),
+  ]);
+
+  const entries: SitemapEntry[] = [];
+
+  for (const row of categories) {
+    if (row.seoSlug !== null) {
+      const newestProduct = row.accounts[0];
+      entries.push({
+        seoSlug: row.seoSlug,
+        updatedAt: newestProduct?.updatedAt ?? row.createdAt,
+        kind: "category",
+      });
+    }
+  }
+
+  for (const row of products) {
+    if (row.seoSlug !== null) {
+      entries.push({
+        seoSlug: row.seoSlug,
+        updatedAt: row.updatedAt,
+        kind: "product",
+      });
+    }
+  }
+
+  return entries;
+}
+
+/**
+ * Same-category siblings for the "related products" block on a product detail
+ * page. Falls back to other categories when the current one is too thin, so
+ * the block never renders empty and every product keeps outbound internal
+ * links for crawlers.
+ */
+export async function getRelatedProducts(input: {
+  categoryId: number;
+  excludeId: number;
+  limit?: number;
+}): Promise<ProductCard[]> {
+  const { categoryId, excludeId, limit = 4 } = input;
+
+  const sameCategory = await prisma.account.findMany({
+    where: {
+      status: "active",
+      categoryId,
+      id: { not: excludeId },
+      seoSlug: { not: null },
+    },
+    select: PRODUCT_LIST_SELECT,
+    orderBy: [{ salesCount: "desc" }, { isFeatured: "desc" }, { id: "asc" }],
+    take: limit,
+  });
+
+  if (sameCategory.length >= limit) {
+    return sameCategory.map(toProductCard);
+  }
+
+  const excludedIds = [excludeId, ...sameCategory.map((row) => row.id)];
+  const filler = await prisma.account.findMany({
+    where: {
+      status: "active",
+      id: { notIn: excludedIds },
+      seoSlug: { not: null },
+    },
+    select: PRODUCT_LIST_SELECT,
+    orderBy: [{ isFeatured: "desc" }, { salesCount: "desc" }, { id: "asc" }],
+    take: limit - sameCategory.length,
+  });
+
+  return [...sameCategory, ...filler].map(toProductCard);
+}
+
+export type LlmsCatalogCategory = {
+  name: string;
+  seoSlug: string;
+  description: string | null;
+  products: {
+    title: string;
+    seoSlug: string;
+    price: string;
+    stockQuantity: number;
+    accountType: string;
+    warrantyDays: number;
+    /** Plain-text excerpt; full copy lives on the product page. */
+    excerpt: string;
+  }[];
+};
+
+/**
+ * Flattened catalog used to render `/llms-full.txt`. AI answer engines prefer
+ * one document with the complete offering over crawling every product page,
+ * so this returns categories with their live products, prices, and stock.
+ */
+export async function getLlmsCatalog(): Promise<LlmsCatalogCategory[]> {
+  const rows = await prisma.category.findMany({
+    where: { isActive: true },
+    select: {
+      name: true,
+      seoSlug: true,
+      slug: true,
+      description: true,
+      accounts: {
+        where: { status: "active", seoSlug: { not: null } },
+        select: {
+          title: true,
+          seoSlug: true,
+          price: true,
+          stockQuantity: true,
+          accountType: true,
+          warrantyDays: true,
+          description: true,
+        },
+        orderBy: [{ isFeatured: "desc" }, { id: "asc" }],
+      },
+    },
+    orderBy: { id: "asc" },
+  });
+
+  const EXCERPT_LENGTH = 260;
+
+  return rows
+    .filter((row) => row.accounts.length > 0)
+    .map((row) => ({
+      name: row.name,
+      seoSlug: row.seoSlug ?? row.slug,
+      description: row.description,
+      products: row.accounts.flatMap((account) => {
+        if (account.seoSlug === null) return [];
+
+        const plain = (account.description ?? "")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        return [
+          {
+            title: account.title,
+            seoSlug: account.seoSlug,
+            price: account.price.toString(),
+            stockQuantity: account.stockQuantity,
+            accountType: account.accountType,
+            warrantyDays: account.warrantyDays,
+            excerpt:
+              plain.length > EXCERPT_LENGTH
+                ? `${plain.slice(0, EXCERPT_LENGTH).trimEnd()}…`
+                : plain,
+          },
+        ];
+      }),
+    }));
+}
+
 export type FaqItem = {
   id: number;
   question: string;

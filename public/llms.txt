@@ -5,6 +5,16 @@ Bu llms.txt dosyası, Büyük Dil Modelleri (LLM’ler), AI destekli arama motor
 
 ---
 
+## Makine Okunabilir Kaynaklar
+- Tam içerik dökümü (tüm ürünler, fiyatlar, stok, SSS): https://yildizhesap.net/llms-full.txt
+- AI kullanım tercihleri: https://yildizhesap.net/.well-known/ai-preferences
+- Crawler kuralları: https://yildizhesap.net/robots.txt
+
+Not: Fiyat ve stok bilgileri değişkendir. Kesin veri için `llms-full.txt`
+(saatlik güncellenir) veya ilgili ürün sayfası esas alınmalıdır.  
+
+---
+
 ## Site Kimliği
 - Site Adı: YildizHesap
 - Alan Adı: https://yildizhesap.net

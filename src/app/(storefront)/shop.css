@@ -1887,3 +1887,237 @@ select option {
 }
 
 /* Cookie banner intentionally stays dark for legibility over any bg */
+
+/* ==========================================================================
+   Breadcrumbs (visible trail; JSON-LD ships separately)
+   ========================================================================== */
+
+.breadcrumbs {
+  margin: 0 0 14px;
+  font-size: 0.82rem;
+}
+
+.breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs li::before {
+  content: none;
+}
+
+.breadcrumbs a {
+  color: #64748B !important;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s ease;
+}
+
+.breadcrumbs a:hover {
+  color: #EE5A24 !important;
+  text-decoration: underline;
+}
+
+.breadcrumbs li > span {
+  color: #0F172A !important;
+  font-weight: 600;
+}
+
+.breadcrumbs__sep {
+  font-size: 0.6rem;
+  color: #CBD5E1 !important;
+}
+
+/* Inside the gradient page header the trail needs more contrast */
+.page-header .breadcrumbs {
+  justify-content: center;
+}
+
+.page-header .breadcrumbs ol {
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .breadcrumbs {
+    font-size: 0.75rem;
+  }
+
+  /* Drop the "Ana Sayfa" label on phones, keep the icon */
+  .breadcrumbs li:first-child span {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Related products block (product detail)
+   ========================================================================== */
+
+.related-products {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.related-products__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.related-products__head h2 {
+  font-size: 1.15rem !important;
+  font-weight: 700;
+  color: #0F172A !important;
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.related-products__head h2 i {
+  color: #EE5A24 !important;
+  font-size: 0.95rem;
+}
+
+.related-products__all {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #EE5A24 !important;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.related-products__all:hover {
+  text-decoration: underline;
+}
+
+.related-products__all i {
+  font-size: 0.7rem;
+}
+
+.related-products__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.related-products__grid .account-item {
+  margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .related-products__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Purchase steps (visible HowTo counterpart)
+   ========================================================================== */
+
+.purchase-steps {
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.purchase-steps__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  counter-reset: none;
+}
+
+.purchase-steps__list > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  padding: 16px 18px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.purchase-steps__list > li::before {
+  content: none;
+}
+
+.purchase-steps__list > li:hover {
+  border-color: #FBBF9A;
+  box-shadow: 0 4px 14px rgba(238, 90, 36, 0.08);
+}
+
+.purchase-steps__num {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #EE5A24, #F97316);
+  color: #FFFFFF !important;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.purchase-steps__body h3 {
+  margin: 0 0 5px !important;
+  font-size: 1rem !important;
+  font-weight: 700;
+  color: #0F172A !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.purchase-steps__body h3 i {
+  color: #EE5A24 !important;
+  font-size: 0.85rem;
+}
+
+.purchase-steps__body p {
+  margin: 0 !important;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #475569 !important;
+}
+
+@media (max-width: 480px) {
+  .purchase-steps__list > li {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .purchase-steps__num {
+    flex-basis: 28px;
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+}

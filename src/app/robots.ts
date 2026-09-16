@@ -5,6 +5,7 @@ import { SITE_URL } from "@/lib/seo/slugs";
  * Private routes never leak to any crawler.
  */
 const DISALLOW = [
+  "/admin",
   "/admin/",
   "/dashboard/",
   "/cart",
@@ -46,11 +47,24 @@ const AI_BOTS = [
   "Applebot-Extended",
   "Bytespider",
   "Meta-ExternalAgent",
+  "Meta-ExternalFetcher",
+  "FacebookBot",
+  "Amazonbot",
+  "CopilotBot",
+  "MistralAI-User",
+  "Diffbot",
+  "omgili",
   "DuckAssistBot",
 ] as const;
 
 /** Traditional search engines. */
-const SEARCH_BOTS = ["Googlebot", "Bingbot", "DuckDuckBot", "Yandex"] as const;
+const SEARCH_BOTS = [
+  "Googlebot",
+  "Googlebot-Image",
+  "Bingbot",
+  "DuckDuckBot",
+  "Yandex",
+] as const;
 
 export default function robots(): MetadataRoute.Robots {
   return {

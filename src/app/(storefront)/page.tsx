@@ -20,7 +20,12 @@ import { getHeroStats, getSetting } from "@/lib/settings";
 // Segment config must be a literal; keep in sync with the other storefront routes.
 export const revalidate = 300;
 
-const HOME_FAQ_COUNT = 6;
+/**
+ * Homepage FAQ count. Raised from 6 to 10 so the FAQPage graph on `/` covers
+ * the full high-intent question set answer engines tend to quote, without
+ * making the accordion long enough to bury the glossary below it.
+ */
+const HOME_FAQ_COUNT = 10;
 
 export const metadata: Metadata = {
   title: { absolute: HOME_META.title },
@@ -227,6 +232,31 @@ function EntityGlossary() {
       term: "Tanıtım Onaylı Instagram Hesabı Nedir?",
       definition:
         "Meta tarafından reklam ve tanıtım kısıtlamaları kaldırılmış, sponsorlu içerik yayınlayabilen Instagram hesabıdır. Kampanya yürütmek isteyen markalar ve içerik üreticileri için kullanıma hazır bir yapı sunar.",
+    },
+    {
+      term: "TikTok Hesabı Satın Almak Ne İşe Yarar?",
+      definition:
+        "TikTok hesapları, TikTok Ads Manager üzerinden reklam yayınlamak, marka içeriği üretmek veya mevcut kitleye erişmek için kullanılır. Doğrulanmış ve geçmişi olan TikTok hesapları, yeni açılan hesaplara göre daha az kısıt alır ve reklam onay süreçleri daha hızlı ilerler. Ülke, takipçi sayısı ve hesap yaşı seçenekleri satın alma sırasında belirtilir.",
+    },
+    {
+      term: "Onaylı X (Twitter) Hesabı Nedir?",
+      definition:
+        "X (eski adıyla Twitter) onaylı hesabı, e-posta ve telefon doğrulaması tamamlanmış, gönderi geçmişi bulunan ve platform kısıtlaması olmayan hesaptır. Bu hesaplar reklam yayınlama, API erişimi ve topluluk yönetimi gibi işlemlerde yeni hesaplara kıyasla belirgin biçimde daha stabildir. Mavi tik (X Premium) aboneliği ise hesapla birlikte gelmeyen, ayrıca satın alınan bir hizmettir.",
+    },
+    {
+      term: "Discord Hesabı Ne Amaçla Kullanılır?",
+      definition:
+        "Discord hesapları, topluluk yönetimi, sunucu kurulumu, bot entegrasyonu ve oyuncu/kripto topluluklarında pazarlama faaliyetleri için kullanılır. E-posta ve telefon doğrulaması yapılmış Discord hesapları, sunuculara katılırken doğrulama duvarlarına takılmaz ve spam filtrelerinden daha kolay geçer.",
+    },
+    {
+      term: "Onaylı Gmail, Outlook ve Hotmail Hesapları Ne İçin Gerekir?",
+      definition:
+        "Mail hesapları, sosyal medya hesaplarının kurtarma adresi olarak tanımlanması, reklam panellerinde ayrı kimlik oluşturulması ve iş yazışmaları için kullanılır. Onaylı Gmail, Outlook ve Hotmail hesapları telefon doğrulaması tamamlanmış olarak teslim edilir; böylece Facebook veya Instagram hesabına kurtarma maili olarak eklendiğinde ek doğrulama istenmez.",
+    },
+    {
+      term: "Hesap Yaşı (Aged Account) Neden Önemlidir?",
+      definition:
+        "Hesap yaşı, hesabın açılış tarihinden bugüne geçen süredir. Facebook, Instagram ve TikTok gibi platformlar eski hesapları daha güvenilir sayar; bu hesaplar reklam verirken daha yüksek limit alır, daha az doğrulama ister ve kısıtlama riski daha düşüktür. 2010-2015 arası açılmış hesaplar bu nedenle yeni hesaplardan daha yüksek fiyatlanır.",
     },
     {
       term: "YildizHesap.net Nedir?",
