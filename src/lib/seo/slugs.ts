@@ -75,7 +75,10 @@ export const PRODUCT_SEO_SLUGS: Readonly<Record<number, string>> = {
   1018: "onayli-gmail-hesaplari",
   1019: "onayli-x-hesaplari-satin-al",
   1020: "outlook-hesaplari",
-  1021: "tiktok-hesaplari",
+  // Not "tiktok-hesaplari": that slug belongs to category 21, and the route
+  // resolves categories before products, so this product page was
+  // unreachable and the sitemap listed the URL twice.
+  1021: "eski-tarihli-tiktok-hesaplari",
   1022: "satilik-telegram-hesaplari",
   1023: "dogrulanmis-business-manager-hesaplari-bh",
   1024: "5li-business-manager-satin-al-bh",

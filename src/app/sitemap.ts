@@ -48,5 +48,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [DEFAULT_IMAGE],
   }));
 
-  return [...staticEntries, ...dynamicEntries];
+  // A category and a product can end up sharing a `seoSlug`, in which case
+  // the dynamic rows above would emit the same <loc> twice. Only one of the
+  // two is actually reachable (the route resolves categories first), and a
+  // sitemap that repeats a URL is a quality signal working against us. Keep
+  // the first entry for a URL: static routes outrank dynamic ones, and
+  // categories are listed before products.
+  const seen = new Set<string>();
+
+  return [...staticEntries, ...dynamicEntries].filter((entry) => {
+    if (seen.has(entry.url)) {
+      return false;
+    }
+    seen.add(entry.url);
+    return true;
+  });
 }

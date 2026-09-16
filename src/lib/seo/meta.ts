@@ -81,12 +81,15 @@ export const CATEGORY_META: Readonly<Record<number, PageMeta>> = {
 
 /** accountId → meta title (hardcoded in legacy view.php) */
 export const PRODUCT_META_TITLES: Readonly<Record<number, string>> = {
-  12: "Kimlik Doğrulanmış Süper Eski Facebook Hesabı Satın Al",
-  13: "Kimlik Doğrulanmış Eski Facebook Hesabı Satın Al",
-  14: "Kimlik Doğrulanmış Süper Eski Facebook Hesabı Satın Al",
-  15: "Kimlik Doğrulanmış Eski Facebook Hesabı Satın Al",
-  16: "Kimlik Doğrulanmış Eski Facebook Hesabı Satın Al",
-  17: "Vietnam Kimliği Doğrulanmış Eski Facebook Hesabı Satın Al",
+  // 12-16 were five pages sharing two titles, so Google clustered them and
+  // indexed only one per group. The distinguishing year/country already lives
+  // in each slug; these titles now surface it.
+  12: "Kimlik Doğrulanmış Süper Eski Facebook Hesabı Satın Al | 2015",
+  13: "Kimlik Doğrulanmış Eski Facebook Hesabı Satın Al | 2010",
+  14: "Kimlik Doğrulanmış Süper Eski Facebook Hesabı Satın Al | 2010-2020",
+  15: "Kimlik Doğrulanmış Eski Facebook Hesabı Satın Al | 2010-2023",
+  16: "Vietnam Kimliği Doğrulanmış Eski Facebook Hesabı Satın Al | 2024",
+  17: "Vietnam Kimliği Doğrulanmış Eski Facebook Hesabı Satın Al | 2023-2024",
   18: "Yeniden Açılan Eski Facebook Hesabı Satın Al | Vietnam 2024",
   19: "Vietnamese Reinstated Aged Facebook Account (2010-2023)",
   20: "Reinstated Aged Facebook Account (2010-2023)",
