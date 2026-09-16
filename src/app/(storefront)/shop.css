@@ -2121,3 +2121,49 @@ select option {
     font-size: 0.85rem;
   }
 }
+
+/* ==========================================================================
+   Category intro copy (below the product grid)
+   ========================================================================== */
+
+.category-copy {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 30px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+}
+
+.category-copy h2 {
+  margin: 0 0 16px;
+  font-size: 1.35rem;
+  line-height: 1.35;
+  color: #0F172A !important;
+  /* Legacy style.css paints h2 with a background-clip gradient; this page
+     needs flat text so the copy stays readable on white. */
+  background: none !important;
+  -webkit-text-fill-color: #0F172A;
+}
+
+.category-copy p {
+  margin: 0 0 14px;
+  color: #334155;
+  font-size: 0.97rem;
+  line-height: 1.75;
+}
+
+.category-copy p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .category-copy {
+    padding: 20px 18px;
+    border-radius: 12px;
+  }
+
+  .category-copy h2 {
+    font-size: 1.15rem;
+  }
+}

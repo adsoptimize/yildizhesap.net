@@ -41,6 +41,7 @@ import {
   productAiMeta,
   STATIC_PAGE_AI_META,
 } from "@/lib/seo/ai-tags";
+import { CATEGORY_COPY, STATIC_PAGE_COPY } from "@/lib/seo/page-copy";
 import { pageOpenGraph, productFactMeta } from "@/lib/seo/open-graph";
 import {
   categoryStructuredData,
@@ -250,6 +251,12 @@ function CatalogPage({
   jsonLd?: string;
   breadcrumbs?: readonly Crumb[];
 }) {
+  // Only real categories have copy; /tum-hesaplar has no id and renders without it.
+  const copy =
+    currentCategoryId === undefined
+      ? undefined
+      : CATEGORY_COPY[currentCategoryId];
+
   return (
     <main>
       {jsonLd === undefined ? null : (
@@ -276,6 +283,18 @@ function CatalogPage({
           />
         </div>
       </section>
+      {copy === undefined ? null : (
+        <section className="accounts-section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="category-copy">
+              <h2>{copy.heading}</h2>
+              {copy.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
       <section className="accounts-section" style={{ paddingTop: 0 }}>
         <div className="container">
           <CategoryStrip categories={categories} />
@@ -490,6 +509,7 @@ function ContactPage({ contact }: { contact: SettingsMap }) {
   const email = getSetting(contact, "email_address", "");
   const telegram = getSetting(contact, "telegram_username", "");
   const officeHours = getSetting(contact, "office_hours_content", "");
+  const contactCopy = STATIC_PAGE_COPY.iletisim;
 
   const jsonLd = serializeJsonLd(
     contactStructuredData({ email, phone: whatsapp }),
@@ -560,6 +580,14 @@ function ContactPage({ contact }: { contact: SettingsMap }) {
         </div>
         <ContactForm />
       </div>
+      {contactCopy === undefined ? null : (
+        <div className="category-copy" style={{ marginTop: 28 }}>
+          <h2>{contactCopy.heading}</h2>
+          {contactCopy.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      )}
     </StaticContentPage>
   );
 }
