@@ -34,6 +34,19 @@ const PAYMENT_GROUPS: readonly { title: string; fields: readonly PaymentField[] 
     ],
   },
   {
+    title: "Iyzico (kredi kartı / 3DS)",
+    fields: [
+      { key: "iyzico_enabled", label: "Iyzico aktif", kind: "boolean" },
+      {
+        key: "iyzico_test_mode",
+        label: "Sandbox modu (test)",
+        kind: "boolean",
+      },
+      { key: "iyzico_api_key", label: "API key", kind: "secret" },
+      { key: "iyzico_secret_key", label: "Secret key", kind: "secret" },
+    ],
+  },
+  {
     title: "Telegram bildirimleri",
     fields: [
       { key: "telegram_enabled", label: "Bildirimler aktif", kind: "boolean" },
@@ -46,6 +59,7 @@ const PAYMENT_GROUPS: readonly { title: string; fields: readonly PaymentField[] 
 const WEBHOOK_PATHS = [
   { label: "Cryptomus callback", path: "/api/webhooks/cryptomus" },
   { label: "Shopier callback", path: "/api/webhooks/shopier" },
+  { label: "Iyzico callback", path: "/api/webhooks/iyzico" },
 ] as const;
 
 const RECENT_PAYMENT_LIMIT = 10;

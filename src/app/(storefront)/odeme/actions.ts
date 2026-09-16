@@ -22,8 +22,10 @@ import { consumeRateLimit, GUEST_CHECKOUT_RULE } from "@/lib/shop/rate-limit";
 import { getAbsoluteUrl } from "@/lib/shop/site-url";
 import type { CheckoutState } from "@/lib/shop/form-state";
 import { createCryptomusInvoice } from "@/lib/payments/cryptomus";
+import { initializeCheckoutForm } from "@/lib/payments/iyzico";
 import {
   getCryptomusCredentials,
+  getIyzicoCredentials,
   getShopierCredentials,
 } from "@/lib/payments/settings";
 
@@ -112,10 +114,12 @@ export async function startCheckoutAction(
     return { error: buyerResult.error };
   }
 
-  const credentials =
-    method === "cryptomus"
-      ? await getCryptomusCredentials()
-      : await getShopierCredentials();
+  // Credential lookup is method-specific to keep the union type narrow.
+  const credentials = await (async () => {
+    if (method === "cryptomus") return getCryptomusCredentials();
+    if (method === "shopier") return getShopierCredentials();
+    return getIyzicoCredentials();
+  })();
 
   if (credentials === null) {
     return {
@@ -128,13 +132,77 @@ export async function startCheckoutAction(
     cart,
     buyer: buyerResult.buyer,
     paymentMethod: method,
-    currency: method === "cryptomus" ? CRYPTO_INVOICE_CURRENCY : SHOPIER_CURRENCY,
+    // Iyzico and Shopier both charge in TRY; only Cryptomus keeps a separate
+    // settlement currency (USDT).
+    currency:
+      method === "cryptomus" ? CRYPTO_INVOICE_CURRENCY : SHOPIER_CURRENCY,
   });
 
   if (method === "shopier") {
     await clearCart();
     revalidatePath(CART_PATH);
     redirect(`${SHOPIER_FORM_PATH}/${order.orderCode}`);
+  }
+
+  if (method === "iyzico") {
+    if (!("secretKey" in credentials)) {
+      return { error: "Iyzico ödeme ayarları eksik." };
+    }
+
+    const callbackUrl = await getAbsoluteUrl("/api/webhooks/iyzico");
+    const ip = await getClientIp();
+
+    // Iyzico requires firstName/lastName separately. Fall back to sensible
+    // defaults when the customer entered a single-word name.
+    const nameParts = buyerResult.buyer.fullName
+      .split(" ")
+      .filter((part) => part !== "");
+    const firstName =
+      nameParts.length > 1
+        ? nameParts.slice(0, -1).join(" ")
+        : nameParts[0] ?? "Musteri";
+    const lastName =
+      nameParts.length > 1 ? (nameParts[nameParts.length - 1] ?? "") : "Kullanici";
+
+    const initResult = await initializeCheckoutForm(credentials, {
+      orderCode: order.orderCode,
+      amount: order.totalPrice,
+      buyer: {
+        id: String(buyerResult.buyer.userId ?? `guest-${order.orderCode}`),
+        firstName,
+        lastName,
+        email: buyerResult.buyer.email,
+        phone: buyerResult.buyer.phone,
+        ip,
+      },
+      basketItems: cart.items.map((item) => ({
+        id: String(item.accountId),
+        name: item.title,
+        category: item.categoryName,
+        price: item.lineTotal,
+      })),
+      callbackUrl,
+    });
+
+    if (initResult.status !== "success") {
+      console.error("Iyzico ödeme başlatılamadı", initResult);
+      return {
+        error:
+          initResult.errorMessage ??
+          "Iyzico ödeme sayfası oluşturulamadı. Lütfen tekrar deneyin.",
+      };
+    }
+
+    // Iyzico posts `token` back on the callback URL, so we don't need to
+    // persist it separately. Storing the hosted-page URL keeps parity with
+    // the Cryptomus flow for audit/retry surfaces in the admin panel.
+    await attachPaymentProviderData(order.orderCode, {
+      paymentUrl: initResult.paymentPageUrl,
+    });
+
+    await clearCart();
+    revalidatePath(CART_PATH);
+    redirect(initResult.paymentPageUrl);
   }
 
   if (!("merchantUuid" in credentials)) {

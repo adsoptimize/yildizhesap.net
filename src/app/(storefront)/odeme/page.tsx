@@ -35,6 +35,10 @@ export default async function CheckoutPage() {
     availableMethods.push("shopier");
   }
 
+  if (availability.iyzico) {
+    availableMethods.push("iyzico");
+  }
+
   return (
     <main>
       <section className="page-header compact">

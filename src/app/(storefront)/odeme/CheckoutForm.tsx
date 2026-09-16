@@ -15,11 +15,19 @@ type CheckoutFormProps = {
 const METHOD_LABELS: Readonly<Record<PaymentMethod, string>> = {
   cryptomus: "Kripto para (USDT, BTC, ETH ve diğerleri)",
   shopier: "Kredi / banka kartı (Shopier)",
+  iyzico: "Kredi / banka kartı (Iyzico)",
 };
 
 const METHOD_ICONS: Readonly<Record<PaymentMethod, string>> = {
   cryptomus: "fab fa-bitcoin",
   shopier: "fas fa-credit-card",
+  iyzico: "fas fa-credit-card",
+};
+
+const METHOD_HINTS: Readonly<Record<PaymentMethod, string>> = {
+  cryptomus: "Cryptomus ödeme sayfasına yönlendirileceksiniz.",
+  shopier: "Shopier güvenli ödeme sayfasına yönlendirileceksiniz.",
+  iyzico: "Iyzico güvenli ödeme sayfasına yönlendirileceksiniz.",
 };
 
 export function CheckoutForm({
@@ -94,10 +102,7 @@ export function CheckoutForm({
         </select>
         {method === "" ? null : (
           <span className="shop-hint">
-            <i className={METHOD_ICONS[method]} />{" "}
-            {method === "cryptomus"
-              ? "Cryptomus ödeme sayfasına yönlendirileceksiniz."
-              : "Shopier güvenli ödeme sayfasına yönlendirileceksiniz."}
+            <i className={METHOD_ICONS[method]} /> {METHOD_HINTS[method]}
           </span>
         )}
       </div>

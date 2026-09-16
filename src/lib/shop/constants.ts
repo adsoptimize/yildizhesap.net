@@ -15,10 +15,11 @@ export const CHECKOUT_PATH = "/odeme";
 export const PAYMENT_SUCCESS_PATH = "/odeme/basarili";
 export const PAYMENT_CANCEL_PATH = "/odeme/iptal";
 export const SHOPIER_FORM_PATH = "/odeme/shopier";
+export const IYZICO_FORM_PATH = "/odeme/iyzico";
 export const ACCOUNT_PATH = "/hesabim";
 export const ORDER_TRACK_PATH = "/siparis-takip";
 
-export const PAYMENT_METHODS = ["cryptomus", "shopier"] as const;
+export const PAYMENT_METHODS = ["cryptomus", "shopier", "iyzico"] as const;
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export function isPaymentMethod(value: string): value is PaymentMethod {
