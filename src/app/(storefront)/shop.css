@@ -1536,4 +1536,354 @@ hr {
   border-color: #E5E7EB !important;
 }
 
+/* ================================================================
+   .shop-* SECOND PASS — fills the gaps left by the first light-theme
+   override block. Every element that a storefront page (guest-purchase,
+   sepet, odeme, hesabim, siparis-takip, giris-yap, kayit-ol, 2fa) can
+   render must have a legible color on the white background.
+   ================================================================ */
+
+/* Panel title (used on every .shop-panel section header) */
+.shop-panel-title {
+  color: #0F172A !important;
+}
+
+.shop-panel-title i {
+  color: #EE5A24 !important;
+}
+
+/* Info alert — dark theme used purple tint + white text; recolor for light */
+.shop-alert.info {
+  background: rgba(238, 90, 36, 0.08) !important;
+  border: 1px solid rgba(238, 90, 36, 0.25) !important;
+  color: #1E293B !important;
+}
+
+.shop-alert.info .shop-link,
+.shop-alert.info a {
+  color: #EE5A24 !important;
+  font-weight: 600;
+}
+
+/* Muted text used inside empty-states and hint rows */
+.shop-muted {
+  color: #64748B !important;
+}
+
+/* Empty-state block (used when a list has no rows) */
+.shop-empty {
+  color: #64748B !important;
+}
+
+.shop-empty i {
+  color: #EE5A24 !important;
+}
+
+.shop-empty h3 {
+  color: #0F172A !important;
+}
+
+.shop-empty p {
+  color: #475569 !important;
+}
+
+/* .shop-table (guest-purchase, cart, order details, tickets, session list) */
+.shop-table th {
+  color: #475569 !important;
+  border-bottom: 1px solid #E5E7EB !important;
+}
+
+.shop-table td {
+  color: #1E293B !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+.shop-table tbody tr:hover td {
+  background: #F8FAFC !important;
+}
+
+/* Summary rows (checkout totals) */
+.shop-summary-row {
+  color: #475569 !important;
+  border-bottom: 1px solid #E5E7EB !important;
+}
+
+.shop-summary-total {
+  color: #0F172A !important;
+  border-top: 1px solid #E5E7EB !important;
+}
+
+.shop-summary-total strong {
+  color: #EE5A24 !important;
+}
+
+/* Checkbox row (terms acceptance on checkout) */
+.shop-checkbox {
+  color: #334155 !important;
+}
+
+.shop-checkbox input[type="checkbox"] {
+  accent-color: #EE5A24;
+}
+
+/* Generic .shop-btn — outline style on the white theme */
+.shop-btn {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #1E293B !important;
+}
+
+.shop-btn:hover {
+  background: #F8FAFC !important;
+  border-color: #EE5A24 !important;
+  color: #EE5A24 !important;
+}
+
+/* Accent variant — the primary CTA button */
+.shop-btn.accent {
+  background: linear-gradient(135deg, #EE5A24 0%, #F97316 100%) !important;
+  border-color: transparent !important;
+  color: #FFFFFF !important;
+}
+
+.shop-btn.accent:hover {
+  background: linear-gradient(135deg, #C4441D 0%, #EE5A24 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 18px rgba(238, 90, 36, 0.35) !important;
+}
+
+/* Danger variant (e.g. remove-from-cart) */
+.shop-btn.danger {
+  background: #FFFFFF !important;
+  border: 1px solid #FCA5A5 !important;
+  color: #B91C1C !important;
+}
+
+.shop-btn.danger:hover {
+  background: #FEF2F2 !important;
+  color: #991B1B !important;
+}
+
+/* .shop-nav category chips */
+.shop-nav a {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  color: #475569 !important;
+}
+
+.shop-nav a:hover {
+  color: #EE5A24 !important;
+  border-color: #EE5A24 !important;
+}
+
+.shop-nav a.active {
+  background: rgba(238, 90, 36, 0.08) !important;
+  border-color: #EE5A24 !important;
+  color: #EE5A24 !important;
+}
+
+/* .shop-stat dashboard cards (/hesabim overview) */
+.shop-stat {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+.shop-stat span {
+  color: #64748B !important;
+}
+
+.shop-stat strong {
+  color: #0F172A !important;
+}
+
+/* .shop-totp block (/2fa generator) */
+.shop-totp {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+.shop-totp strong {
+  color: #EE5A24 !important;
+}
+
+/* Header cart chip (top-right) */
+.shop-header-cart {
+  background: rgba(238, 90, 36, 0.10) !important;
+  color: #EE5A24 !important;
+}
+
+.shop-header-cart:hover {
+  background: rgba(238, 90, 36, 0.16) !important;
+}
+
+/* Monospace tokens (order codes, credentials) */
+.shop-mono {
+  background: #F8FAFC !important;
+  border: 1px solid #E5E7EB !important;
+  color: #0F172A !important;
+}
+
+/* Small badge next to session rows / order statuses */
+.shop-badge {
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+}
+
+.shop-badge.success {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #047857 !important;
+}
+
+.shop-badge.warning {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #B45309 !important;
+}
+
+.shop-badge.danger {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #991B1B !important;
+}
+
+/* Table wrapper padding tweaks */
+.shop-table-wrap {
+  border: 1px solid #E5E7EB !important;
+  border-radius: 12px;
+  background: #FFFFFF;
+}
+
+/* Page hero (compact variant is used on almost every storefront page) */
+.page-header.compact {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  color: #0F172A !important;
+}
+
+.page-header.compact h1,
+.page-header h1 {
+  color: #0F172A !important;
+}
+
+.page-header p,
+.page-header.compact p {
+  color: #475569 !important;
+}
+
+/* ---------- Card list layout used by /hesabim ---------- */
+.shop-card-title {
+  color: #0F172A !important;
+}
+
+.shop-card-subtitle {
+  color: #64748B !important;
+}
+
+/* Ensure any generic H1..H4 inside a shop-panel is dark, not the legacy white */
+.shop-panel h1,
+.shop-panel h2,
+.shop-panel h3,
+.shop-panel h4 {
+  color: #0F172A !important;
+}
+
+/* Ensure p inside shop-panel is readable */
+.shop-panel p {
+  color: #334155 !important;
+}
+
+/* Fix leftover "hsla(0,0%,100%,0.x)" pill backgrounds used by legacy code */
+.shop-badge-pill,
+.shop-tag,
+.shop-chip {
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border: 1px solid #E5E7EB !important;
+}
+
+/* Order status badges (used on /siparis-takip, /hesabim, order details) */
+.shop-badge.pending {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #B45309 !important;
+}
+
+.shop-badge.processing {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: #1D4ED8 !important;
+}
+
+.shop-badge.completed {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #047857 !important;
+}
+
+.shop-badge.cancelled {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #991B1B !important;
+}
+
+/* Quantity stepper input (used in cart lines) */
+.shop-qty input {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+.shop-qty input:focus {
+  border-color: #EE5A24 !important;
+  box-shadow: 0 0 0 3px rgba(238, 90, 36, 0.15) !important;
+}
+
+/* Credential card wrapper (order detail + 2FA generator) */
+.shop-credentials {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  color: #1E293B !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Action rows (Sepete Git / Tüm Hesaplar / etc.) */
+.shop-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Narrow panel variant */
+.shop-panel-narrow {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Field label — legacy default was near-white; force it dark */
+.shop-field label {
+  color: #334155 !important;
+}
+
+/* Section headings that appear directly inside .shop-section */
+.shop-section h1,
+.shop-section h2,
+.shop-section h3 {
+  color: #0F172A !important;
+}
+
+/* Inline form wrapper (used for admin reply-to-ticket, add-note, etc.) */
+.shop-inline-form {
+  background: #F8FAFC !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 12px;
+  color: #1E293B !important;
+}
+
+/* .shop-field textarea placeholder + focus (already partly styled above) */
+.shop-field textarea {
+  min-height: 96px;
+}
+
+/* Selects should keep options readable in both light and dark contexts */
+select option {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
 /* Cookie banner intentionally stays dark for legibility over any bg */
