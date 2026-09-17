@@ -1068,17 +1068,10 @@ header .logo-image {
 
 /* Root palette override — all descendants that reference the vars
    automatically flip to light mode. */
-:root {
-  --dark: #1E293B;          /* now used as "text on light" */
-  --darker: #F8FAFC;        /* body/section background */
-  --light: #1E293B;         /* legacy uses this as text color → dark slate */
-  --gray: #64748B;          /* secondary text */
-  --light-gray: #E2E8F0;    /* subtle borders */
-  --card-bg: #FFFFFF;
-  --card-border: rgba(15, 23, 42, 0.08);
-  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-  --inner-shadow: none;
-}
+/* The light-theme token values are defined in /public/css/style.css instead.
+   That file loads after Next.js injects this one, so a :root block here loses
+   the cascade at equal specificity and never applied. Overriding a token
+   below would reintroduce that bug; change it at the source. */
 
 html, body {
   background: #FFFFFF !important;
