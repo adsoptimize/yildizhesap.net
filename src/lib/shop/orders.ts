@@ -11,6 +11,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { sendAdminTelegramMessage } from "@/lib/notify/telegram";
+import { sendOrderDeliveryEmail } from "@/lib/notify/order-email";
 import { formatCurrency } from "@/lib/admin/format";
 import { generateOrderCode } from "./codes";
 import type { Cart } from "./cart";
@@ -270,6 +271,17 @@ export async function confirmPayment(
       ].join("\n"),
     );
   }
+
+  // Guests have no panel to return to, so the credentials are also mailed out.
+  // A no-op when SMTP is unconfigured; never throws.
+  await sendOrderDeliveryEmail({
+    orderCode: payment.order.orderCode,
+    productName: payment.order.productName,
+    to: confirmation.email ?? payment.email,
+    customerName: confirmation.customerName ?? payment.customerName,
+    fullyDelivered,
+    isMember: payment.order.userId !== null,
+  });
 
   if (fullyDelivered) {
     return "delivered";

@@ -26,3 +26,14 @@
 - **Sections:** All 13 legacy sidebar entries rebuilt (dashboard, site settings, accounts, categories, users, orders, support, analytics, payment settings, advertisements, IP limits, legal pages, sessions).
 - **Secrets:** Payment keys are stored in `crypto_settings`, rendered masked, and left untouched when the field is submitted blank.
 - **Stock:** `account_stock` rows drive `accounts.stock_quantity`; the counter is recomputed after every stock write instead of being edited by hand.
+
+## 2026-09-17 — Credential delivery: per-account .txt files and SMTP e-mail
+
+- **File layout single-sourced:** `src/lib/shop/credentials-file.ts` builds every credential file. It stays free of server-only imports so the guest tracking page can build the file in the browser while the member route builds it on the server, and both produce identical output. Line format is the legacy `HESAPn | user:pass:email:emailpass:2fa:date`, with trailing empty fields trimmed.
+- **One file per account:** `/hesabim/siparis/[code]/indir?hesap=N` (1-based, matching the row numbers on screen) returns a single account; omitting the parameter returns the whole order as before, so existing links keep working.
+- **Guests build locally:** The tracking page has no session to authorise a download endpoint with and already holds the credentials in client state, so it generates the file via `Blob` instead of gaining an unauthenticated route.
+- **Support handle travels with the file:** Every credential file and delivery e-mail carries the Telegram handle from `contact_settings.telegram_username`, so a customer who hits a problem has a contact inside the artefact they downloaded. Read through `src/lib/shop/support-contact.ts`.
+- **Tracking page stays static:** The handle is returned by the `trackOrderAction` server action, which already queries the database, rather than read in the page — reading it in the page would have forced `/siparis-takip` to render dynamically.
+- **E-mail is additive, never blocking:** `src/lib/notify/email.ts` follows the `notify/telegram.ts` contract: settings in `crypto_settings`, a no-op when unconfigured, and it never throws so a failed message cannot roll back a paid and delivered order. Credentials are attached as one .txt per account.
+- **Hence the SMTP test:** Because send failures are deliberately silent, a misconfiguration would otherwise be invisible until a real purchase. The payment settings screen has a test-send form (`sendTestEmailAction`) as the way to verify the saved settings.
+- **Port implies TLS:** 465 turns on implicit TLS automatically, other ports use STARTTLS unless `smtp_secure` is set, so filling in only host/user/password yields a working configuration.

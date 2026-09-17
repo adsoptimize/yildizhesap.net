@@ -3,7 +3,7 @@ import { StatefulForm } from "@/components/admin/StatefulForm";
 import { requireAdmin } from "@/lib/auth/admin";
 import { formatCurrency, formatDateTime } from "@/lib/admin/format";
 import { prisma } from "@/lib/prisma";
-import { savePaymentSettingsAction } from "./actions";
+import { savePaymentSettingsAction, sendTestEmailAction } from "./actions";
 
 type PaymentField = {
   key: string;
@@ -52,6 +52,23 @@ const PAYMENT_GROUPS: readonly { title: string; fields: readonly PaymentField[] 
       { key: "telegram_enabled", label: "Bildirimler aktif", kind: "boolean" },
       { key: "telegram_bot_token", label: "Bot token", kind: "secret" },
       { key: "telegram_chat_id", label: "Chat ID", kind: "text" },
+    ],
+  },
+  {
+    title: "E-posta teslimatı (SMTP)",
+    fields: [
+      { key: "smtp_enabled", label: "E-posta gönderimi aktif", kind: "boolean" },
+      { key: "smtp_host", label: "SMTP sunucu", kind: "text" },
+      { key: "smtp_port", label: "Port (587 veya 465)", kind: "text" },
+      {
+        key: "smtp_secure",
+        label: "SSL/TLS zorla (465 için otomatik)",
+        kind: "boolean",
+      },
+      { key: "smtp_user", label: "SMTP kullanıcı (e-posta)", kind: "text" },
+      { key: "smtp_password", label: "SMTP şifre", kind: "secret" },
+      { key: "smtp_from_name", label: "Gönderen adı", kind: "text" },
+      { key: "smtp_from_email", label: "Gönderen adresi", kind: "text" },
     ],
   },
 ];
@@ -164,6 +181,37 @@ export default async function AdminPaymentSettingsPage() {
           </div>
         ))}
       </StatefulForm>
+
+      <div className="content-card">
+        <div className="card-header">
+          <h2 className="card-title">SMTP Testi</h2>
+        </div>
+        <div className="card-body">
+          <p className="page-subtitle">
+            Önce yukarıdaki SMTP ayarlarını kaydedin, sonra buradan kendinize
+            test e-postası gönderin. Sipariş e-postaları müşteriyi bekletmemek
+            için hata durumunda sessizce atlanır; ayarlarınızın çalıştığını
+            doğrulamanın yolu bu testtir.
+          </p>
+          <StatefulForm
+            action={sendTestEmailAction}
+            submitLabel="Test E-postası Gönder"
+          >
+            <div className="form-grid">
+              <div className="form-field">
+                <label htmlFor="test_email">Alıcı e-posta</label>
+                <input
+                  id="test_email"
+                  name="test_email"
+                  type="email"
+                  autoComplete="off"
+                  placeholder="ornek@adresiniz.com"
+                />
+              </div>
+            </div>
+          </StatefulForm>
+        </div>
+      </div>
 
       <div className="content-card">
         <div className="card-header">
