@@ -396,6 +396,33 @@
   padding: 18px;
 }
 
+/* Title on the left, "download all" on the right. */
+.shop-credentials-head {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* Copy + per-account download inside the last table column. */
+.shop-row-actions {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.shop-row-actions .shop-link {
+  font-size: 0.8rem;
+}
+
+/* Sits next to a heading, so it must not carry the full button height. */
+.shop-btn.small {
+  font-size: 0.82rem;
+  padding: 8px 14px;
+}
+
 .shop-totp {
   align-items: center;
   display: flex;
@@ -422,6 +449,16 @@
 
 .shop-link:hover {
   text-decoration: underline;
+}
+
+/* The guest download trigger has to be a button (it builds the file locally)
+   but should read as the same link as its member-page counterpart. */
+button.shop-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
 }
 
 .shop-header-cart {

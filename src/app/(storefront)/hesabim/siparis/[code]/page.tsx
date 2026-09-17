@@ -133,7 +133,10 @@ export default async function CustomerOrderDetailPage({ params }: PageProps) {
               href={`${ACCOUNT_PATH}/siparis/${order.orderCode}/indir`}
               className="shop-btn accent"
             >
-              <i className="fas fa-download" /> Hesap Bilgilerini İndir
+              <i className="fas fa-download" />{" "}
+              {order.deliveredAccounts.length === 1
+                ? "Hesap Bilgilerini İndir"
+                : `Tümünü İndir (${order.deliveredAccounts.length} hesap)`}
             </a>
           )}
         </div>
@@ -189,7 +192,16 @@ export default async function CustomerOrderDetailPage({ params }: PageProps) {
                       </td>
                       <td>{formatDate(row.accountCreatedDate)}</td>
                       <td>
-                        <CopyButton value={credentialLine(row)} />
+                        <div className="shop-row-actions">
+                          <CopyButton value={credentialLine(row)} />
+                          <a
+                            href={`${ACCOUNT_PATH}/siparis/${order.orderCode}/indir?hesap=${index + 1}`}
+                            className="shop-link"
+                            title={`${index + 1}. hesabı .txt olarak indir`}
+                          >
+                            <i className="fas fa-download" /> .txt
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -60,6 +60,12 @@ export type TrackedOrder = {
   paymentStatus: string | null;
   createdAt: string;
   credentials: TrackedCredential[];
+  /**
+   * Carried on the order so the tracking page can stay statically rendered:
+   * the action already queries the database, the page would have to become
+   * dynamic just to read this one setting.
+   */
+  telegramUsername: string | null;
 };
 
 export type TrackState = {

@@ -1,22 +1,29 @@
 /**
- * Credential export, same plain-text layout the legacy hesaplarim.php download
- * produced so customers keep receiving files in a familiar format.
+ * Credential export. Without `?hesap=` the whole order is returned in one file;
+ * with it, a single account is returned so a customer who bought several gets
+ * one file per account. The layout lives in lib/shop/credentials-file so the
+ * guest tracking page produces the same thing.
  */
 
 import { getCurrentCustomer } from "@/lib/auth/customer";
+import {
+  accountFileName,
+  buildAccountFile,
+  buildOrderFile,
+  orderFileName,
+} from "@/lib/shop/credentials-file";
+import { readSupportTelegramUsername } from "@/lib/shop/support-contact";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const SEPARATOR = "=====================================";
 
 type RouteContext = {
   params: Promise<{ code: string }>;
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: RouteContext,
 ): Promise<Response> {
   const customer = await getCurrentCustomer();
@@ -32,7 +39,6 @@ export async function GET(
     select: {
       orderCode: true,
       productName: true,
-      createdAt: true,
       deliveredAccounts: {
         orderBy: { id: "asc" },
         select: {
@@ -57,49 +63,45 @@ export async function GET(
     });
   }
 
-  const lines = [
-    "=== YILDIZ HESAP - HESAP BİLGİLERİ ===",
-    `Sipariş Kodu: ${order.orderCode}`,
-    `Müşteri: ${customer.firstName} ${customer.lastName}`,
-    `Ürün: ${order.productName}`,
-    `Sipariş Tarihi: ${order.createdAt.toLocaleString("tr-TR")}`,
-    `Hesap Sayısı: ${order.deliveredAccounts.length}`,
-    SEPARATOR,
-  ];
+  const fileContext = {
+    orderCode: order.orderCode,
+    productName: order.productName,
+    telegramUsername: await readSupportTelegramUsername(),
+  };
 
-  order.deliveredAccounts.forEach((row, index) => {
-    const parts = [
-      row.username,
-      row.password,
-      row.email ?? "",
-      row.emailPassword ?? "",
-      row.totpSecret ?? "",
-      row.accountCreatedDate === null
-        ? ""
-        : row.accountCreatedDate.toISOString().slice(0, 10),
-    ];
+  const requested = new URL(request.url).searchParams.get("hesap");
+  let body: string;
+  let fileName: string;
 
-    while (parts.length > 0 && parts[parts.length - 1] === "") {
-      parts.pop();
+  if (requested === null) {
+    body = buildOrderFile(order.deliveredAccounts, fileContext);
+    fileName = orderFileName(order.orderCode);
+  } else {
+    // 1-based in the URL so it matches the row numbers shown on the page.
+    const position = Number(requested);
+
+    if (
+      !Number.isInteger(position) ||
+      position < 1 ||
+      position > order.deliveredAccounts.length
+    ) {
+      return new Response("Geçersiz hesap numarası", { status: 400 });
     }
 
-    lines.push(`HESAP${index + 1} | ${parts.join(":")}`);
-  });
+    const index = position - 1;
+    body = buildAccountFile(
+      order.deliveredAccounts[index],
+      index,
+      order.deliveredAccounts.length,
+      fileContext,
+    );
+    fileName = accountFileName(order.orderCode, index);
+  }
 
-  lines.push(
-    "",
-    "=== ÖNEMLİ NOTLAR ===",
-    "1. Bu bilgileri güvenli bir yerde saklayın",
-    "2. Şifreleri kimseyle paylaşmayın",
-    "3. 2FA aktifse, 2FA kodunu da kullanın",
-    "4. Sorun yaşarsanız destek ekibiyle iletişime geçin",
-    "====================",
-  );
-
-  return new Response(lines.join("\n"), {
+  return new Response(body, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Content-Disposition": `attachment; filename="hesaplar_${order.orderCode}.txt"`,
+      "Content-Disposition": `attachment; filename="${fileName}"`,
       "Cache-Control": "no-store",
     },
   });

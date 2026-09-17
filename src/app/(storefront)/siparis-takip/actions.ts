@@ -3,6 +3,7 @@
 import { getClientIp } from "@/lib/auth/session";
 import { consumeRateLimit, ORDER_TRACK_RULE } from "@/lib/shop/rate-limit";
 import type { TrackState } from "@/lib/shop/form-state";
+import { readSupportTelegramUsername } from "@/lib/shop/support-contact";
 import { prisma } from "@/lib/prisma";
 
 /** Order code + e-mail, the same pair legacy guest_order_track.php required. */
@@ -60,6 +61,13 @@ export async function trackOrderAction(
     };
   }
 
+  // Only needed for the support footer of the credential files, so skip the
+  // query until there is actually something to download.
+  const telegramUsername =
+    order.deliveredAccounts.length === 0
+      ? null
+      : await readSupportTelegramUsername();
+
   return {
     error: null,
     order: {
@@ -72,6 +80,7 @@ export async function trackOrderAction(
       paymentStatus: order.payment?.status ?? null,
       createdAt: order.createdAt.toISOString(),
       credentials: order.deliveredAccounts,
+      telegramUsername,
     },
   };
 }

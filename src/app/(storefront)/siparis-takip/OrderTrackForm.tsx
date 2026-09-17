@@ -4,6 +4,13 @@ import { useActionState } from "react";
 import { CopyButton } from "@/components/CopyButton";
 import { trackOrderAction } from "./actions";
 import { INITIAL_TRACK_STATE } from "@/lib/shop/form-state";
+import type { TrackedOrder } from "@/lib/shop/form-state";
+import {
+  accountFileName,
+  buildAccountFile,
+  buildOrderFile,
+  orderFileName,
+} from "@/lib/shop/credentials-file";
 
 const TRY_FORMATTER = new Intl.NumberFormat("tr-TR", {
   style: "currency",
@@ -29,6 +36,31 @@ const DELIVERY_STATUS_LABELS: Readonly<Record<string, string>> = {
   delivered: "Teslim edildi",
   failed: "Başarısız",
 };
+
+/**
+ * Guests have no session to authorise the member download route with, and the
+ * credentials are already in client state, so the file is produced in the
+ * browser from the same builders the route uses.
+ */
+function downloadText(fileName: string, body: string): void {
+  const url = URL.createObjectURL(
+    new Blob([body], { type: "text/plain;charset=utf-8" }),
+  );
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function fileContextOf(order: TrackedOrder) {
+  return {
+    orderCode: order.orderCode,
+    productName: order.productName,
+    telegramUsername: order.telegramUsername,
+  };
+}
 
 export function OrderTrackForm() {
   const [state, formAction, pending] = useActionState(
@@ -121,7 +153,30 @@ export function OrderTrackForm() {
             </div>
           ) : (
             <div className="shop-credentials">
-              <strong>Hesap Bilgileriniz</strong>
+              <div className="shop-credentials-head">
+                <strong>Hesap Bilgileriniz</strong>
+                <button
+                  type="button"
+                  className="shop-btn accent small"
+                  onClick={() => {
+                    const order = state.order;
+
+                    if (order === null) {
+                      return;
+                    }
+
+                    downloadText(
+                      orderFileName(order.orderCode),
+                      buildOrderFile(order.credentials, fileContextOf(order)),
+                    );
+                  }}
+                >
+                  <i className="fas fa-download" />{" "}
+                  {state.order.credentials.length === 1
+                    ? "İndir (.txt)"
+                    : `Tümünü İndir (${state.order.credentials.length} hesap)`}
+                </button>
+              </div>
               <div className="shop-table-wrap" style={{ marginTop: 12 }}>
                 <table className="shop-table">
                   <thead>
@@ -158,17 +213,43 @@ export function OrderTrackForm() {
                           )}
                         </td>
                         <td>
-                          <CopyButton
-                            value={[
-                              row.username,
-                              row.password,
-                              row.email ?? "",
-                              row.emailPassword ?? "",
-                              row.totpSecret ?? "",
-                            ]
-                              .filter((part) => part !== "")
-                              .join(":")}
-                          />
+                          <div className="shop-row-actions">
+                            <CopyButton
+                              value={[
+                                row.username,
+                                row.password,
+                                row.email ?? "",
+                                row.emailPassword ?? "",
+                                row.totpSecret ?? "",
+                              ]
+                                .filter((part) => part !== "")
+                                .join(":")}
+                            />
+                            <button
+                              type="button"
+                              className="shop-link"
+                              title={`${index + 1}. hesabı .txt olarak indir`}
+                              onClick={() => {
+                                const order = state.order;
+
+                                if (order === null) {
+                                  return;
+                                }
+
+                                downloadText(
+                                  accountFileName(order.orderCode, index),
+                                  buildAccountFile(
+                                    row,
+                                    index,
+                                    order.credentials.length,
+                                    fileContextOf(order),
+                                  ),
+                                );
+                              }}
+                            >
+                              <i className="fas fa-download" /> .txt
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
