@@ -1274,6 +1274,15 @@ main section,
   color: #C2410C !important;
 }
 
+/* Legacy pairs #10b981 text with a 20% green tint, which was fine on the dark
+   theme but lands at 2.1:1 once the tint sits on white. Same darker green the
+   in-stock pill already uses. */
+.badge.verified {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(4, 120, 87, 0.3) !important;
+  color: #047857 !important;
+}
+
 .account-item .stock.in-stock {
   background: rgba(16, 185, 129, 0.12) !important;
   color: #047857 !important;
@@ -1345,8 +1354,9 @@ main section,
 
 .btn.btn-outline {
   background: transparent !important;
+  /* Border keeps the brand orange; the 14px label needs the darker tone. */
   border: 2px solid #EE5A24 !important;
-  color: #EE5A24 !important;
+  color: #C2410C !important;
 }
 
 .btn.btn-outline:hover {
@@ -1998,7 +2008,7 @@ select option {
 .related-products__all {
   font-size: 0.83rem;
   font-weight: 600;
-  color: #EE5A24 !important;
+  color: #C2410C !important;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
