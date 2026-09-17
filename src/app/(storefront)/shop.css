@@ -1111,7 +1111,7 @@ header nav ul li a:hover {
 }
 
 header nav ul li a.active {
-  color: #EE5A24 !important;
+  color: #C2410C !important;
   background: transparent !important;
   border-bottom-color: #EE5A24 !important;
   font-weight: 600 !important;
@@ -1266,9 +1266,12 @@ main section,
   color: #475569 !important;
 }
 
+/* --primary (#EE5A24) only reaches 3.43:1 on white, short of AA for the 14px
+   bold card price. The deeper orange matches .current-price on the detail
+   page, so the same product reads the same in the grid and on its own page. */
 .account-item .price,
 .stat-number {
-  color: #EE5A24 !important;
+  color: #C2410C !important;
 }
 
 .account-item .stock.in-stock {
@@ -1434,8 +1437,10 @@ textarea::placeholder {
   color: #64748B !important;
 }
 
+/* Inline links run 12.8-15.2px, where #EE5A24 (3.43:1 on white) is under AA.
+   Button fills keep the brand orange; only orange-on-white text is darkened. */
 .shop-link {
-  color: #EE5A24 !important;
+  color: #C2410C !important;
   font-weight: 600;
 }
 
@@ -1554,7 +1559,7 @@ hr {
 
 .shop-alert.info .shop-link,
 .shop-alert.info a {
-  color: #EE5A24 !important;
+  color: #C2410C !important;
   font-weight: 600;
 }
 
