@@ -40,6 +40,17 @@ export const CONTACT_FORM_RULE: RateLimitRule = {
   blockSeconds: 30 * SECONDS_PER_MINUTE,
 };
 
+/**
+ * Tighter than the other rules: each attempt sends mail and rewrites a reset
+ * token, so this is the one form an attacker could use to flood an inbox.
+ */
+export const PASSWORD_RESET_RULE: RateLimitRule = {
+  action: "password_reset",
+  maxAttempts: 5,
+  windowSeconds: SECONDS_PER_HOUR,
+  blockSeconds: SECONDS_PER_HOUR,
+};
+
 export type RateLimitResult = {
   allowed: boolean;
   message: string | null;

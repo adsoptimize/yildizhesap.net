@@ -40,3 +40,14 @@
 - **HTML body, plain text kept:** `notify/order-email-template.ts` renders a branded table-layout body with inline styles — mail clients see no stylesheet of ours, and Outlook drops most shorthand. The plain-text part is still always sent: clients that refuse HTML fall back to it and a multipart message without one scores worse with spam filters.
 - **Credentials stay out of the body:** They travel only as attachments, so a forwarded or screenshotted e-mail does not leak them. The body links to the order instead.
 - **Test send is the template:** The admin test renders the real delivery template with sample data and sample attachments (`sendTemplatePreviewEmail`), so one action both validates SMTP and previews what buyers receive.
+
+## 2026-09-17 — Self-service password reset
+
+- **Finishing an abandoned feature:** `users.reset_token` / `reset_token_expires` existed in the legacy schema but no PHP code ever touched them, so "forgot password" never worked on the old site either. Implemented on those same columns; no migration needed.
+- **Digest, not token, in the database:** Only the SHA-256 digest of the token is stored, so a database leak cannot be replayed into account takeovers. The digest is 64 hex characters — exactly the legacy column width, which is why the schema still fits.
+- **Same answer for unknown addresses:** The request form reports success whether or not the e-mail belongs to an account. Distinguishing them would turn the form into an oracle for which addresses are registered here.
+- **Reset invalidates sessions:** A successful reset flips every `active_sessions` row for that user to `invalidated_by = security`, so whoever knew the old password — including an intruder — is signed out. Login attempt counters are also cleared, since a locked-out owner resetting their password should regain access.
+- **Deactivated accounts get no token:** They cannot log in regardless, so a new password would not help; the form still reports success.
+- **Throttled harder than other guest forms:** 5 attempts per IP per hour, because each one sends mail and rewrites a token, making it the one form usable to flood an inbox.
+- **Both pages are noindex** and deliberately absent from `STATIC_SEO_ROUTES`, so they never enter the sitemap.
+- **Shared mail shell:** `notify/email-layout.ts` now holds the branded table shell and building blocks; the order and reset e-mails both render through it.

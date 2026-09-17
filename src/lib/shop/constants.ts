@@ -18,6 +18,12 @@ export const SHOPIER_FORM_PATH = "/odeme/shopier";
 export const IYZICO_FORM_PATH = "/odeme/iyzico";
 export const ACCOUNT_PATH = "/hesabim";
 export const ORDER_TRACK_PATH = "/siparis-takip";
+export const LOGIN_PATH = "/giris-yap";
+export const FORGOT_PASSWORD_PATH = "/sifremi-unuttum";
+export const PASSWORD_RESET_PATH = "/sifre-sifirla";
+
+/** Shared by registration, the reset form, and the reset validation. */
+export const MIN_PASSWORD_LENGTH = 6;
 
 export const PAYMENT_METHODS = ["cryptomus", "shopier", "iyzico"] as const;
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];

@@ -31,6 +31,27 @@ export type RegisterState = {
 
 export const INITIAL_REGISTER_STATE: RegisterState = { error: null };
 
+export type ForgotPasswordState = {
+  error: string | null;
+  /** Set on submit regardless of whether the address is registered. */
+  submitted: boolean;
+};
+
+export const INITIAL_FORGOT_PASSWORD_STATE: ForgotPasswordState = {
+  error: null,
+  submitted: false,
+};
+
+export type ResetPasswordState = {
+  error: string | null;
+  done: boolean;
+};
+
+export const INITIAL_RESET_PASSWORD_STATE: ResetPasswordState = {
+  error: null,
+  done: false,
+};
+
 export type CartFormState = {
   error: string | null;
   success: string | null;

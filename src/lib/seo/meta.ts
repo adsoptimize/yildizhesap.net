@@ -210,6 +210,17 @@ export const STATIC_PAGE_META: Readonly<Record<string, PageMeta>> = {
     title: "Giriş Yap | YildizHesap",
     description: "YildizHesap hesabınıza giriş yapın.",
   },
+  // Not added to STATIC_SEO_ROUTES: both pages are noindex and must stay out
+  // of the sitemap.
+  "sifremi-unuttum": {
+    title: "Şifremi Unuttum | YildizHesap",
+    description:
+      "Hesabınızın şifresini e-posta adresinizle sıfırlayın.",
+  },
+  "sifre-sifirla": {
+    title: "Yeni Şifre Belirle | YildizHesap",
+    description: "Şifre sıfırlama bağlantınızla yeni şifrenizi belirleyin.",
+  },
   "kayit-ol": {
     title: "Kayıt Ol | YildizHesap",
     description: "YildizHesap'a ücretsiz kayıt olun.",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { loginCustomerAction } from "./actions";
+import { FORGOT_PASSWORD_PATH } from "@/lib/shop/constants";
 import { INITIAL_LOGIN_STATE } from "@/lib/shop/form-state";
 
 export function CustomerLoginForm() {
@@ -42,6 +43,12 @@ export function CustomerLoginForm() {
       <button type="submit" className="shop-submit" disabled={pending}>
         {pending ? "Giriş yapılıyor..." : "Giriş Yap"}
       </button>
+
+      <p className="shop-hint">
+        <Link href={FORGOT_PASSWORD_PATH} className="shop-link">
+          Şifremi unuttum
+        </Link>
+      </p>
 
       <p className="shop-hint">
         Hesabınız yok mu?{" "}
