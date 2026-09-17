@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/admin";
 import type { AdminFormState } from "@/lib/admin/form-state";
-import { sendTestEmail } from "@/lib/notify/email";
+import { sendTemplatePreviewEmail } from "@/lib/notify/order-email";
 import { prisma } from "@/lib/prisma";
 
 const SETTING_FIELD_PREFIX = "payment__";
@@ -80,7 +80,7 @@ export async function sendTestEmailAction(
     return { error: "Test için bir e-posta adresi girin.", success: null };
   }
 
-  const sent = await sendTestEmail(to);
+  const sent = await sendTemplatePreviewEmail(to);
 
   if (!sent) {
     return {

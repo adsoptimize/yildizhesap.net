@@ -44,7 +44,13 @@ export type MailAttachment = {
 export type MailMessage = {
   to: string;
   subject: string;
+  /**
+   * Always required, even when `html` is set: clients that refuse HTML fall
+   * back to it, and a multipart message without a text part scores worse with
+   * spam filters.
+   */
   text: string;
+  html?: string;
   attachments?: readonly MailAttachment[];
 };
 
@@ -114,6 +120,7 @@ export async function sendCustomerEmail(message: MailMessage): Promise<boolean> 
       to: message.to,
       subject: message.subject,
       text: message.text,
+      html: message.html,
       attachments: message.attachments?.map((attachment) => ({
         filename: attachment.filename,
         content: attachment.content,
@@ -128,16 +135,6 @@ export async function sendCustomerEmail(message: MailMessage): Promise<boolean> 
   }
 }
 
-/** Used by the admin screen to validate credentials before relying on them. */
-export async function sendTestEmail(to: string): Promise<boolean> {
-  return sendCustomerEmail({
-    to,
-    subject: "YildizHesap SMTP test e-postası",
-    text: [
-      "Bu bir test e-postasıdır.",
-      "",
-      "Bu mesajı aldıysanız SMTP ayarlarınız doğru çalışıyor ve sipariş",
-      "teslimat e-postaları müşterilerinize ulaşacak.",
-    ].join("\n"),
-  });
-}
+// The admin test-send lives in order-email.ts so it can exercise the real
+// delivery template instead of a plain-text stub, which makes it double as a
+// preview of what buyers receive.

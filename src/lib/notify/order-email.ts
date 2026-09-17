@@ -15,6 +15,7 @@ import {
 import { readSupportTelegramUsername } from "@/lib/shop/support-contact";
 import { sendCustomerEmail } from "./email";
 import type { MailAttachment } from "./email";
+import { renderOrderEmailHtml } from "./order-email-template";
 import { prisma } from "@/lib/prisma";
 
 type DeliveryEmailParams = {
@@ -28,17 +29,41 @@ type DeliveryEmailParams = {
   isMember: boolean;
 };
 
-function supportBlock(telegramUsername: string | null): string[] {
+/** Stored with or without the leading "@"; normalised once for both bodies. */
+function normaliseHandle(telegramUsername: string | null): string | null {
   if (telegramUsername === null || telegramUsername.trim() === "") {
-    return [];
+    return null;
   }
 
-  const handle = telegramUsername.trim().replace(/^@/, "");
+  return telegramUsername.trim().replace(/^@/, "");
+}
+
+function supportBlock(handle: string | null): string[] {
+  if (handle === null) {
+    return [];
+  }
 
   return [
     "",
     `Sorularınız için Telegram: @${handle} (https://t.me/${handle})`,
   ];
+}
+
+/**
+ * Leads with what happened rather than the brand name: the sender column
+ * already shows who wrote, so the subject is better spent on the outcome and
+ * the order code the customer will search for later.
+ */
+function buildSubject(orderCode: string, accountCount: number): string {
+  if (accountCount === 0) {
+    return `Ödemeniz alındı — ${orderCode} hazırlanıyor`;
+  }
+
+  if (accountCount === 1) {
+    return `Hesap bilginiz hazır — ${orderCode}`;
+  }
+
+  return `${accountCount} hesap bilginiz hazır — ${orderCode}`;
 }
 
 /** Never throws; mirrors the no-op-on-failure contract of notify/email.ts. */
@@ -63,6 +88,7 @@ export async function sendOrderDeliveryEmail(
   });
 
   const telegramUsername = await readSupportTelegramUsername();
+  const telegramHandle = normaliseHandle(telegramUsername);
   const fileContext = {
     orderCode: params.orderCode,
     productName: params.productName,
@@ -123,14 +149,95 @@ export async function sendOrderDeliveryEmail(
     lines.push("", `Hesabım: ${SITE_URL}/hesabim/siparis/${params.orderCode}`);
   }
 
-  lines.push(...supportBlock(telegramUsername), "", SITE_NAME);
+  lines.push(...supportBlock(telegramHandle), "", SITE_NAME);
+
+  const recipient = params.to.trim();
 
   await sendCustomerEmail({
-    to: params.to.trim(),
-    subject: accounts.length === 0
-      ? `Ödemeniz alındı - ${params.orderCode}`
-      : `Siparişiniz teslim edildi - ${params.orderCode}`,
+    to: recipient,
+    subject: buildSubject(params.orderCode, accounts.length),
     text: lines.join("\n"),
+    html: renderOrderEmailHtml({
+      orderCode: params.orderCode,
+      productName: params.productName,
+      accountCount: accounts.length,
+      greeting,
+      fullyDelivered: params.fullyDelivered,
+      isMember: params.isMember,
+      recipientEmail: recipient,
+      telegramHandle,
+    }),
     attachments,
+  });
+}
+
+const PREVIEW_ORDER_CODE = "TEST0000";
+const PREVIEW_ACCOUNT_COUNT = 2;
+
+/**
+ * Admin test-send. Renders the real delivery template with sample data and a
+ * sample attachment, so it verifies the SMTP credentials and shows the operator
+ * exactly what a buyer receives in one go.
+ */
+export async function sendTemplatePreviewEmail(to: string): Promise<boolean> {
+  const recipient = to.trim();
+  const telegramHandle = normaliseHandle(await readSupportTelegramUsername());
+  const productName = "Örnek Ürün — Eski Facebook Hesabı";
+  const fileContext = {
+    orderCode: PREVIEW_ORDER_CODE,
+    productName,
+    telegramUsername: telegramHandle,
+  };
+
+  const sampleRows = [
+    {
+      username: "ornek.kullanici1",
+      password: "OrnekSifre123",
+      email: "ornek1@mail.com",
+      emailPassword: "OrnekMailSifre1",
+      totpSecret: "ORNEK2FAANAHTARI",
+      accountCreatedDate: new Date("2014-03-02"),
+    },
+    {
+      username: "ornek.kullanici2",
+      password: "OrnekSifre456",
+      email: "ornek2@mail.com",
+      emailPassword: "OrnekMailSifre2",
+      totpSecret: null,
+      accountCreatedDate: null,
+    },
+  ];
+
+  return sendCustomerEmail({
+    to: recipient,
+    subject: `[TEST] ${buildSubject(PREVIEW_ORDER_CODE, PREVIEW_ACCOUNT_COUNT)}`,
+    text: [
+      "Bu bir test e-postasıdır; gerçek bir sipariş değildir.",
+      "",
+      "Bu mesajı aldıysanız SMTP ayarlarınız çalışıyor ve sipariş teslimat",
+      "e-postaları müşterilerinize ulaşacak. Ekteki dosyalar da müşterinin",
+      "alacağı biçimin birebir örneğidir.",
+      "",
+      `Örnek sipariş kodu: ${PREVIEW_ORDER_CODE}`,
+    ].join("\n"),
+    html: renderOrderEmailHtml({
+      orderCode: PREVIEW_ORDER_CODE,
+      productName,
+      accountCount: PREVIEW_ACCOUNT_COUNT,
+      greeting: "Merhaba, bu bir test gönderimidir.",
+      fullyDelivered: true,
+      isMember: false,
+      recipientEmail: recipient,
+      telegramHandle,
+    }),
+    attachments: sampleRows.map((row, index) => ({
+      filename: accountFileName(PREVIEW_ORDER_CODE, index),
+      content: buildAccountFile(
+        row,
+        index,
+        sampleRows.length,
+        fileContext,
+      ),
+    })),
   });
 }

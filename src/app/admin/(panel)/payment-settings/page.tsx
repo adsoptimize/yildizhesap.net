@@ -191,7 +191,9 @@ export default async function AdminPaymentSettingsPage() {
             Önce yukarıdaki SMTP ayarlarını kaydedin, sonra buradan kendinize
             test e-postası gönderin. Sipariş e-postaları müşteriyi bekletmemek
             için hata durumunda sessizce atlanır; ayarlarınızın çalıştığını
-            doğrulamanın yolu bu testtir.
+            doğrulamanın yolu bu testtir. Test, müşteriye giden şablonun
+            örnek veriyle hazırlanmış birebir aynısıdır (ekli .txt dosyaları
+            dahil), yani aynı zamanda önizleme olarak kullanabilirsiniz.
           </p>
           <StatefulForm
             action={sendTestEmailAction}
